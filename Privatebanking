@@ -570,6 +570,138 @@ function safePct(part, total) {
 function fmtMoney(n, digits = 0) {
   return safeNum(n).toLocaleString("fr-FR", { maximumFractionDigits: digits }) + " €";
 }
+const UI_TEXT = {
+  fr: {
+    headerSubtitle: "BANQUE PRIVÉE · CONSEIL AUGMENTÉ PAR IA",
+    dashboard: "Tableau de bord",
+    privateMarkets: "Actifs privés",
+    consolidatedWealth: "VUE PATRIMONIALE CONSOLIDÉE",
+    consolidatedWealthHelp: "Vue globale du patrimoine net : actifs cotés, immobilier, assurance-vie, revenus, fiscalité et actifs privés. Chaque onglet alimente automatiquement cette synthèse.",
+    consolidatedWealthSub: "Vue family-office consolidée · actifs cotés, immobilier, assurance-vie, revenus, fiscalité et actifs privés",
+    advisorMode: "Mode conseiller",
+    clientMode: "Mode client",
+    advisorModeHelp: "Mode conseiller : détecte les risques, les angles de conseil et les opportunités commerciales possibles à partir des faiblesses d'allocation.",
+    clientModeHelp: "Mode client : simplifie le discours et masque les éléments commerciaux pour une présentation plus pédagogique.",
+    generateReport: "Générer le rapport client",
+    totalNetWorth: "PATRIMOINE NET TOTAL",
+    annualIncome: "REVENUS ANNUELS",
+    incomeAssets: "ACTIFS GÉNÉRATEURS DE REVENUS",
+    incomeAssetsHelp: "Actifs identifiés comme productifs de revenus : immobilier locatif, fonds euros, obligations/coupons, dividendes et actifs privés ayant distribué.",
+    privateAssets: "ACTIFS PRIVÉS",
+    globalAllocation: "ALLOCATION GLOBALE PAR CLASSE D'ACTIFS",
+    globalAllocationHelp: "Répartition économique du patrimoine. Les actifs productifs de revenus ne sont pas ajoutés une seconde fois pour éviter les doubles comptes.",
+    consolidatedExposure: "EXPOSITION CONSOLIDÉE",
+    consolidatedExposureHelp: "Lecture des concentrations par zone géographique, secteur et devise. Vert = point favorable ou contribution positive ; rouge = point de vigilance ou contribution négative.",
+    geography: "GÉOGRAPHIE",
+    sector: "SECTEUR",
+    currency: "DEVISE",
+    capitalComposition: "COMPOSITION DU CAPITAL",
+    assetClassBreakdown: "RÉPARTITION PAR CLASSE D'ACTIFS",
+    netWorthTimeline: "ÉVOLUTION DU PATRIMOINE NET",
+    performanceStory: "NARRATION DE PERFORMANCE",
+    performanceStoryHelp: "Synthèse automatique des moteurs de performance : contributeurs, perdants, diversification et disponibilité des données. En cas de donnée manquante, l'outil le signale au lieu d'inventer.",
+    performanceStorySub: "Narration générée à partir des prix, PRU, expositions et données disponibles. Les valeurs absentes sont explicitement ignorées.",
+    topContributors: "MEILLEURS CONTRIBUTEURS",
+    worstContributors: "MOINS BONS CONTRIBUTEURS",
+    diversification: "Diversification",
+    marketDrivers: "Moteurs de marché",
+    allocationChanges: "Changements d'allocation",
+    fallbackData: "Données de secours",
+    localPricesFallback: "Prix locaux utilisés si la recherche web est indisponible",
+    noListedLine: "Aucune ligne cotée",
+    businessOpportunities: "OPPORTUNITÉS CONSEILLER",
+    businessOpportunitiesHelp: "Pistes commerciales à explorer avec le client. Elles ne sont pas des recommandations automatiques : elles servent à préparer la discussion conseiller.",
+    clientReadyReport: "RAPPORT CLIENT",
+    clientReadySub: "Synthèse exécutive · allocation · risque · diversification · actions recommandées",
+    clientPresentation: "Présentation client simplifiée",
+    advisorPresentation: "Vue conseiller détaillée",
+    executiveSummary: "Synthèse exécutive",
+    assetAllocation: "Allocation d'actifs",
+    riskOverview: "Vue des risques",
+    recommendedActions: "Actions recommandées",
+    marketCommentary: "COMMENTAIRE DE MARCHÉ",
+    diversificationAnalysis: "ANALYSE DE DIVERSIFICATION",
+    insufficientData: "Données insuffisantes",
+    privateLabel: "Actifs privés",
+    listedEquities: "Actions cotées / ETF",
+    realEstate: "Immobilier",
+    insuranceWrappers: "Assurance-vie",
+    cash: "Liquidités",
+    net: "NET",
+    total: "TOTAL",
+    positiveColorHelp: "Vert : valeur positive, point fort ou contribution favorable.",
+    negativeColorHelp: "Rouge : perte latente, point faible ou risque à traiter."
+  },
+  en: {
+    headerSubtitle: "PRIVATE BANKING · AI-POWERED ADVISORY",
+    dashboard: "Dashboard",
+    privateMarkets: "Private Markets",
+    consolidatedWealth: "CONSOLIDATED WEALTH OVERVIEW",
+    consolidatedWealthHelp: "Global net-worth view: listed assets, real estate, life-insurance wrappers, income, tax and private assets. Every tab feeds this dashboard automatically.",
+    consolidatedWealthSub: "Consolidated family-office view · listed assets, real estate, insurance wrappers, income, tax and private markets",
+    advisorMode: "Advisor mode",
+    clientMode: "Client mode",
+    advisorModeHelp: "Advisor mode detects risks, advisory angles and possible commercial opportunities from allocation weaknesses.",
+    clientModeHelp: "Client mode simplifies the language and hides commercial angles for a clearer client presentation.",
+    generateReport: "Generate client report",
+    totalNetWorth: "TOTAL NET WORTH",
+    annualIncome: "ANNUAL INCOME",
+    incomeAssets: "INCOME-GENERATING ASSETS",
+    incomeAssetsHelp: "Assets identified as income-producing: rental real estate, euro funds, bonds/coupons, dividends and private assets with distributions.",
+    privateAssets: "PRIVATE ASSETS",
+    globalAllocation: "GLOBAL ALLOCATION BY ASSET CLASS",
+    globalAllocationHelp: "Economic split of total wealth. Income-generating assets are not added twice, to avoid double counting.",
+    consolidatedExposure: "CONSOLIDATED EXPOSURE",
+    consolidatedExposureHelp: "Concentration view by geography, sector and currency. Green = favorable point or positive contribution; red = watch point or negative contribution.",
+    geography: "GEOGRAPHY",
+    sector: "SECTOR",
+    currency: "CURRENCY",
+    capitalComposition: "CAPITAL COMPOSITION",
+    assetClassBreakdown: "ASSET CLASS BREAKDOWN",
+    netWorthTimeline: "NET WORTH TIMELINE",
+    performanceStory: "PERFORMANCE STORYTELLING",
+    performanceStoryHelp: "Automatic explanation of performance drivers: contributors, detractors, diversification and data availability. Missing data is flagged instead of invented.",
+    performanceStorySub: "Narrative generated from prices, cost bases, exposures and available data. Missing values are explicitly ignored.",
+    topContributors: "TOP CONTRIBUTORS",
+    worstContributors: "WORST CONTRIBUTORS",
+    diversification: "Diversification",
+    marketDrivers: "Market drivers",
+    allocationChanges: "Allocation changes",
+    fallbackData: "Fallback data",
+    localPricesFallback: "Local prices used when web search is unavailable",
+    noListedLine: "No listed holding",
+    businessOpportunities: "ADVISOR OPPORTUNITIES",
+    businessOpportunitiesHelp: "Commercial ideas to explore with the client. These are not automatic recommendations; they prepare the advisor discussion.",
+    clientReadyReport: "CLIENT-GRADE REPORTING",
+    clientReadySub: "Executive summary · allocation · risk · diversification · recommended actions",
+    clientPresentation: "Simplified client presentation",
+    advisorPresentation: "Detailed advisor view",
+    executiveSummary: "Executive summary",
+    assetAllocation: "Asset allocation",
+    riskOverview: "Risk overview",
+    recommendedActions: "Recommended actions",
+    marketCommentary: "MARKET COMMENTARY",
+    diversificationAnalysis: "DIVERSIFICATION ANALYSIS",
+    insufficientData: "Insufficient data",
+    privateLabel: "Private assets",
+    listedEquities: "Listed equities / ETF",
+    realEstate: "Real estate",
+    insuranceWrappers: "Insurance wrappers",
+    cash: "Cash",
+    net: "NET",
+    total: "TOTAL",
+    positiveColorHelp: "Green: positive value, strength or favorable contribution.",
+    negativeColorHelp: "Red: unrealized loss, weakness or risk to address."
+  }
+};
+function tr(lang, key) {
+  return (UI_TEXT[lang] && UI_TEXT[lang][key]) || UI_TEXT.fr[key] || key;
+}
+function InfoTip({ text }) {
+  return (
+    <span title={text} style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", width:16, height:16, borderRadius:"50%", border:"1px solid rgba(0,225,220,0.35)", color:"#00E1DC", fontSize:10, fontWeight:"bold", marginLeft:6, cursor:"help", verticalAlign:"middle" }}>i</span>
+  );
+}
 function readJson(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
@@ -2787,18 +2919,18 @@ function MiniLineChart({ snapshots, width, height }) {
   );
 }
 
-function BarList({ data, total, max = 8 }) {
+function BarList({ data, total, max = 8, lang = "fr" }) {
   const rows = (data || []).filter(d => safeNum(d.value) > 0).slice(0, max);
-  if (!rows.length) return <div style={{ color:"#555", fontSize:11, padding:"12px 0" }}>Données insuffisantes</div>;
+  if (!rows.length) return <div style={{ color:"#555", fontSize:11, padding:"12px 0" }}>{tr(lang, "insufficientData")}</div>;
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
       {rows.map(d => {
         const pct = safePct(d.value, total);
         return (
           <div key={d.id || d.label}>
-            <div style={{ display:"flex", justifyContent:"space-between", fontSize:10, color:"#888", marginBottom:3 }}>
-              <span>{d.label}</span>
-              <span style={{ color:d.color || "#00E1DC" }}>{pct.toFixed(1)}% · {fmtMoney(d.value)}</span>
+            <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1fr) auto", gap:8, alignItems:"baseline", fontSize:10, color:"#888", marginBottom:4 }}>
+              <span title={d.label} style={{ minWidth:0, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{d.label}</span>
+              <span title={pct.toFixed(1)+"% · "+fmtMoney(d.value)} style={{ color:d.color || "#00E1DC", whiteSpace:"nowrap", textAlign:"right", fontVariantNumeric:"tabular-nums" }}>{pct.toFixed(1)}% · {fmtMoney(d.value)}</span>
             </div>
             <div style={{ height:5, background:"rgba(255,255,255,0.05)", borderRadius:3, overflow:"hidden" }}>
               <div style={{ width: Math.min(100, pct)+"%", height:"100%", background:d.color || "#00E1DC", borderRadius:3, transition:"width 0.35s" }} />
@@ -2810,7 +2942,7 @@ function BarList({ data, total, max = 8 }) {
   );
 }
 
-function buildPerformanceStory(allLines, exposure, privateMetrics, totalPatrimoine) {
+function buildPerformanceStory(allLines, exposure, privateMetrics, totalPatrimoine, lang = "fr") {
   const rows = (allLines || []).map(l => ({
     ...l,
     value: getLineCurrentValue(l),
@@ -2823,18 +2955,87 @@ function buildPerformanceStory(allLines, exposure, privateMetrics, totalPatrimoi
   const sectorLead = (exposure.sector || [])[0];
   const currencyLead = (exposure.currency || [])[0];
   const notes = [];
-  if (geoLead) notes.push(`Votre portefeuille est principalement exposé à ${geoLead.label} (${safePct(geoLead.value,totalPatrimoine).toFixed(0)}%).`);
-  if (sectorLead) notes.push(`Le moteur sectoriel dominant est ${sectorLead.label}, à surveiller pour éviter une concentration excessive.`);
-  if (currencyLead && currencyLead.label !== "EUR") notes.push(`La devise ${currencyLead.label} représente une source de volatilité à documenter dans le reporting client.`);
-  if (privateMetrics.value > 0) notes.push(`Les actifs privés apportent ${fmtMoney(privateMetrics.value)} de NAV, avec un MOIC agrégé de ${privateMetrics.moic.toFixed(2)}x.`);
-  if (!rows.length) notes.push("Les données de marché sont encore limitées : renseignez les prix, PRU et expositions pour générer une narration plus complète.");
+  if (geoLead) notes.push(lang === "en" ? `Your portfolio is mainly exposed to ${geoLead.label} (${safePct(geoLead.value,totalPatrimoine).toFixed(0)}%).` : `Votre portefeuille est principalement exposé à ${geoLead.label} (${safePct(geoLead.value,totalPatrimoine).toFixed(0)}%).`);
+  if (sectorLead) notes.push(lang === "en" ? `The dominant sector driver is ${sectorLead.label}; monitor it to avoid excessive concentration.` : `Le moteur sectoriel dominant est ${sectorLead.label}, à surveiller pour éviter une concentration excessive.`);
+  if (currencyLead && currencyLead.label !== "EUR") notes.push(lang === "en" ? `${currencyLead.label} currency exposure is a source of volatility to document in client reporting.` : `La devise ${currencyLead.label} représente une source de volatilité à documenter dans le reporting client.`);
+  if (privateMetrics.value > 0) notes.push(lang === "en" ? `Private assets contribute ${fmtMoney(privateMetrics.value)} of NAV, with an aggregate MOIC of ${privateMetrics.moic.toFixed(2)}x.` : `Les actifs privés apportent ${fmtMoney(privateMetrics.value)} de NAV, avec un MOIC agrégé de ${privateMetrics.moic.toFixed(2)}x.`);
+  if (!rows.length) notes.push(lang === "en" ? "Market data is still limited: fill in prices, cost bases and exposures to generate a more complete narrative." : "Les données de marché sont encore limitées : renseignez les prix, PRU et expositions pour générer une narration plus complète.");
   return { top, worst, notes };
+}
+
+function buildAdvisorOpportunities(risks, exposure, modules, totalPatrimoine, lang = "fr") {
+  const rows = [];
+  const geoLead = (exposure.geography || [])[0];
+  const sectorLead = (exposure.sector || [])[0];
+  const usd = (exposure.currency || []).find(x => x.label === "USD");
+  const eur = (exposure.currency || []).find(x => x.label === "EUR");
+  const add = (titleFr, titleEn, actionFr, actionEn, color) => rows.push({
+    title: lang === "en" ? titleEn : titleFr,
+    action: lang === "en" ? actionEn : actionFr,
+    color
+  });
+  if (geoLead && safePct(geoLead.value, totalPatrimoine) > 60) {
+    const label = geoLead.label;
+    add(
+      "Rééquilibrage géographique",
+      "Geographic rebalancing",
+      `Exposition forte à ${label}. Explorer une solution complémentaire hors ${label}, par exemple fonds US, ETF Monde ou mandat global diversifié.`,
+      `High exposure to ${label}. Explore a complementary non-${label} solution, for example a US fund, global ETF or diversified mandate.`,
+      "#00E1DC"
+    );
+  }
+  if (sectorLead && safePct(sectorLead.value, totalPatrimoine) > 45) {
+    add(
+      "Diversification sectorielle",
+      "Sector diversification",
+      `Le secteur ${sectorLead.label} concentre ${safePct(sectorLead.value,totalPatrimoine).toFixed(0)}% du patrimoine. Proposer une poche satellites sur santé, infrastructure, obligations ou multi-actifs.`,
+      `${sectorLead.label} represents ${safePct(sectorLead.value,totalPatrimoine).toFixed(0)}% of total wealth. Consider satellite exposure to healthcare, infrastructure, bonds or multi-asset solutions.`,
+      "#7a9ec9"
+    );
+  }
+  if (usd && safePct(usd.value,totalPatrimoine) > 35) {
+    add(
+      "Gestion du risque devise",
+      "Currency-risk management",
+      "Exposition USD importante. Discuter d'une part couverte en devise ou d'un scénario de dépenses futures en EUR/USD.",
+      "Material USD exposure. Discuss currency-hedged share classes or a future-spending EUR/USD scenario.",
+      "#4a9e6b"
+    );
+  }
+  if (eur && safePct(eur.value,totalPatrimoine) > 75) {
+    add(
+      "Ouverture internationale",
+      "International broadening",
+      "Forte exposition EUR. Opportunité de présenter une solution actions US/monde ou un fonds obligataire international selon le profil de risque.",
+      "High EUR exposure. Opportunity to present US/global equity exposure or an international bond fund depending on risk profile.",
+      "#4a9e6b"
+    );
+  }
+  if ((risks || []).some(r => /liquidit/i.test(r.title))) {
+    add(
+      "Poche de liquidité conseillée",
+      "Liquidity sleeve",
+      "Faible liquidité détectée. Proposer une poche monétaire, fonds euros ou compte à terme pour sécuriser les besoins à court terme.",
+      "Low liquidity detected. Consider a money-market sleeve, euro fund or term deposit to secure short-term needs.",
+      "#e8a055"
+    );
+  }
+  if (!rows.length) {
+    add(
+      "Revue annuelle structurée",
+      "Structured annual review",
+      "Allocation globalement équilibrée. Préparer une revue client autour de la fiscalité, de la transmission et des objectifs de liquidité.",
+      "Overall allocation looks balanced. Prepare a client review around tax, estate planning and liquidity objectives.",
+      "#00E1DC"
+    );
+  }
+  return rows.slice(0, 4);
 }
 
 const PRIVATE_TYPES = ["Private equity", "Private debt", "Club deal", "Real estate deal", "SCPI", "Venture capital"];
 const BLANK_PRIVATE = { id: 0, name: "", type: "Private equity", commitment: "", calledCapital: "", distributions: "", nav: "", irr: "", vintage: new Date().getFullYear(), status: "Invested", currency: "EUR", geography: "Europe", sector: "Diversified", nextCashflowDate: "", nextCashflowAmount: "" };
 
-function PrivateMarketsModule({ onTotalChange }) {
+function PrivateMarketsModule({ onTotalChange, lang = "fr" }) {
   const [items, setItems] = useState(() => {
     const p = readJson("private_markets", []);
     return Array.isArray(p) ? p : [];
@@ -2856,16 +3057,16 @@ function PrivateMarketsModule({ onTotalChange }) {
     <div style={{ padding:"20px 24px", maxWidth:1060, margin:"0 auto" }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
         <div>
-          <div style={{ color:"#00E1DC", fontSize:13, fontWeight:"bold", letterSpacing:"0.08em" }}>PRIVATE MARKETS</div>
-          <div style={{ color:"#666", fontSize:11, marginTop:4 }}>Transparence engagements, appels, distributions, NAV et multiples</div>
+	          <div style={{ color:"#00E1DC", fontSize:13, fontWeight:"bold", letterSpacing:"0.08em" }}>{tr(lang, "privateMarkets").toUpperCase()}<InfoTip text={lang === "en" ? "Tracks commitments, called capital, distributions, NAV, IRR and MOIC for illiquid investments." : "Suit les engagements, appels de fonds, distributions, NAV, TRI et MOIC des investissements non cotés."} /></div>
+	          <div style={{ color:"#666", fontSize:11, marginTop:4 }}>{lang === "en" ? "Transparency on commitments, calls, distributions, NAV and multiples" : "Transparence engagements, appels, distributions, NAV et multiples"}</div>
         </div>
-        <button onClick={() => setForm({ ...BLANK_PRIVATE })} style={{ background:"rgba(0,225,220,0.13)", border:"1px solid rgba(0,225,220,0.35)", borderRadius:8, color:"#00E1DC", padding:"8px 14px", cursor:"pointer", fontFamily:"inherit", fontSize:12 }}>+ Ajouter un investissement</button>
+	        <button onClick={() => setForm({ ...BLANK_PRIVATE })} style={{ background:"rgba(0,225,220,0.13)", border:"1px solid rgba(0,225,220,0.35)", borderRadius:8, color:"#00E1DC", padding:"8px 14px", cursor:"pointer", fontFamily:"inherit", fontSize:12 }}>{lang === "en" ? "+ Add investment" : "+ Ajouter un investissement"}</button>
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:12, marginBottom:18 }}>
         {[
-          ["Engagements", metrics.commitment, "#00E1DC"],
-          ["Capital appelé", metrics.called, "#7a9ec9"],
-          ["Distributions", metrics.distributions, "#4a9e6b"],
+	          [lang === "en" ? "Commitments" : "Engagements", metrics.commitment, "#00E1DC"],
+	          [lang === "en" ? "Called capital" : "Capital appelé", metrics.called, "#7a9ec9"],
+	          [lang === "en" ? "Distributions" : "Distributions", metrics.distributions, "#4a9e6b"],
           ["NAV", metrics.value, "#a0c4ff"],
           ["MOIC", metrics.moic > 0 ? metrics.moic.toFixed(2)+"x" : "—", "#e8a055"],
         ].map(k => (
@@ -2878,31 +3079,31 @@ function PrivateMarketsModule({ onTotalChange }) {
       {form && (
         <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(0,225,220,0.2)", borderRadius:10, padding:16, marginBottom:18 }}>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))", gap:10 }}>
-            <div><div style={labelStyle}>Nom</div><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Name" : "Nom"}</div><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} style={inputStyle} /></div>
             <div><div style={labelStyle}>Type</div><select value={form.type} onChange={e=>setForm({...form,type:e.target.value})} style={inputStyle}>{PRIVATE_TYPES.map(t=><option key={t}>{t}</option>)}</select></div>
-            <div><div style={labelStyle}>Engagement</div><input type="number" value={form.commitment} onChange={e=>setForm({...form,commitment:e.target.value})} style={inputStyle} /></div>
-            <div><div style={labelStyle}>Capital appelé</div><input type="number" value={form.calledCapital} onChange={e=>setForm({...form,calledCapital:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Commitment" : "Engagement"}</div><input type="number" value={form.commitment} onChange={e=>setForm({...form,commitment:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Called capital" : "Capital appelé"}</div><input type="number" value={form.calledCapital} onChange={e=>setForm({...form,calledCapital:e.target.value})} style={inputStyle} /></div>
             <div><div style={labelStyle}>Distributions</div><input type="number" value={form.distributions} onChange={e=>setForm({...form,distributions:e.target.value})} style={inputStyle} /></div>
             <div><div style={labelStyle}>NAV</div><input type="number" value={form.nav} onChange={e=>setForm({...form,nav:e.target.value})} style={inputStyle} /></div>
             <div><div style={labelStyle}>IRR %</div><input type="number" value={form.irr} onChange={e=>setForm({...form,irr:e.target.value})} style={inputStyle} /></div>
             <div><div style={labelStyle}>Vintage</div><input type="number" value={form.vintage} onChange={e=>setForm({...form,vintage:e.target.value})} style={inputStyle} /></div>
-            <div><div style={labelStyle}>Statut</div><input value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={inputStyle} /></div>
-            <div><div style={labelStyle}>Géographie</div><input value={form.geography} onChange={e=>setForm({...form,geography:e.target.value})} style={inputStyle} /></div>
-            <div><div style={labelStyle}>Secteur</div><input value={form.sector} onChange={e=>setForm({...form,sector:e.target.value})} style={inputStyle} /></div>
-            <div><div style={labelStyle}>Prochain flux date</div><input type="date" value={form.nextCashflowDate} onChange={e=>setForm({...form,nextCashflowDate:e.target.value})} style={inputStyle} /></div>
-            <div><div style={labelStyle}>Prochain flux montant</div><input type="number" value={form.nextCashflowAmount} onChange={e=>setForm({...form,nextCashflowAmount:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Status" : "Statut"}</div><input value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Geography" : "Géographie"}</div><input value={form.geography} onChange={e=>setForm({...form,geography:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Sector" : "Secteur"}</div><input value={form.sector} onChange={e=>setForm({...form,sector:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Next cashflow date" : "Prochain flux date"}</div><input type="date" value={form.nextCashflowDate} onChange={e=>setForm({...form,nextCashflowDate:e.target.value})} style={inputStyle} /></div>
+	            <div><div style={labelStyle}>{lang === "en" ? "Next cashflow amount" : "Prochain flux montant"}</div><input type="number" value={form.nextCashflowAmount} onChange={e=>setForm({...form,nextCashflowAmount:e.target.value})} style={inputStyle} /></div>
           </div>
           <div style={{ display:"flex", gap:8, marginTop:12 }}>
-            <button onClick={save} style={{ background:"rgba(74,158,107,0.18)", border:"1px solid rgba(74,158,107,0.4)", borderRadius:7, color:"#4a9e6b", padding:"7px 14px", cursor:"pointer", fontFamily:"inherit" }}>✓ Enregistrer</button>
-            <button onClick={()=>setForm(null)} style={{ background:"none", border:"1px solid rgba(255,255,255,0.12)", borderRadius:7, color:"#777", padding:"7px 14px", cursor:"pointer", fontFamily:"inherit" }}>Annuler</button>
+	            <button onClick={save} style={{ background:"rgba(74,158,107,0.18)", border:"1px solid rgba(74,158,107,0.4)", borderRadius:7, color:"#4a9e6b", padding:"7px 14px", cursor:"pointer", fontFamily:"inherit" }}>✓ {lang === "en" ? "Save" : "Enregistrer"}</button>
+	            <button onClick={()=>setForm(null)} style={{ background:"none", border:"1px solid rgba(255,255,255,0.12)", borderRadius:7, color:"#777", padding:"7px 14px", cursor:"pointer", fontFamily:"inherit" }}>{lang === "en" ? "Cancel" : "Annuler"}</button>
           </div>
         </div>
       )}
       <div style={{ overflowX:"auto", background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, marginBottom:16 }}>
         <table>
-          <thead><tr><th>Investissement</th><th>Type</th><th>Engagement</th><th>Appelé</th><th>Distrib.</th><th>NAV</th><th>IRR</th><th>MOIC</th><th>Vintage</th><th>Statut</th><th></th></tr></thead>
+	          <thead><tr><th>{lang === "en" ? "Investment" : "Investissement"}</th><th>Type</th><th>{lang === "en" ? "Commitment" : "Engagement"}</th><th>{lang === "en" ? "Called" : "Appelé"}</th><th>{lang === "en" ? "Distrib." : "Distrib."}</th><th>NAV</th><th>IRR</th><th>MOIC</th><th>Vintage</th><th>{lang === "en" ? "Status" : "Statut"}</th><th></th></tr></thead>
           <tbody>
-            {items.length === 0 ? <tr><td colSpan="11" style={{ textAlign:"center", color:"#555", padding:30 }}>Aucun actif privé renseigné</td></tr> : items.map(i => {
+	            {items.length === 0 ? <tr><td colSpan="11" style={{ textAlign:"center", color:"#555", padding:30 }}>{lang === "en" ? "No private asset entered" : "Aucun actif privé renseigné"}</td></tr> : items.map(i => {
               const called = safeNum(i.calledCapital);
               const moic = called > 0 ? (safeNum(i.nav)+safeNum(i.distributions))/called : 0;
               return (
@@ -2921,19 +3122,19 @@ function PrivateMarketsModule({ onTotalChange }) {
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"16px 20px" }}>
-          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:12 }}>FUTURE CASHFLOW TIMELINE</div>
-          {timeline.length === 0 ? <div style={{ color:"#555", fontSize:11 }}>Aucun flux futur renseigné.</div> : timeline.map(i => <div key={i.id+"cf"} style={{ display:"flex", justifyContent:"space-between", padding:"8px 0", borderBottom:"1px solid rgba(255,255,255,0.05)", fontSize:12 }}><span>{i.nextCashflowDate || "À dater"} · {i.name}</span><strong style={{ color:safeNum(i.nextCashflowAmount) >= 0 ? "#4a9e6b" : "#e05555" }}>{fmtMoney(i.nextCashflowAmount)}</strong></div>)}
+	          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:12 }}>{lang === "en" ? "FUTURE CASHFLOW TIMELINE" : "CALENDRIER DES FLUX FUTURS"}</div>
+	          {timeline.length === 0 ? <div style={{ color:"#555", fontSize:11 }}>{lang === "en" ? "No future cashflow entered." : "Aucun flux futur renseigné."}</div> : timeline.map(i => <div key={i.id+"cf"} style={{ display:"flex", justifyContent:"space-between", padding:"8px 0", borderBottom:"1px solid rgba(255,255,255,0.05)", fontSize:12 }}><span>{i.nextCashflowDate || (lang === "en" ? "To date" : "À dater")} · {i.name}</span><strong style={{ color:safeNum(i.nextCashflowAmount) >= 0 ? "#4a9e6b" : "#e05555" }}>{fmtMoney(i.nextCashflowAmount)}</strong></div>)}
         </div>
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"16px 20px" }}>
-          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:12 }}>DISTRIBUTION TRACKING</div>
-          <BarList data={items.map(i => ({ id:i.id, label:i.name, value:safeNum(i.distributions), color:getPrivateTypeColor(i.type) }))} total={Math.max(1, metrics.distributions)} />
+	          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:12 }}>{lang === "en" ? "DISTRIBUTION TRACKING" : "SUIVI DES DISTRIBUTIONS"}</div>
+	          <BarList data={items.map(i => ({ id:i.id, label:i.name, value:safeNum(i.distributions), color:getPrivateTypeColor(i.type) }))} total={Math.max(1, metrics.distributions)} lang={lang} />
         </div>
       </div>
     </div>
   );
 }
 
-function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal, totalPatrimoine, revenusAnnuels, immoBiens, apiKey }) {
+function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal, totalPatrimoine, revenusAnnuels, immoBiens, apiKey, lang = "fr" }) {
   const [analysis, setAnalysis] = React.useState("");
   const [analyzing, setAnalyzing] = React.useState(false);
   const [reportMode, setReportMode] = React.useState(() => localStorage.getItem("mpb_report_mode") || "advisor");
@@ -2966,7 +3167,7 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
     { id:"cto",  label:"CTO",         value: ctoTotal,   color:"#a8c4e8" },
     { id:"av",   label:"AV",          value: avTotal,    color:"#7a9ec9" },
     { id:"immo", label:"Immobilier",  value: immoCapNet, color:"#a0c4ff" },
-    { id:"private", label:"Private Markets", value: privateTotal, color:"#9a8ec9" },
+	    { id:"private", label:tr(lang, "privateLabel"), value: privateTotal, color:"#9a8ec9" },
   ].filter(function(m){ return m.value > 0; });
 
   var catMap = {};
@@ -2981,11 +3182,11 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
   var assetClassMap = {};
   allLines.forEach(function(l) {
     var v = getLineCurrentValue(l), cat = String(l.categorie || "");
-    var label = cat === "Cash" || l.ticker === "CASH" ? "Cash" : (l.wrapper === "AV" ? "Insurance wrappers" : "Listed equities / ETF");
-    addAgg(assetClassMap, label, v, label === "Cash" ? "#8b9e4a" : label === "Insurance wrappers" ? "#7a9ec9" : "#4a9e6b");
-  });
-  addAgg(assetClassMap, "Real estate", immoCapNet, "#a0c4ff");
-  addAgg(assetClassMap, "Private assets", privateTotal, "#9a8ec9");
+	    var label = cat === "Cash" || l.ticker === "CASH" ? tr(lang, "cash") : (l.wrapper === "AV" ? tr(lang, "insuranceWrappers") : tr(lang, "listedEquities"));
+	    addAgg(assetClassMap, label, v, label === tr(lang, "cash") ? "#8b9e4a" : label === tr(lang, "insuranceWrappers") ? "#7a9ec9" : "#4a9e6b");
+	  });
+	  addAgg(assetClassMap, tr(lang, "realEstate"), immoCapNet, "#a0c4ff");
+	  addAgg(assetClassMap, tr(lang, "privateAssets"), privateTotal, "#9a8ec9");
   var assetClasses = toSeries(assetClassMap);
   var incomeGeneratingAssets = allLines.filter(function(l){ return /dividend|dividendes|fonds euros|coupon|oblig/i.test(String(l.categorie)+" "+String(l.nom)); }).reduce(function(s,l){ return s + getLineCurrentValue(l); }, 0) + immoBiens.filter(function(b){ return safeNum(b.loyerMensuelHC) > 0; }).reduce(function(s,b){ return s + Math.max(0, getBienValeur(b) - getBienDetteRestante(b)); }, 0) + privateItems.filter(function(i){ return safeNum(i.distributions) > 0; }).reduce(function(s,i){ return s + safeNum(i.nav); }, 0);
   var exposureMaps = { geography:{}, sector:{}, currency:{} };
@@ -3003,8 +3204,8 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
     addAgg(exposureMaps.sector, i.sector || i.type || "Private assets", v, "#9a8ec9");
     addAgg(exposureMaps.currency, i.currency || "EUR", v, "#9a8ec9");
   });
-  var exposure = { geography: toSeries(exposureMaps.geography), sector: toSeries(exposureMaps.sector), currency: toSeries(exposureMaps.currency) };
-  var story = buildPerformanceStory(allLines, exposure, privateMetrics, totalPatrimoine);
+	  var exposure = { geography: toSeries(exposureMaps.geography), sector: toSeries(exposureMaps.sector), currency: toSeries(exposureMaps.currency) };
+	  var story = buildPerformanceStory(allLines, exposure, privateMetrics, totalPatrimoine, lang);
 
   var liquidPct    = totalPatrimoine > 0 ? ((peaTotal+ctoTotal+avTotal)/totalPatrimoine)*100 : 0;
   var immoPct      = totalPatrimoine > 0 ? (immoCapNet/totalPatrimoine)*100 : 0;
@@ -3029,7 +3230,8 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
   if (avTotal > 0)     strengths.push({ icon:"🏆", title:"AV : avantage successoral", desc:"Abattement 152 500€/bénéficiaire sur les primes versées avant 70 ans." });
   if (liquidPct > 50)  strengths.push({ icon:"💧", title:"Bonne liquidité", desc:""+liquidPct.toFixed(0)+"% d'actifs liquides. Capacité à saisir des opportunités ou faire face aux imprévus." });
   if (leverRatio > 10 && leverRatio < 60) strengths.push({ icon:"🏗️", title:"Effet de levier immobilier sain", desc:""+leverRatio.toFixed(0)+"% de dette — levier positif si le taux d'emprunt < rendement locatif." });
-  if (yieldRate > 2)   strengths.push({ icon:"💰", title:"Patrimoine rentable", desc:"Taux de rendement global de "+yieldRate.toFixed(2)+"% — les revenus couvrent une partie de vos dépenses." });
+	  if (yieldRate > 2)   strengths.push({ icon:"💰", title:"Patrimoine rentable", desc:"Taux de rendement global de "+yieldRate.toFixed(2)+"% — les revenus couvrent une partie de vos dépenses." });
+	  var advisorOpportunities = buildAdvisorOpportunities(risks, exposure, modules, totalPatrimoine, lang);
 
   var fmt = function(n){ return Math.round(n).toLocaleString("fr-FR"); };
 
@@ -3072,31 +3274,36 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
     </div>
   );
 
-	  return (
-	    <div style={{ padding:"20px 24px", maxWidth:1000, margin:"0 auto" }}>
-	      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
-	        <div>
-	          <div style={{ fontSize:13, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.08em" }}>CONSOLIDATED WEALTH OVERVIEW</div>
-	          <div style={{ fontSize:11, color:"#666", marginTop:4 }}>Vue family-office consolidée · actifs cotés, immobilier, assurance-vie, revenus, fiscalité et private markets</div>
-	        </div>
-	        <div style={{ display:"flex", gap:8 }}>
-	          {["advisor","client"].map(m => (
-	            <button key={m} onClick={() => { setReportMode(m); localStorage.setItem("mpb_report_mode", m); }}
-	              style={{ background: reportMode===m ? "rgba(0,225,220,0.16)" : "rgba(255,255,255,0.03)", border: reportMode===m ? "1px solid rgba(0,225,220,0.45)" : "1px solid rgba(255,255,255,0.08)", borderRadius:8, color: reportMode===m ? "#00E1DC" : "#777", padding:"8px 12px", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>
-	              {m === "advisor" ? "Advisor mode" : "Client mode"}
-	            </button>
-	          ))}
-	          <button onClick={() => window.print()} style={{ background:"linear-gradient(135deg,#00E1DC,#007A78)", border:"none", borderRadius:8, color:"#07110f", padding:"8px 14px", fontSize:12, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>Generate Client Report</button>
-	        </div>
-	      </div>
+		  return (
+		    <div style={{ padding:"20px 24px", maxWidth:1120, margin:"0 auto" }}>
+		      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:16, marginBottom:18 }}>
+		        <div>
+		          <div style={{ fontSize:13, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.08em" }}>{tr(lang, "consolidatedWealth")}<InfoTip text={tr(lang, "consolidatedWealthHelp")} /></div>
+		          <div style={{ fontSize:11, color:"#666", marginTop:4 }}>{tr(lang, "consolidatedWealthSub")}</div>
+		          <div style={{ display:"flex", gap:8, marginTop:8, flexWrap:"wrap" }}>
+		            <span style={{ fontSize:10, color:"#4a9e6b" }} title={tr(lang, "positiveColorHelp")}>● {lang === "en" ? "Positive / strength" : "Positif / point fort"}</span>
+		            <span style={{ fontSize:10, color:"#e05555" }} title={tr(lang, "negativeColorHelp")}>● {lang === "en" ? "Negative / watch point" : "Négatif / vigilance"}</span>
+		          </div>
+		        </div>
+		        <div style={{ display:"flex", gap:8, flexWrap:"wrap", justifyContent:"flex-end" }}>
+		          {["advisor","client"].map(m => (
+		            <button key={m} onClick={() => { setReportMode(m); localStorage.setItem("mpb_report_mode", m); }}
+		              title={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")}
+		              style={{ background: reportMode===m ? "rgba(0,225,220,0.16)" : "rgba(255,255,255,0.03)", border: reportMode===m ? "1px solid rgba(0,225,220,0.45)" : "1px solid rgba(255,255,255,0.08)", borderRadius:8, color: reportMode===m ? "#00E1DC" : "#777", padding:"8px 12px", fontSize:12, cursor:"pointer", fontFamily:"inherit", minWidth:116 }}>
+		              {m === "advisor" ? tr(lang, "advisorMode") : tr(lang, "clientMode")} <InfoTip text={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")} />
+		            </button>
+		          ))}
+		          <button onClick={() => window.print()} style={{ background:"linear-gradient(135deg,#00E1DC,#007A78)", border:"none", borderRadius:8, color:"#07110f", padding:"8px 14px", fontSize:12, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>{tr(lang, "generateReport")}</button>
+		        </div>
+		      </div>
 
 	      {/* ── KPIs ── */}
 	      <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:22 }}>
 	        {[
-	          { label:"TOTAL NET WORTH",  value: fmt(totalPatrimoine)+" €",   color:"#00E1DC", sub:modules.map(function(m){ return m.label+" "+safePct(m.value,totalPatrimoine).toFixed(0)+"%"; }).join(" · ") },
-	          { label:"REVENUS ANNUELS",   value: fmt(revenusAnnuels)+" €/an",  color:"#4a9e6b", sub: yieldRate > 0 ? "Rendement "+yieldRate.toFixed(2)+"%" : "Onglet Revenus à remplir" },
-	          { label:"INCOME ASSETS",     value: fmt(incomeGeneratingAssets)+" €", color:"#e8a055", sub:safePct(incomeGeneratingAssets,totalPatrimoine).toFixed(1)+"% du patrimoine identifié" },
-	          { label:"PRIVATE MARKETS",   value: privateTotal > 0 ? fmt(privateTotal)+" €" : "—", color:"#9a8ec9", sub: privateTotal > 0 ? "MOIC "+privateMetrics.moic.toFixed(2)+"x · IRR "+privateMetrics.irr.toFixed(1)+"%" : "Aucun actif privé" },
+		          { label:tr(lang, "totalNetWorth"),  value: fmt(totalPatrimoine)+" €",   color:"#00E1DC", sub:modules.map(function(m){ return m.label+" "+safePct(m.value,totalPatrimoine).toFixed(0)+"%"; }).join(" · ") },
+		          { label:tr(lang, "annualIncome"),   value: fmt(revenusAnnuels)+" €/an",  color:"#4a9e6b", sub: yieldRate > 0 ? (lang === "en" ? "Yield " : "Rendement ")+yieldRate.toFixed(2)+"%" : (lang === "en" ? "Fill the Income tab" : "Onglet Revenus à remplir") },
+		          { label:tr(lang, "incomeAssets"),     value: fmt(incomeGeneratingAssets)+" €", color:"#e8a055", sub:safePct(incomeGeneratingAssets,totalPatrimoine).toFixed(1)+"% "+(lang === "en" ? "of identified wealth" : "du patrimoine identifié") },
+		          { label:tr(lang, "privateAssets"),   value: privateTotal > 0 ? fmt(privateTotal)+" €" : "—", color:"#9a8ec9", sub: privateTotal > 0 ? "MOIC "+privateMetrics.moic.toFixed(2)+"x · IRR "+privateMetrics.irr.toFixed(1)+"%" : (lang === "en" ? "No private asset" : "Aucun actif privé") },
 		        ].map(function(s) { return (
 		          <div key={s.label} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(0,225,220,0.12)", borderRadius:10, padding:"14px 16px" }}>
 		            <div style={{ fontSize:9, color:"#666", letterSpacing:"0.08em", marginBottom:5 }}>{s.label}</div>
@@ -3107,25 +3314,25 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
 		      </div>
 		      <div style={{ display:"grid", gridTemplateColumns:"1.05fr 1fr", gap:14, marginBottom:16 }}>
 	        <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(0,225,220,0.14)", borderRadius:10, padding:"16px 20px" }}>
-	          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>GLOBAL ALLOCATION BY ASSET CLASS</div>
+		          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>{tr(lang, "globalAllocation")}<InfoTip text={tr(lang, "globalAllocationHelp")} /></div>
 	          <div style={{ display:"flex", alignItems:"center", gap:20 }}>
 	            <div style={{ position:"relative", flexShrink:0 }}>
 	              <DonutChart data={assetClasses} size={140} hole={34} />
 	              <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", textAlign:"center" }}>
-	                <div style={{ fontSize:9, color:"#666" }}>NET</div>
+		                <div style={{ fontSize:9, color:"#666" }}>{tr(lang, "net")}</div>
 	                <div style={{ fontSize:12, fontWeight:"bold", color:"#00E1DC" }}>{fmt(totalPatrimoine/1000)}k</div>
 	              </div>
 	            </div>
-	            <div style={{ flex:1 }}><BarList data={assetClasses} total={totalPatrimoine} /></div>
+		            <div style={{ flex:1 }}><BarList data={assetClasses} total={totalPatrimoine} lang={lang} /></div>
 	          </div>
 	        </div>
-	        <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(0,225,220,0.14)", borderRadius:10, padding:"16px 20px" }}>
-	          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>CONSOLIDATED EXPOSURE</div>
-	          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:12 }}>
-	            <div><div style={{ fontSize:9, color:"#666", marginBottom:8 }}>GEOGRAPHY</div><BarList data={exposure.geography} total={totalPatrimoine} max={5} /></div>
-	            <div><div style={{ fontSize:9, color:"#666", marginBottom:8 }}>SECTOR</div><BarList data={exposure.sector} total={totalPatrimoine} max={5} /></div>
-	            <div><div style={{ fontSize:9, color:"#666", marginBottom:8 }}>CURRENCY</div><BarList data={exposure.currency} total={totalPatrimoine} max={5} /></div>
-	          </div>
+		        <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(0,225,220,0.14)", borderRadius:10, padding:"16px 20px", minWidth:0 }}>
+		          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>{tr(lang, "consolidatedExposure")}<InfoTip text={tr(lang, "consolidatedExposureHelp")} /></div>
+		          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(185px,1fr))", gap:16 }}>
+		            <div style={{ minWidth:0 }}><div style={{ fontSize:9, color:"#666", marginBottom:8 }}>{tr(lang, "geography")}</div><BarList data={exposure.geography} total={totalPatrimoine} max={5} lang={lang} /></div>
+		            <div style={{ minWidth:0 }}><div style={{ fontSize:9, color:"#666", marginBottom:8 }}>{tr(lang, "sector")}</div><BarList data={exposure.sector} total={totalPatrimoine} max={5} lang={lang} /></div>
+		            <div style={{ minWidth:0 }}><div style={{ fontSize:9, color:"#666", marginBottom:8 }}>{tr(lang, "currency")}</div><BarList data={exposure.currency} total={totalPatrimoine} max={5} lang={lang} /></div>
+		          </div>
 	        </div>
 	      </div>
 
@@ -3134,12 +3341,12 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
 
         {/* Donut composition */}
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"16px 20px" }}>
-          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>COMPOSITION DU CAPITAL</div>
+	          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>{tr(lang, "capitalComposition")}</div>
           <div style={{ display:"flex", alignItems:"center", gap:20 }}>
             <div style={{ position:"relative", flexShrink:0 }}>
               <DonutChart data={modules} size={130} hole={32} />
               <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", textAlign:"center" }}>
-                <div style={{ fontSize:9, color:"#666" }}>TOTAL</div>
+	                <div style={{ fontSize:9, color:"#666" }}>{tr(lang, "total")}</div>
                 <div style={{ fontSize:11, fontWeight:"bold", color:"#00E1DC" }}>{fmt(totalPatrimoine/1000)}k</div>
               </div>
             </div>
@@ -3158,7 +3365,7 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
 
         {/* Category breakdown */}
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"16px 20px" }}>
-          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>RÉPARTITION PAR CLASSE D'ACTIFS</div>
+	          <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14 }}>{tr(lang, "assetClassBreakdown")}</div>
           <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
             {cats.slice(0,8).map(function(c) { return (
               <div key={c.id}>
@@ -3178,38 +3385,53 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
       {/* ── Évolution ── */}
       <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"16px 20px", marginBottom:16 }}>
         <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:14, display:"flex", justifyContent:"space-between" }}>
-	          <span>NET WORTH TIMELINE</span>
+		          <span>{tr(lang, "netWorthTimeline")}</span>
           <span style={{ color:"#555", fontWeight:"normal" }}>{snapshots.length} point{snapshots.length > 1 ? "s" : ""} d'historique</span>
         </div>
 	        <MiniLineChart snapshots={snapshots} width={900} height={140} />
 	      </div>
 	      <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(0,225,220,0.18)", borderRadius:10, padding:"18px 20px", marginBottom:16 }}>
-	        <div style={{ fontSize:12, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:6 }}>PERFORMANCE STORYTELLING</div>
-	        <div style={{ fontSize:11, color:"#666", marginBottom:14 }}>Narration générée à partir des prix, PRU, expositions et données disponibles. Les valeurs absentes sont explicitement ignorées.</div>
+		        <div style={{ fontSize:12, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:6 }}>{tr(lang, "performanceStory")}<InfoTip text={tr(lang, "performanceStoryHelp")} /></div>
+		        <div style={{ fontSize:11, color:"#666", marginBottom:14 }}>{tr(lang, "performanceStorySub")}</div>
 	        <div style={{ display:"grid", gridTemplateColumns:"1.2fr 1fr 1fr", gap:14 }}>
 	          <div>
 	            {story.notes.map((n,i)=><div key={i} style={{ background:"rgba(0,225,220,0.05)", border:"1px solid rgba(0,225,220,0.12)", borderRadius:8, padding:"10px 12px", marginBottom:8, fontSize:12, color:"#ccc", lineHeight:1.55 }}>{n}</div>)}
 	            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginTop:8 }}>
 	              {[
-	                ["Diversification", cats.length >= 5 ? "Robuste" : cats.length >= 3 ? "À surveiller" : "Concentrée", cats.length >= 5 ? "#4a9e6b" : "#e8a055"],
-	                ["Market drivers", exposure.sector[0]?.label || "N/D", "#7a9ec9"],
-	                ["Allocation changes", snapshots.length > 1 ? "Historique disponible" : "Historique en construction", "#00E1DC"],
-	                ["Fallback data", allLines.length ? "Prix locaux utilisés si web search indisponible" : "Aucune ligne cotée", "#888"],
+		                [tr(lang, "diversification"), cats.length >= 5 ? (lang === "en" ? "Robust" : "Robuste") : cats.length >= 3 ? (lang === "en" ? "Watch" : "À surveiller") : (lang === "en" ? "Concentrated" : "Concentrée"), cats.length >= 5 ? "#4a9e6b" : "#e8a055"],
+		                [tr(lang, "marketDrivers"), exposure.sector[0]?.label || "N/D", "#7a9ec9"],
+		                [tr(lang, "allocationChanges"), snapshots.length > 1 ? (lang === "en" ? "History available" : "Historique disponible") : (lang === "en" ? "History being built" : "Historique en construction"), "#00E1DC"],
+		                [tr(lang, "fallbackData"), allLines.length ? tr(lang, "localPricesFallback") : tr(lang, "noListedLine"), "#888"],
 	              ].map(c => <div key={c[0]} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:8, padding:"10px 12px" }}><div style={{ fontSize:9, color:"#666", letterSpacing:"0.06em" }}>{c[0]}</div><div style={{ color:c[2], fontSize:13, fontWeight:"bold", marginTop:4 }}>{c[1]}</div></div>)}
 	            </div>
 	          </div>
 	          <div>
-	            <div style={{ fontSize:10, color:"#4a9e6b", fontWeight:"bold", marginBottom:8 }}>TOP CONTRIBUTORS</div>
+		            <div style={{ fontSize:10, color:"#4a9e6b", fontWeight:"bold", marginBottom:8 }}>{tr(lang, "topContributors")}<InfoTip text={tr(lang, "positiveColorHelp")} /></div>
 	            {story.top.length ? story.top.map(l => <div key={l.wrapper+l.id+"top"} style={{ display:"flex", justifyContent:"space-between", fontSize:11, padding:"6px 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}><span>{l.ticker || l.nom}<span style={{ color:"#555" }}> · {l.wrapper}</span></span><strong style={{ color:"#4a9e6b" }}>{fmtMoney(l.pnl)}</strong></div>) : <div style={{ color:"#555", fontSize:11 }}>Aucun contributeur calculable</div>}
 	          </div>
 	          <div>
-	            <div style={{ fontSize:10, color:"#e05555", fontWeight:"bold", marginBottom:8 }}>WORST CONTRIBUTORS</div>
+		            <div style={{ fontSize:10, color:"#e05555", fontWeight:"bold", marginBottom:8 }}>{tr(lang, "worstContributors")}<InfoTip text={tr(lang, "negativeColorHelp")} /></div>
 	            {story.worst.length ? story.worst.map(l => <div key={l.wrapper+l.id+"worst"} style={{ display:"flex", justifyContent:"space-between", fontSize:11, padding:"6px 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}><span>{l.ticker || l.nom}<span style={{ color:"#555" }}> · {l.wrapper}</span></span><strong style={{ color:l.pnl >= 0 ? "#4a9e6b" : "#e05555" }}>{fmtMoney(l.pnl)}</strong></div>) : <div style={{ color:"#555", fontSize:11 }}>Aucun contributeur négatif calculable</div>}
 	          </div>
-	        </div>
-	      </div>
+		        </div>
+		      </div>
 
-      {/* ── Risques & Atouts ── */}
+		      {reportMode === "advisor" && (
+		        <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(0,225,220,0.16)", borderRadius:10, padding:"16px 20px", marginBottom:16 }}>
+		          <div style={{ fontSize:12, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:6 }}>{tr(lang, "businessOpportunities")}<InfoTip text={tr(lang, "businessOpportunitiesHelp")} /></div>
+		          <div style={{ fontSize:11, color:"#666", marginBottom:12 }}>{lang === "en" ? "Advisor-only view: transforms allocation weaknesses into client discussion angles." : "Vue réservée au conseiller : transforme les faiblesses d'allocation en angles de discussion client."}</div>
+		          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(210px,1fr))", gap:10 }}>
+		            {advisorOpportunities.map((o,i) => (
+		              <div key={i} style={{ background:"rgba(0,0,0,0.2)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:8, padding:"12px 14px" }}>
+		                <div style={{ fontSize:10, color:o.color, fontWeight:"bold", letterSpacing:"0.05em", marginBottom:7 }}>{o.title}</div>
+		                <div style={{ fontSize:11, color:"#aaa", lineHeight:1.55 }}>{o.action}</div>
+		              </div>
+		            ))}
+		          </div>
+		        </div>
+		      )}
+
+	      {/* ── Risques & Atouts ── */}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, padding:"16px 20px" }}>
           <div style={{ fontSize:10, color:"#e05555", fontWeight:"bold", letterSpacing:"0.06em", marginBottom:12 }}>⚠️ POINTS DE VIGILANCE</div>
@@ -3243,28 +3465,28 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
 	      <div className="client-report" style={{ background:"linear-gradient(135deg,rgba(0,225,220,0.06),rgba(255,255,255,0.02))", border:"1px solid rgba(0,225,220,0.2)", borderRadius:10, padding:"18px 20px", marginBottom:16 }}>
 	        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
 	          <div>
-	            <div style={{ fontSize:12, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em" }}>CLIENT-GRADE REPORTING</div>
-	            <div style={{ fontSize:10, color:"#666", marginTop:3 }}>Executive summary · allocation · risk · diversification · recommended actions</div>
+		            <div style={{ fontSize:12, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em" }}>{tr(lang, "clientReadyReport")}</div>
+		            <div style={{ fontSize:10, color:"#666", marginTop:3 }}>{tr(lang, "clientReadySub")}</div>
 	          </div>
-	          <div style={{ fontSize:10, color:"#777" }}>{reportMode === "client" ? "Présentation client simplifiée" : "Vue conseiller détaillée"}</div>
+		          <div style={{ fontSize:10, color:"#777" }}>{reportMode === "client" ? tr(lang, "clientPresentation") : tr(lang, "advisorPresentation")}</div>
 	        </div>
 	        <div style={{ display:"grid", gridTemplateColumns: reportMode === "client" ? "1fr 1fr" : "repeat(4,1fr)", gap:10 }}>
 	          {[
-	            { t:"Executive summary", v:`Patrimoine net consolidé de ${fmtMoney(totalPatrimoine)} réparti sur ${modules.length} poches principales.`, c:"#00E1DC" },
-	            { t:"Asset allocation", v:assetClasses.slice(0,3).map(a=>`${a.label} ${safePct(a.value,totalPatrimoine).toFixed(0)}%`).join(" · ") || "Allocation à compléter.", c:"#7a9ec9" },
-	            { t:"Risk overview", v:risks[0]?.desc || "Aucun risque majeur détecté avec les données actuelles.", c:risks.length ? "#e8a055" : "#4a9e6b" },
-	            { t:"Recommended actions", v:risks.length ? "Réduire les concentrations, documenter les devises et compléter les expositions manquantes." : "Maintenir la discipline de suivi et enrichir l'historique mensuel.", c:"#4a9e6b" },
+		            { t:tr(lang, "executiveSummary"), v: lang === "en" ? `Consolidated net worth of ${fmtMoney(totalPatrimoine)} across ${modules.length} main pockets.` : `Patrimoine net consolidé de ${fmtMoney(totalPatrimoine)} réparti sur ${modules.length} poches principales.`, c:"#00E1DC" },
+		            { t:tr(lang, "assetAllocation"), v:assetClasses.slice(0,3).map(a=>`${a.label} ${safePct(a.value,totalPatrimoine).toFixed(0)}%`).join(" · ") || (lang === "en" ? "Allocation to be completed." : "Allocation à compléter."), c:"#7a9ec9" },
+		            { t:tr(lang, "riskOverview"), v:risks[0]?.desc || (lang === "en" ? "No major risk detected with current data." : "Aucun risque majeur détecté avec les données actuelles."), c:risks.length ? "#e8a055" : "#4a9e6b" },
+		            { t:tr(lang, "recommendedActions"), v:risks.length ? (lang === "en" ? "Reduce concentrations, document currencies and complete missing exposures." : "Réduire les concentrations, documenter les devises et compléter les expositions manquantes.") : (lang === "en" ? "Keep monitoring discipline and enrich the monthly history." : "Maintenir la discipline de suivi et enrichir l'historique mensuel."), c:"#4a9e6b" },
 	          ].map(x => <div key={x.t} style={{ background:"rgba(0,0,0,0.22)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:8, padding:"12px 14px" }}><div style={{ fontSize:9, color:x.c, letterSpacing:"0.06em", fontWeight:"bold", marginBottom:7 }}>{x.t}</div><div style={{ fontSize:11, color:"#bbb", lineHeight:1.55 }}>{x.v}</div></div>)}
 	        </div>
 	        {reportMode === "advisor" && (
 	          <div style={{ marginTop:12, display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
 	            <div style={{ background:"rgba(0,0,0,0.18)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:8, padding:"12px 14px" }}>
-	              <div style={{ fontSize:9, color:"#00E1DC", letterSpacing:"0.06em", fontWeight:"bold", marginBottom:7 }}>MARKET COMMENTARY</div>
-	              <div style={{ fontSize:11, color:"#aaa", lineHeight:1.55 }}>Web search reste disponible dans les modules PEA/CTO/AV. Si une donnée de marché est indisponible, le reporting s'appuie sur les prix locaux et signale l'absence de donnée temps réel.</div>
+		              <div style={{ fontSize:9, color:"#00E1DC", letterSpacing:"0.06em", fontWeight:"bold", marginBottom:7 }}>{tr(lang, "marketCommentary")}</div>
+		              <div style={{ fontSize:11, color:"#aaa", lineHeight:1.55 }}>{lang === "en" ? "Web search remains available in PEA/CTO/Insurance modules. If market data is unavailable, reporting uses local prices and explicitly flags the lack of real-time data." : "La recherche web reste disponible dans les modules PEA/CTO/AV. Si une donnée de marché est indisponible, le reporting s'appuie sur les prix locaux et signale l'absence de donnée temps réel."}</div>
 	            </div>
 	            <div style={{ background:"rgba(0,0,0,0.18)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:8, padding:"12px 14px" }}>
-	              <div style={{ fontSize:9, color:"#00E1DC", letterSpacing:"0.06em", fontWeight:"bold", marginBottom:7 }}>DIVERSIFICATION ANALYSIS</div>
-	              <div style={{ fontSize:11, color:"#aaa", lineHeight:1.55 }}>{cats.length} classes d'actifs suivies, {exposure.geography.length} zones géographiques et {exposure.currency.length} devises consolidées.</div>
+		              <div style={{ fontSize:9, color:"#00E1DC", letterSpacing:"0.06em", fontWeight:"bold", marginBottom:7 }}>{tr(lang, "diversificationAnalysis")}</div>
+		              <div style={{ fontSize:11, color:"#aaa", lineHeight:1.55 }}>{lang === "en" ? `${cats.length} asset classes tracked, ${exposure.geography.length} geographies and ${exposure.currency.length} consolidated currencies.` : `${cats.length} classes d'actifs suivies, ${exposure.geography.length} zones géographiques et ${exposure.currency.length} devises consolidées.`}</div>
 	            </div>
 	          </div>
 	        )}
@@ -3887,6 +4109,7 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal }) {
 function PEAAgent() {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem("pea_apikey") || "");
   const [activeModule, setActiveModule] = useState(() => localStorage.getItem("mpb_module") || "pea");
+  const [lang, setLang] = useState(() => localStorage.getItem("mpb_lang") || "fr");
   const [confirmReset, setConfirmReset] = useState(false);
   // Calcule le total d'un portefeuille depuis localStorage sans monter le composant.
   // Compatible PEA / CTO / Assurance Vie, y compris les lignes « en attente » issues d'une allocation.
@@ -3929,7 +4152,7 @@ function PEAAgent() {
   if (!apiKey) return <ApiKeySetup onSave={saveApiKey} />;
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#0a0a0f 0%,#0d1117 40%,#0a0f0a 100%)", fontFamily: SIA_FONT_STACK, color: "#F5F7FA" }}>
+	    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#0a0a0f 0%,#0d1117 40%,#0a0f0a 100%)", fontFamily: SIA_FONT_STACK, color: "#F5F7FA" }}>
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
@@ -3956,14 +4179,22 @@ function PEAAgent() {
 	      `}</style>
 
       {/* ── HEADER ── */}
-      <div style={{ borderBottom: "1px solid rgba(0,225,220,0.2)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "2px 0" }}><SiaLogo size="header" /></div>
-          <div>
-            <div style={{ fontWeight: "bold", fontSize: 16, letterSpacing: "0.05em", color: "#00E1DC" }}>SIA PRIVATE BANKING AGENT</div>
-            <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.1em" }}>PRIVATE BANKING · AI ADVISORY DEMO</div>
-          </div>
-        </div>
+	      <div style={{ borderBottom: "1px solid rgba(0,225,220,0.2)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100 }}>
+	        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+	          <div style={{ display:"flex", gap:5, alignItems:"center" }} title={lang === "en" ? "Change language" : "Changer de langue"}>
+	            {[["fr","🇫🇷"],["en","🇬🇧"]].map(([code,flag]) => (
+	              <button key={code} onClick={() => { setLang(code); localStorage.setItem("mpb_lang", code); }}
+	                style={{ width:30, height:30, borderRadius:8, border: lang === code ? "1px solid rgba(0,225,220,0.6)" : "1px solid rgba(255,255,255,0.08)", background: lang === code ? "rgba(0,225,220,0.14)" : "rgba(255,255,255,0.03)", cursor:"pointer", fontSize:16, lineHeight:"28px" }}>
+	                {flag}
+	              </button>
+	            ))}
+	          </div>
+	          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "2px 0" }}><SiaLogo size="header" /></div>
+	          <div>
+	            <div style={{ fontWeight: "bold", fontSize: 16, letterSpacing: "0.05em", color: "#00E1DC" }}>SIA PRIVATE BANKING AGENT</div>
+	            <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.1em" }}>{tr(lang, "headerSubtitle")}</div>
+	          </div>
+	        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {totalPatrimoine > 0 && (
             <div style={{ textAlign: "right" }}>
@@ -3974,7 +4205,7 @@ function PEAAgent() {
                 {ctoTotal > 0 && <span style={{ color: "#a8c4e8" }}>💼 CTO {Math.round(ctoTotal).toLocaleString('fr-FR')} €</span>}
                 {avTotal > 0 && <span style={{ color: "#7a9ec9" }}>🛡️ AV {Math.round(avTotal).toLocaleString('fr-FR')} €</span>}
                 {immoCapNet > 0 && <span style={{ color: "#a0c4ff" }}>🏠 {Math.round(immoCapNet).toLocaleString('fr-FR')} €</span>}
-                {privateTotal > 0 && <span style={{ color: "#9a8ec9" }}>◆ Private {Math.round(privateTotal).toLocaleString('fr-FR')} €</span>}
+	                {privateTotal > 0 && <span style={{ color: "#9a8ec9" }}>◆ {tr(lang, "privateLabel")} {Math.round(privateTotal).toLocaleString('fr-FR')} €</span>}
                 {revenusAnnuels > 0 && <span style={{ color: "#4a9e6b" }}>💰 {Math.round(revenusAnnuels).toLocaleString('fr-FR')} €/an</span>}
               </div>
             </div>
@@ -3999,7 +4230,7 @@ function PEAAgent() {
           {/* Export données */}
           <button title="Exporter toutes mes données (sauvegarde JSON)"
             onClick={() => {
-              const KEYS = ["pea_lines","pea_messages","pea_perfHistory","cto_lines","cto_messages","cto_perfHistory","av_lines","av_messages","av_perfHistory","mpb_biens","mpb_revenus","mpb_revenus_dismissed","mpb_snapshots","private_markets","mpb_report_mode"];
+              const KEYS = ["pea_lines","pea_messages","pea_perfHistory","cto_lines","cto_messages","cto_perfHistory","av_lines","av_messages","av_perfHistory","mpb_biens","mpb_revenus","mpb_revenus_dismissed","mpb_snapshots","private_markets","mpb_report_mode","mpb_lang"];
               const data = { _version: "1.0", _date: new Date().toISOString() };
               KEYS.forEach(k => { const v = localStorage.getItem(k); if (v) { try { data[k] = JSON.parse(v); } catch {} } });
               const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -4046,12 +4277,12 @@ function PEAAgent() {
       {/* ── MODULE NAVIGATION ── */}
       <div style={{ display: "flex", borderBottom: "1px solid rgba(0,225,220,0.25)", padding: "0 20px", background: "rgba(0,0,0,0.35)", gap: 2 }}>
         {[
-          { id: "dashboard", label: "📊 Dashboard",      soon: false },
+          { id: "dashboard", label: "📊 " + tr(lang, "dashboard"),      soon: false },
           { id: "pea",       label: "📈 PEA",            soon: false },
           { id: "immo", label: "🏠 Immobilier",       soon: false },
           { id: "av",   label: "🛡️ Assurance Vie",    soon: false },
 	          { id: "cto",  label: "💼 CTO",              soon: false },
-	          { id: "private", label: "◆ Private Markets",  soon: false },
+	          { id: "private", label: "◆ " + tr(lang, "privateMarkets"),  soon: false },
 	          { id: "revenus", label: "💰 Revenus",           soon: false },
           { id: "fiscal",  label: "🧾 Fiscalité",         soon: false },
         ].map(m => (
@@ -4064,12 +4295,12 @@ function PEAAgent() {
       </div>
 
       {/* ── MODULES ── */}
-	      {activeModule === "dashboard" && <DashboardModule peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} immoCapNet={immoCapNet} privateTotal={privateTotal} totalPatrimoine={totalPatrimoine} revenusAnnuels={revenusAnnuels} immoBiens={immoBiens} apiKey={apiKey} />}
+	      {activeModule === "dashboard" && <DashboardModule peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} immoCapNet={immoCapNet} privateTotal={privateTotal} totalPatrimoine={totalPatrimoine} revenusAnnuels={revenusAnnuels} immoBiens={immoBiens} apiKey={apiKey} lang={lang} />}
       {activeModule === "pea"  && <PortfolioModule type="pea"  apiKey={apiKey} onTotalChange={setPeaTotal}  />}
       {activeModule === "cto"  && <PortfolioModule type="cto"  apiKey={apiKey} onTotalChange={setCtoTotal}  />}
 	      {activeModule === "av"   && <PortfolioModule type="av"   apiKey={apiKey} onTotalChange={setAvTotal}   />}
 	      {activeModule === "immo"    && <ImmoModule biens={immoBiens} setBiens={setImmoBiens} />}
-	      {activeModule === "private" && <PrivateMarketsModule onTotalChange={setPrivateTotal} />}
+	      {activeModule === "private" && <PrivateMarketsModule onTotalChange={setPrivateTotal} lang={lang} />}
 	      {activeModule === "revenus" && <RevenusModule patrimoine={totalPatrimoine} onTotalChange={setRevenusAnnuels} immoBiens={immoBiens} />}
       {activeModule === "fiscal"  && <FiscaliteModule immoBiens={immoBiens} peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} />}
     </div>
