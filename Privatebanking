@@ -1023,7 +1023,7 @@ function getDVFStatic(codePostal, typeBien) {
   return price ? { median: price, p25: Math.round(price * 0.83), p75: Math.round(price * 1.17), isStatic: true } : null;
 }
 
-function ImmoModule({ biens, setBiens }) {
+function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [form, setForm] = useState(BLANK_BIEN);
   const [addressSuggestions, setAddressSuggestions] = useState([]);
@@ -1174,6 +1174,7 @@ function ImmoModule({ biens, setBiens }) {
   const totalCapInvesti     = biens.reduce((s, b) => s + Math.max(0, getCout(b) - (parseFloat(b.montantEmprunt)||0)), 0);
   const totalRevLocatif     = biens.filter(b => b.usage === "locatif").reduce((s, b) => s + getLoyer(b) * 12, 0);
   const totalCFAnn          = biens.reduce((s, b) => s + getCF(b) * 12, 0);
+  const immoAdvisorOpportunities = buildImmoAdvisorOpportunities(biens, totalCapNet, lang);
 
   // ── CRUD ──
   function saveBien() {
@@ -1221,6 +1222,9 @@ function ImmoModule({ biens, setBiens }) {
       {/* ════════════════ DASHBOARD ════════════════ */}
       {activeTab === "dashboard" && (
         <div style={{ padding: 20, maxWidth: 1100, margin: "0 auto" }}>
+          {reportMode === "advisor" && (
+            <AdvisorOpportunityPanel opportunities={immoAdvisorOpportunities} lang={lang} />
+          )}
           {biens.length === 0 ? (
             <div style={{ textAlign: "center", padding: "80px 20px" }}>
               <div style={{ fontSize: 52, marginBottom: 16 }}>🏠</div>
@@ -1992,7 +1996,7 @@ async function fetchLiveMarketContext() {
   return `Contexte sourcé par web search classique (Paris, ${now}) :\n${rows.join('\n')}\n\nContexte macro récent :\n${macro}\n\nNote : les valeurs chiffrées sont extraites d'extraits web non structurés. Si une donnée est N/D ou ambiguë, l'agent doit le dire explicitement et éviter d'inventer.`;
 }
 
-function PortfolioModule({ type, apiKey, onTotalChange }) {
+function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", lang = "fr" }) {
   const cfg = PORTFOLIO_CONFIGS[type];
   const DEMO_LINES_VAR = type === "pea" ? DEMO_LINES : type === "cto" ? CTO_DEMO_LINES : AV_DEMO_LINES;
   const QUICK_PROMPTS_VAR = type === "pea" ? QUICK_PROMPTS : type === "cto" ? CTO_QUICK_PROMPTS : AV_QUICK_PROMPTS;
@@ -2123,6 +2127,7 @@ function PortfolioModule({ type, apiKey, onTotalChange }) {
     pnl_pct: linePRU(l) > 0 ? ((lineVal(l) - linePRU(l)) / linePRU(l)) * 100 : 0,
     intelligence: getLineIntelligence(l, type),
   }));
+  const portfolioAdvisorOpportunities = buildPortfolioAdvisorOpportunities(type, lineRows, totalActuel, lang);
 
   const hasPendingQte = lines.some(l => l._pendingQte);
   const hasPruEstimated = lines.some(l => l._pruEstimated);
@@ -2523,6 +2528,10 @@ function PortfolioModule({ type, apiKey, onTotalChange }) {
             <span style={{ color: cfg.fiscalColor }}>⚖️ Fiscalité {cfg.label} :</span>
             <span style={{ color: "#888" }}>{cfg.fiscalLabel}</span>
           </div>
+
+          {reportMode === "advisor" && (
+            <AdvisorOpportunityPanel opportunities={portfolioAdvisorOpportunities} lang={lang} />
+          )}
 
           {/* Holdings Table */}
           <div style={{ overflowX: "auto", marginBottom: 20 }}>
@@ -3050,16 +3059,131 @@ function buildAdvisorOpportunities(risks, exposure, modules, totalPatrimoine, la
   return rows.slice(0, 4);
 }
 
+function AdvisorOpportunityPanel({ opportunities, lang = "fr", title, compact = false }) {
+  const rows = (opportunities || []).filter(Boolean).slice(0, compact ? 3 : 5);
+  if (!rows.length) return null;
+  return (
+    <div style={{ background:"rgba(0,225,220,0.045)", border:"1px solid rgba(0,225,220,0.18)", borderRadius:12, padding: compact ? "12px 14px" : "15px 18px", marginBottom:16 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+        <div style={{ fontSize:10, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.08em" }}>{title || (lang === "en" ? "ADVISOR OPPORTUNITIES" : "OPPORTUNITÉS CONSEILLER")}</div>
+        <InfoTip text={lang === "en" ? "Advisor mode highlights allocation weaknesses and translates them into possible advisory or commercial actions. These are prompts for discussion, not automatic investment advice." : "Le mode conseiller détecte les faiblesses d'allocation et les transforme en pistes de conseil ou d'opportunités commerciales. Ce sont des pistes de discussion, pas un conseil d'investissement automatique."} />
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns: compact ? "1fr" : "repeat(auto-fit,minmax(220px,1fr))", gap:10 }}>
+        {rows.map((o, idx) => (
+          <div key={(o.title || "opp") + idx} style={{ background:"rgba(0,0,0,0.24)", border:"1px solid rgba(255,255,255,0.07)", borderLeft:"3px solid " + (o.color || "#00E1DC"), borderRadius:8, padding:"10px 12px" }}>
+            <div style={{ color:o.color || "#00E1DC", fontSize:11, fontWeight:"bold", marginBottom:5 }}>{o.module ? o.module + " · " : ""}{o.title}</div>
+            <div style={{ color:"#aaa", fontSize:11, lineHeight:1.45 }}>{o.action}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function buildPortfolioAdvisorOpportunities(type, lineRows, total, lang = "fr") {
+  const rows = [];
+  const module = type === "pea" ? "PEA" : type === "cto" ? "CTO" : "Assurance Vie";
+  const add = (titleFr, titleEn, actionFr, actionEn, color) => rows.push({ module, title: lang === "en" ? titleEn : titleFr, action: lang === "en" ? actionEn : actionFr, color });
+  const lines = (lineRows || []).filter(l => safeNum(l.val) > 0);
+  if (!lines.length) {
+    if (type === "pea") add("PEA non investi", "Uninvested PEA", "Utiliser le PEA comme cœur actions européennes/ETF Monde éligible pour améliorer l'efficacité fiscale long terme.", "Use the PEA as a tax-efficient core for eligible European/global equity ETFs.", "#4a9e6b");
+    else if (type === "cto") add("CTO à structurer", "CTO to structure", "Créer une poche internationale complémentaire, notamment US, obligations internationales ou thématiques non éligibles au PEA.", "Build an international sleeve, especially US exposure, global bonds or themes not eligible for the PEA.", "#a8c4e8");
+    else add("Assurance-vie à exploiter", "Insurance wrapper opportunity", "Étudier fonds euros, unités de compte diversifiées et clause bénéficiaire pour combiner liquidité, fiscalité et transmission.", "Consider euro funds, diversified units and beneficiary clauses to combine liquidity, tax and estate planning.", "#7a9ec9");
+    return rows;
+  }
+  const agg = (keyFn) => {
+    const map = {};
+    lines.forEach(l => {
+      const intel = l.intelligence || getLineIntelligence(l, type);
+      const key = keyFn(l, intel) || "Non classé";
+      addAgg(map, key, safeNum(l.val), "#00E1DC");
+    });
+    return toSeries(map);
+  };
+  const geos = agg((l, intel) => intel.geography);
+  const sectors = agg((l, intel) => intel.sector);
+  const currencies = agg((l, intel) => intel.currency);
+  const cash = lines.filter(l => /cash|liquid/i.test(String(l.ticker) + " " + String(l.categorie))).reduce((s,l)=>s+safeNum(l.val),0);
+  const geoLead = geos[0], sectorLead = sectors[0], usd = currencies.find(c => c.label === "USD"), eur = currencies.find(c => c.label === "EUR");
+  if (geoLead && safePct(geoLead.value,total) > 60) add("Concentration géographique", "Geographic concentration", `${safePct(geoLead.value,total).toFixed(0)}% du ${module} est exposé à ${geoLead.label}. Proposer une diversification complémentaire hors ${geoLead.label}, par exemple ETF Monde, fonds US ou mandat global.`, `${safePct(geoLead.value,total).toFixed(0)}% of ${module} is exposed to ${geoLead.label}. Propose complementary diversification outside ${geoLead.label}, such as a global ETF, US fund or global mandate.`, "#00E1DC");
+  if (sectorLead && safePct(sectorLead.value,total) > 45) {
+    const auto = /auto|automobile|car/i.test(sectorLead.label);
+    add("Concentration sectorielle", "Sector concentration", auto ? `Exposition forte à l'automobile. Diversifier vers santé, technologie qualité, infrastructures ou ETF larges pour réduire le risque cyclique.` : `${sectorLead.label} représente ${safePct(sectorLead.value,total).toFixed(0)}% du ${module}. Diversifier vers santé, infrastructure, obligations ou multi-actifs selon profil.`, auto ? "High automotive exposure. Diversify into healthcare, quality technology, infrastructure or broad ETFs to reduce cyclical risk." : `${sectorLead.label} represents ${safePct(sectorLead.value,total).toFixed(0)}% of ${module}. Diversify into healthcare, infrastructure, bonds or multi-asset depending on risk profile.`, "#7a9ec9");
+  }
+  if (eur && safePct(eur.value,total) > 80 && type !== "pea") add("Biais euro élevé", "High euro bias", "Introduire progressivement une poche USD ou Monde couverte/non couverte selon les besoins futurs du client.", "Gradually introduce a USD or global sleeve, hedged or unhedged depending on future client needs.", "#4a9e6b");
+  if (usd && safePct(usd.value,total) > 45) add("Risque devise USD", "USD currency risk", "Documenter l'exposition dollar et proposer des parts couvertes ou une allocation EUR défensive si les dépenses futures sont en euros.", "Document dollar exposure and propose hedged share classes or defensive EUR exposure if future spending is in euros.", "#4a9e6b");
+  if (safePct(cash,total) > 20) add("Liquidités à déployer", "Cash to deploy", "La poche cash est élevée. Construire un plan d'investissement progressif ou une poche monétaire rémunérée.", "Cash is elevated. Build a phased investment plan or remunerated money-market sleeve.", "#e8a055");
+  if (lines.length < 3 && total > 10000) add("Nombre de lignes limité", "Limited number of holdings", "Ajouter des supports diversifiés pour réduire le risque spécifique d'une ligne unique.", "Add diversified instruments to reduce single-position risk.", "#e8a055");
+  if (!rows.length) add("Revue d'allocation", "Allocation review", "Allocation lisible. Préparer une revue autour des objectifs, de la fiscalité et du niveau de risque accepté.", "Readable allocation. Prepare a review around objectives, tax treatment and accepted risk level.", "#00E1DC");
+  return rows.slice(0,4);
+}
+
+function buildImmoAdvisorOpportunities(biens, totalCapNet, lang = "fr") {
+  const rows = [];
+  const add = (titleFr, titleEn, actionFr, actionEn, color) => rows.push({ module: "Immobilier", title: lang === "en" ? titleEn : titleFr, action: lang === "en" ? actionEn : actionFr, color });
+  const list = Array.isArray(biens) ? biens : [];
+  if (!list.length) {
+    add("Pas d'immobilier direct", "No direct real estate", "Selon le profil, proposer SCPI, OPCI ou dette immobilière pour diversifier sans gestion opérationnelle directe.", "Depending on the profile, propose SCPI, OPCI or real-estate debt to diversify without direct operational management.", "#a0c4ff");
+    return rows;
+  }
+  const personal = list.filter(b => (b.typeDetention || "personnel") === "personnel").reduce((s,b)=>s+Math.max(0,getBienValeur(b)-getBienDetteRestante(b)),0);
+  const locatif = list.filter(b => b.usage === "locatif").reduce((s,b)=>s+Math.max(0,getBienValeur(b)-getBienDetteRestante(b)),0);
+  const dette = list.reduce((s,b)=>s+getBienDetteRestante(b),0);
+  const valeur = list.reduce((s,b)=>s+getBienValeur(b),0);
+  if (safePct(personal,totalCapNet) > 60) add("Détention personnelle dominante", "Personal ownership concentration", "Étudier une SCI, un démembrement ou une stratégie de transmission si le parc immobilier pèse fortement en nom propre.", "Consider an SCI, ownership split or estate-planning strategy if real estate is mostly held personally.", "#a0c4ff");
+  if (locatif <= 0) add("Peu d'actifs locatifs", "Limited rental exposure", "Le patrimoine immobilier semble surtout personnel. Étudier locatif, SCPI ou nue-propriété pour créer du rendement et diversifier.", "Real estate seems mostly personal. Consider rental property, SCPI or bare ownership to generate yield and diversify.", "#e8a055");
+  if (valeur > 0 && safePct(dette,valeur) > 70) add("Levier immobilier élevé", "High real-estate leverage", "Vérifier sensibilité aux taux, échéancier de dette et besoin de liquidité de sécurité.", "Check interest-rate sensitivity, debt schedule and safety liquidity needs.", "#e05555");
+  if (!rows.length) add("Optimisation patrimoniale", "Wealth structuring", "Parc immobilier structuré. Revoir fiscalité, assurance emprunteur, loyers et transmission.", "Structured real-estate portfolio. Review tax, loan insurance, rents and estate planning.", "#00E1DC");
+  return rows.slice(0,4);
+}
+
+function buildPrivateAdvisorOpportunities(items, metrics, lang = "fr") {
+  const rows = [];
+  const add = (titleFr, titleEn, actionFr, actionEn, color) => rows.push({ module: lang === "en" ? "Private Markets" : "Private Markets", title: lang === "en" ? titleEn : titleFr, action: lang === "en" ? actionEn : actionFr, color });
+  const list = Array.isArray(items) ? items : [];
+  if (!list.length) {
+    add("Aucune poche privée", "No private allocation", "Présenter le private equity, private debt, club deals ou SCPI comme outil de diversification long terme, avec rappel d'illiquidité.", "Present private equity, private debt, club deals or SCPI as long-term diversification tools, with explicit illiquidity disclosure.", "#9a8ec9");
+    return rows;
+  }
+  if (safeNum(metrics.distributions) <= 0 && safeNum(metrics.called) > 0) add("Distributions à suivre", "Distribution tracking", "Mettre en place un calendrier d'appels/distributions et vérifier la trajectoire J-curve.", "Set up a capital-call/distribution schedule and monitor the J-curve trajectory.", "#e8a055");
+  if (safeNum(metrics.moic) > 0 && safeNum(metrics.moic) < 1) add("Multiple sous 1x", "Multiple below 1x", "Documenter les lignes en moins-value et préparer une revue de valorisation ou de liquidité secondaire.", "Document positions below cost and prepare a valuation or secondary-liquidity review.", "#e05555");
+  if (!rows.length) add("Reporting non coté", "Private-assets reporting", "Compléter millésime, TRI, MOIC et prochains flux pour rendre le reporting client-grade.", "Complete vintage, IRR, MOIC and future cashflows to make reporting client-grade.", "#00E1DC");
+  return rows.slice(0,4);
+}
+
+function buildIncomeAdvisorOpportunities(lignes, patrimoine, lang = "fr") {
+  const rows = [];
+  const add = (titleFr, titleEn, actionFr, actionEn, color) => rows.push({ module: lang === "en" ? "Income" : "Revenus", title: lang === "en" ? titleEn : titleFr, action: lang === "en" ? actionEn : actionFr, color });
+  const ann = l => safeNum(l.montant) * ({ mensuel:12, trimestriel:4, annuel:1, ponctuel:0 }[l.frequence] ?? 1);
+  const total = (lignes || []).reduce((s,l)=>s+ann(l),0);
+  if (!lignes || !lignes.length) add("Revenus non documentés", "Income not documented", "Renseigner salaires, loyers, dividendes et intérêts pour produire une projection de cash-flow client.", "Enter salary, rents, dividends and interest to produce a client cash-flow projection.", "#e8a055");
+  else if (safePct(total, patrimoine) < 2) add("Faible rendement de revenus", "Low income yield", "Étudier une poche génératrice de revenus : fonds euros, obligations court terme, SCPI ou dividendes de qualité.", "Consider income-generating exposure: euro funds, short-duration bonds, SCPI or quality dividends.", "#4a9e6b");
+  else add("Revenus à sécuriser", "Secure recurring income", "Formaliser la récurrence des revenus et distinguer revenus garantis, variables et fiscalisés.", "Formalize income recurrence and separate guaranteed, variable and taxable income.", "#00E1DC");
+  return rows.slice(0,3);
+}
+
+function buildFiscalAdvisorOpportunities({ immoBiens = [], peaTotal = 0, ctoTotal = 0, avTotal = 0 }, lang = "fr") {
+  const rows = [];
+  const add = (titleFr, titleEn, actionFr, actionEn, color) => rows.push({ module: lang === "en" ? "Tax" : "Fiscalité", title: lang === "en" ? titleEn : titleFr, action: lang === "en" ? actionEn : actionFr, color });
+  const immoPersonal = (immoBiens || []).some(b => (b.typeDetention || "personnel") === "personnel");
+  if (avTotal <= 0) add("Assurance-vie absente", "No insurance wrapper", "Étudier une assurance-vie pour transmission, clause bénéficiaire et allocation fonds euros/unités de compte.", "Consider life insurance for estate planning, beneficiary clauses and euro-fund/unit-linked allocation.", "#7a9ec9");
+  if (ctoTotal > peaTotal && peaTotal < 150000) add("PEA à optimiser", "PEA optimization", "Si l'horizon le permet, arbitrer une partie de l'exposition actions éligible vers PEA pour améliorer la fiscalité future.", "If the horizon allows, move eligible equity exposure toward the PEA to improve future tax efficiency.", "#4a9e6b");
+  if (immoPersonal) add("Structuration immobilière", "Real-estate structuring", "Analyser SCI, démembrement, LMNP ou IFI selon objectifs de transmission et revenus locatifs.", "Analyze SCI, ownership split, furnished-rental status or wealth tax depending on estate and rental-income goals.", "#a0c4ff");
+  if (!rows.length) add("Revue fiscale annuelle", "Annual tax review", "Mettre à jour TMI, abattements, plus-values latentes et choix PFU/barème avant les arbitrages.", "Update marginal tax rate, allowances, latent gains and PFU/progressive-scale choice before trades.", "#00E1DC");
+  return rows.slice(0,4);
+}
+
 const PRIVATE_TYPES = ["Private equity", "Private debt", "Club deal", "Real estate deal", "SCPI", "Venture capital"];
 const BLANK_PRIVATE = { id: 0, name: "", type: "Private equity", commitment: "", calledCapital: "", distributions: "", nav: "", irr: "", vintage: new Date().getFullYear(), status: "Invested", currency: "EUR", geography: "Europe", sector: "Diversified", nextCashflowDate: "", nextCashflowAmount: "" };
 
-function PrivateMarketsModule({ onTotalChange, lang = "fr" }) {
+function PrivateMarketsModule({ onTotalChange, lang = "fr", reportMode = "advisor" }) {
   const [items, setItems] = useState(() => {
     const p = readJson("private_markets", []);
     return Array.isArray(p) ? p : [];
   });
   const [form, setForm] = useState(null);
   const metrics = calcPrivateMetrics(items);
+  const privateAdvisorOpportunities = buildPrivateAdvisorOpportunities(items, metrics, lang);
   useEffect(() => { writeJson("private_markets", items); }, [items]);
   useEffect(() => { if (onTotalChange) onTotalChange(metrics.value); }, [metrics.value]);
   const inputStyle = { width:"100%", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(0,225,220,0.2)", borderRadius:6, padding:"7px 10px", color:"#F5F7FA", fontSize:12, fontFamily:"inherit" };
@@ -3094,6 +3218,9 @@ function PrivateMarketsModule({ onTotalChange, lang = "fr" }) {
           </div>
         ))}
       </div>
+      {reportMode === "advisor" && (
+        <AdvisorOpportunityPanel opportunities={privateAdvisorOpportunities} lang={lang} />
+      )}
       {form && (
         <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(0,225,220,0.2)", borderRadius:10, padding:16, marginBottom:18 }}>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))", gap:10 }}>
@@ -3152,10 +3279,9 @@ function PrivateMarketsModule({ onTotalChange, lang = "fr" }) {
   );
 }
 
-function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal, totalPatrimoine, revenusAnnuels, immoBiens, apiKey, lang = "fr" }) {
+function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal, totalPatrimoine, revenusAnnuels, immoBiens, apiKey, lang = "fr", reportMode = "advisor" }) {
   const [analysis, setAnalysis] = React.useState("");
   const [analyzing, setAnalyzing] = React.useState(false);
-  const [reportMode, setReportMode] = React.useState(() => localStorage.getItem("mpb_report_mode") || "advisor");
   const [snapshots, setSnapshots] = React.useState(function() {
     try { return JSON.parse(localStorage.getItem("mpb_snapshots") || "[]"); } catch { return []; }
   });
@@ -3249,7 +3375,15 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
   if (liquidPct > 50)  strengths.push({ icon:"💧", title:"Bonne liquidité", desc:""+liquidPct.toFixed(0)+"% d'actifs liquides. Capacité à saisir des opportunités ou faire face aux imprévus." });
   if (leverRatio > 10 && leverRatio < 60) strengths.push({ icon:"🏗️", title:"Effet de levier immobilier sain", desc:""+leverRatio.toFixed(0)+"% de dette — levier positif si le taux d'emprunt < rendement locatif." });
 	  if (yieldRate > 2)   strengths.push({ icon:"💰", title:"Patrimoine rentable", desc:"Taux de rendement global de "+yieldRate.toFixed(2)+"% — les revenus couvrent une partie de vos dépenses." });
-	  var advisorOpportunities = buildAdvisorOpportunities(risks, exposure, modules, totalPatrimoine, lang);
+	  var advisorOpportunities = buildAdvisorOpportunities(risks, exposure, modules, totalPatrimoine, lang)
+	    .concat(buildPortfolioAdvisorOpportunities("pea", peaLines.map(l => ({ ...l, val:getLineCurrentValue(l), intelligence:getLineIntelligence(l, "pea") })), peaTotal, lang))
+	    .concat(buildPortfolioAdvisorOpportunities("cto", ctoLines.map(l => ({ ...l, val:getLineCurrentValue(l), intelligence:getLineIntelligence(l, "cto") })), ctoTotal, lang))
+	    .concat(buildPortfolioAdvisorOpportunities("av", avLines.map(l => ({ ...l, val:getLineCurrentValue(l), intelligence:getLineIntelligence(l, "av") })), avTotal, lang))
+	    .concat(buildImmoAdvisorOpportunities(immoBiens, immoCapNet, lang))
+	    .concat(buildPrivateAdvisorOpportunities(privateItems, privateMetrics, lang))
+	    .concat(buildIncomeAdvisorOpportunities(revenus, totalPatrimoine, lang))
+	    .concat(buildFiscalAdvisorOpportunities({ immoBiens, peaTotal, ctoTotal, avTotal }, lang))
+	    .slice(0, 8);
 
   var fmt = function(n){ return Math.round(n).toLocaleString("fr-FR"); };
 
@@ -3304,13 +3438,6 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
 		          </div>
 		        </div>
 		        <div style={{ display:"flex", gap:8, flexWrap:"wrap", justifyContent:"flex-end" }}>
-		          {["advisor","client"].map(m => (
-		            <button key={m} onClick={() => { setReportMode(m); localStorage.setItem("mpb_report_mode", m); }}
-		              title={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")}
-		              style={{ background: reportMode===m ? "rgba(0,225,220,0.16)" : "rgba(255,255,255,0.03)", border: reportMode===m ? "1px solid rgba(0,225,220,0.45)" : "1px solid rgba(255,255,255,0.08)", borderRadius:8, color: reportMode===m ? "#00E1DC" : "#777", padding:"8px 12px", fontSize:12, cursor:"pointer", fontFamily:"inherit", minWidth:116 }}>
-		              {m === "advisor" ? tr(lang, "advisorMode") : tr(lang, "clientMode")} <InfoTip text={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")} />
-		            </button>
-		          ))}
 		          <button onClick={() => window.print()} style={{ background:"linear-gradient(135deg,#00E1DC,#007A78)", border:"none", borderRadius:8, color:"#07110f", padding:"8px 14px", fontSize:12, fontWeight:"bold", cursor:"pointer", fontFamily:"inherit" }}>{tr(lang, "generateReport")}</button>
 		        </div>
 		      </div>
@@ -3572,7 +3699,7 @@ const REVENU_FREQS = [
 
 const BLANK_REVENU = { id: 0, label: "", categorie: "salaire", sousType: "Salaire net", montant: "", frequence: "mensuel", isNet: true, notes: "" };
 
-function RevenusModule({ patrimoine, onTotalChange, immoBiens }) {
+function RevenusModule({ patrimoine, onTotalChange, immoBiens, reportMode = "advisor", lang = "fr" }) {
   const [lignes, setLignes] = useState(() => {
     try { const s = localStorage.getItem("mpb_revenus"); if (s) return JSON.parse(s); } catch {}
     return [];
@@ -3687,6 +3814,7 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens }) {
   const totalMensuel   = totalAnnuel / 12;
   const revenusPassifs = lignes.filter(l => l.categorie !== "salaire").reduce((s, l) => s + getAnnuel(l), 0);
   const tauxRendement  = patrimoine > 0 ? (revenusPassifs / patrimoine) * 100 : 0;
+  const incomeAdvisorOpportunities = buildIncomeAdvisorOpportunities(lignes, patrimoine, lang);
 
   useEffect(() => { onTotalRef.current(totalAnnuel); }, [totalAnnuel]);
 
@@ -3722,6 +3850,10 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens }) {
           </div>
         ))}
       </div>
+
+      {reportMode === "advisor" && (
+        <AdvisorOpportunityPanel opportunities={incomeAdvisorOpportunities} lang={lang} />
+      )}
 
       {/* ── Breakdown bar ── */}
       {totalAnnuel > 0 && allGrouped.length > 0 && (
@@ -3906,7 +4038,7 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens }) {
 // ══════════════════════════════════════════
 // FISCALITE MODULE
 // ══════════════════════════════════════════
-function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal }) {
+function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = "advisor", lang = "fr" }) {
   const [config, setConfig] = React.useState(() => {
     try { const s = localStorage.getItem("mpb_fiscal_cfg"); if (s) return JSON.parse(s); } catch {}
     return { tmi: 30, situation: "celibataire", enfants: 0, optionBareme: false };
@@ -3988,6 +4120,7 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal }) {
   const taxCourante  = taxAct + taxRet + taxDivCTO + taxDivPEA + taxLoyer + taxLMNP + taxInt + ifi;
   const taxLatente   = taxPVPEA + taxPVCTO + taxPVAV;
   const tauxPression = totalRevenus > 0 ? (taxCourante / totalRevenus) * 100 : 0;
+  const fiscalAdvisorOpportunities = buildFiscalAdvisorOpportunities({ immoBiens, peaTotal, ctoTotal, avTotal }, lang);
 
   const fmt = (n) => Math.round(n).toLocaleString("fr-FR");
   const pct = (n) => n.toFixed(1) + "%";
@@ -4057,6 +4190,10 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal }) {
           <div style={{ fontSize:10, color:"#555" }}>sur revenus déclarés</div>
         </div>
       </div>
+
+      {reportMode === "advisor" && (
+        <AdvisorOpportunityPanel opportunities={fiscalAdvisorOpportunities} lang={lang} />
+      )}
 
       {/* ── Stats résumé ── */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:20 }}>
@@ -4128,6 +4265,7 @@ function PEAAgent() {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem("pea_apikey") || "");
   const [activeModule, setActiveModule] = useState(() => localStorage.getItem("mpb_module") || "pea");
   const [lang, setLang] = useState(() => localStorage.getItem("mpb_lang") || "fr");
+  const [reportMode, setReportMode] = useState(() => localStorage.getItem("mpb_report_mode") || "advisor");
   const [confirmReset, setConfirmReset] = useState(false);
   // Calcule le total d'un portefeuille depuis localStorage sans monter le composant.
   // Compatible PEA / CTO / Assurance Vie, y compris les lignes « en attente » issues d'une allocation.
@@ -4197,20 +4335,33 @@ function PEAAgent() {
 	      `}</style>
 
       {/* ── HEADER ── */}
-	      <div style={{ borderBottom: "1px solid rgba(0,225,220,0.2)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100 }}>
-	        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-	          <div style={{ display:"flex", gap:5, alignItems:"center" }} title={lang === "en" ? "Change language" : "Changer de langue"}>
-	            {[["fr","🇫🇷"],["en","🇬🇧"]].map(([code,flag]) => (
-	              <button key={code} onClick={() => { setLang(code); localStorage.setItem("mpb_lang", code); }}
-	                style={{ width:30, height:30, borderRadius:8, border: lang === code ? "1px solid rgba(0,225,220,0.6)" : "1px solid rgba(255,255,255,0.08)", background: lang === code ? "rgba(0,225,220,0.14)" : "rgba(255,255,255,0.03)", cursor:"pointer", fontSize:16, lineHeight:"28px" }}>
-	                {flag}
-	              </button>
-	            ))}
-	          </div>
+	      <div style={{ borderBottom: "1px solid rgba(0,225,220,0.2)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100 }}>
+	        <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 360 }}>
 	          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "2px 0" }}><SiaLogo size="header" /></div>
 	          <div>
 	            <div style={{ fontWeight: "bold", fontSize: 16, letterSpacing: "0.05em", color: "#00E1DC" }}>SIA PRIVATE BANKING AGENT</div>
 	            <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.1em" }}>{tr(lang, "headerSubtitle")}</div>
+	          </div>
+	        </div>
+	        <div style={{ flex: 1, display:"flex", justifyContent:"center", minWidth: 260 }}>
+	          <div style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 12px", borderRadius:12, background:"rgba(255,255,255,0.025)", border:"1px solid rgba(0,225,220,0.16)", boxShadow:"0 0 24px rgba(0,225,220,0.04)" }}>
+	            <div style={{ display:"flex", gap:5, alignItems:"center" }} title={lang === "en" ? "Change language" : "Changer de langue"}>
+	              {[["fr","🇫🇷"],["en","🇬🇧"]].map(([code,flag]) => (
+	                <button key={code} onClick={() => { setLang(code); localStorage.setItem("mpb_lang", code); }}
+	                  style={{ width:30, height:30, borderRadius:8, border: lang === code ? "1px solid rgba(0,225,220,0.6)" : "1px solid rgba(255,255,255,0.08)", background: lang === code ? "rgba(0,225,220,0.14)" : "rgba(255,255,255,0.03)", cursor:"pointer", fontSize:16, lineHeight:"28px" }}>
+	                  {flag}
+	                </button>
+	              ))}
+	            </div>
+	            <div style={{ width:1, height:28, background:"rgba(255,255,255,0.08)" }} />
+	            {["advisor","client"].map(m => (
+	              <button key={m} onClick={() => { setReportMode(m); localStorage.setItem("mpb_report_mode", m); }}
+	                title={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")}
+	                style={{ background: reportMode === m ? "rgba(0,225,220,0.16)" : "rgba(255,255,255,0.03)", border: reportMode === m ? "1px solid rgba(0,225,220,0.45)" : "1px solid rgba(255,255,255,0.08)", borderRadius:8, color: reportMode === m ? "#00E1DC" : "#777", padding:"7px 11px", fontSize:11, cursor:"pointer", fontFamily:"inherit", minWidth:94, lineHeight:1.15 }}>
+	                {m === "advisor" ? tr(lang, "advisorMode") : tr(lang, "clientMode")}
+	              </button>
+	            ))}
+	            <InfoTip text={reportMode === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")} />
 	          </div>
 	        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -4313,14 +4464,14 @@ function PEAAgent() {
       </div>
 
       {/* ── MODULES ── */}
-	      {activeModule === "dashboard" && <DashboardModule peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} immoCapNet={immoCapNet} privateTotal={privateTotal} totalPatrimoine={totalPatrimoine} revenusAnnuels={revenusAnnuels} immoBiens={immoBiens} apiKey={apiKey} lang={lang} />}
-      {activeModule === "pea"  && <PortfolioModule type="pea"  apiKey={apiKey} onTotalChange={setPeaTotal}  />}
-      {activeModule === "cto"  && <PortfolioModule type="cto"  apiKey={apiKey} onTotalChange={setCtoTotal}  />}
-	      {activeModule === "av"   && <PortfolioModule type="av"   apiKey={apiKey} onTotalChange={setAvTotal}   />}
-	      {activeModule === "immo"    && <ImmoModule biens={immoBiens} setBiens={setImmoBiens} />}
-	      {activeModule === "private" && <PrivateMarketsModule onTotalChange={setPrivateTotal} lang={lang} />}
-	      {activeModule === "revenus" && <RevenusModule patrimoine={totalPatrimoine} onTotalChange={setRevenusAnnuels} immoBiens={immoBiens} />}
-      {activeModule === "fiscal"  && <FiscaliteModule immoBiens={immoBiens} peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} />}
+	      {activeModule === "dashboard" && <DashboardModule peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} immoCapNet={immoCapNet} privateTotal={privateTotal} totalPatrimoine={totalPatrimoine} revenusAnnuels={revenusAnnuels} immoBiens={immoBiens} apiKey={apiKey} lang={lang} reportMode={reportMode} />}
+      {activeModule === "pea"  && <PortfolioModule type="pea"  apiKey={apiKey} onTotalChange={setPeaTotal} reportMode={reportMode} lang={lang} />}
+      {activeModule === "cto"  && <PortfolioModule type="cto"  apiKey={apiKey} onTotalChange={setCtoTotal} reportMode={reportMode} lang={lang} />}
+	      {activeModule === "av"   && <PortfolioModule type="av"   apiKey={apiKey} onTotalChange={setAvTotal} reportMode={reportMode} lang={lang} />}
+	      {activeModule === "immo"    && <ImmoModule biens={immoBiens} setBiens={setImmoBiens} reportMode={reportMode} lang={lang} />}
+	      {activeModule === "private" && <PrivateMarketsModule onTotalChange={setPrivateTotal} lang={lang} reportMode={reportMode} />}
+	      {activeModule === "revenus" && <RevenusModule patrimoine={totalPatrimoine} onTotalChange={setRevenusAnnuels} immoBiens={immoBiens} reportMode={reportMode} lang={lang} />}
+      {activeModule === "fiscal"  && <FiscaliteModule immoBiens={immoBiens} peaTotal={peaTotal} ctoTotal={ctoTotal} avTotal={avTotal} reportMode={reportMode} lang={lang} />}
     </div>
   );
 }
