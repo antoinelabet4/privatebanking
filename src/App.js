@@ -187,10 +187,10 @@ function PEAAgent() {
         {[
           { id: "dashboard", label: tr(lang, "dashboard"),      soon: false },
           { id: "pea",       label: "PEA",            soon: false },
-          { id: "immo", label: "Immobilier",       soon: false },
-          { id: "av",   label: "Assurance Vie",    soon: false },
 	          { id: "cto",  label: "CTO",              soon: false },
+          { id: "av",   label: "Assurance Vie",    soon: false },
 	          { id: "private", label: tr(lang, "privateMarkets"),  soon: false },
+          { id: "immo", label: "Immobilier",       soon: false },
 	          { id: "revenus", label: "Revenus",           soon: false },
           { id: "fiscal",  label: "Fiscalité",         soon: false },
         ].map(m => (
