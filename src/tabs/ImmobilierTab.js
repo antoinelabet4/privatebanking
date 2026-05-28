@@ -403,9 +403,9 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
 
   // ── Style helpers ──
   const inp = { background: "rgba(0,0,0,0.4)", border: "1px solid rgba(0,225,220,0.25)", borderRadius: 6, padding: "7px 10px", color: "#F5F7FA", fontSize: 13, fontFamily: SIA_FONT_STACK, width: "100%" };
-  const secTitle = (icon, label) => (
-    <div style={{ fontSize: 10, color: "#00E1DC", letterSpacing: "0.12em", fontWeight: "bold", marginTop: 22, marginBottom: 12, paddingBottom: 7, borderBottom: "1px solid rgba(0,225,220,0.15)", display: "flex", alignItems: "center", gap: 6 }}>
-      <span>{icon}</span>{label}
+  const secTitle = (label) => (
+    <div className="section-title" style={{ marginTop: 22, marginBottom: 12 }}>
+      <span className="section-title-mark" aria-hidden="true"></span>{label}
     </div>
   );
 
@@ -607,7 +607,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             <div style={{ fontSize: 11, color: "#555", marginBottom: 4 }}>* Seuls l'adresse et le prix d'achat sont obligatoires</div>
 
             {/* ── Identification ── */}
-            {secTitle("📍", "IDENTIFICATION DU BIEN")}
+            {secTitle("IDENTIFICATION DU BIEN")}
             <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 0.7fr", gap: 12, marginBottom: 12 }}>
               {/* Adresse avec autocomplete BAN */}
               <div style={{ position: "relative" }}>
@@ -660,7 +660,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             </div>
 
             {/* ── Acquisition ── */}
-            {secTitle("💰", "ACQUISITION")}
+            {secTitle("ACQUISITION")}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 10 }}>
               <div><div style={{ fontSize: 10, color: "#888", marginBottom: 4 }}>Prix d'achat net vendeur (€) *</div><input type="number" value={form.prixAchat} onChange={e => setF("prixAchat", e.target.value)} placeholder="200 000" style={inp} /></div>
               <div>
@@ -685,10 +685,12 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             )}
 
             {/* ── Mode de détention ── */}
-            {secTitle("👥", "MODE DE DÉTENTION")}
+            {secTitle("MODE DE DÉTENTION")}
             <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
-              {[{ v: "personnel", l: "🧑 Détention personnelle" }, { v: "sci", l: "🏛️ SCI" }].map(opt => (
+              {[{ v: "personnel", l: "Détention personnelle" }, { v: "sci", l: "SCI" }].map(opt => (
                 <button key={opt.v} onClick={() => setF("typeDetention", opt.v)}
+                  className="segmented-choice"
+                  data-selected={form.typeDetention === opt.v ? "true" : "false"}
                   style={{ flex: 1, padding: "10px", borderRadius: 8, border: "1px solid " + (form.typeDetention === opt.v ? "#00E1DC" : "rgba(0,225,220,0.2)"), background: form.typeDetention === opt.v ? "rgba(0,225,220,0.15)" : "transparent", color: form.typeDetention === opt.v ? "#00E1DC" : "#666", fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>
                   {opt.l}
                 </button>
@@ -718,10 +720,12 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             )}
 
             {/* ── Usage ── */}
-            {secTitle("🎯", "USAGE DU BIEN")}
+            {secTitle("USAGE DU BIEN")}
             <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
-              {[{ v: "rp", l: "🏡 Résidence principale" }, { v: "locatif", l: "🏢 Investissement locatif" }, { v: "rs", l: "🌴 Résidence secondaire" }].map(opt => (
+              {[{ v: "rp", l: "Résidence principale" }, { v: "locatif", l: "Investissement locatif" }, { v: "rs", l: "Résidence secondaire" }].map(opt => (
                 <button key={opt.v} onClick={() => setF("usage", opt.v)}
+                  className="segmented-choice"
+                  data-selected={form.usage === opt.v ? "true" : "false"}
                   style={{ flex: 1, padding: "10px", borderRadius: 8, border: "1px solid " + (form.usage === opt.v ? (USAGE_COLORS[opt.v]||"#00E1DC") : "rgba(0,225,220,0.2)"), background: form.usage === opt.v ? (USAGE_COLORS[opt.v]||"#00E1DC") + "18" : "transparent", color: form.usage === opt.v ? (USAGE_COLORS[opt.v]||"#00E1DC") : "#666", fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
                   {opt.l}
                 </button>
@@ -731,7 +735,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             {/* ── Locatif (conditionnel) ── */}
             {form.usage === "locatif" && (
               <div style={{ background: "rgba(0,225,220,0.04)", border: "1px solid rgba(0,225,220,0.15)", borderRadius: 10, padding: "14px 16px", marginBottom: 4 }}>
-                <div style={{ fontSize: 10, color: "#00E1DC", letterSpacing: "0.1em", fontWeight: "bold", marginBottom: 12 }}>💵 INFORMATIONS LOCATIVES</div>
+                <div style={{ fontSize: 10, color: "#00E1DC", letterSpacing: "0.1em", fontWeight: "bold", marginBottom: 12 }}>INFORMATIONS LOCATIVES</div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 10 }}>
                   <div><div style={{ fontSize: 10, color: "#888", marginBottom: 4 }}>Loyer mensuel HC (€)</div><input type="number" value={form.loyerMensuelHC} onChange={e => setF("loyerMensuelHC", e.target.value)} placeholder="800" style={inp} /></div>
                   <div><div style={{ fontSize: 10, color: "#888", marginBottom: 4 }}>Charges locataires/mois (€)</div><input type="number" value={form.chargesLoc} onChange={e => setF("chargesLoc", e.target.value)} placeholder="80" style={inp} /></div>
@@ -755,7 +759,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             )}
 
             {/* ── Valorisation actuelle ── */}
-            {secTitle("📈", "VALORISATION ACTUELLE")}
+            {secTitle("VALORISATION ACTUELLE")}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
               {/* Colonne gauche : champ valeur + PV */}
               <div>
@@ -843,7 +847,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
             </div>
 
             {/* ── Financement ── */}
-            {secTitle("🏦", "FINANCEMENT (optionnel)")}
+            {secTitle("FINANCEMENT (OPTIONNEL)")}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr", gap: 12, marginBottom: 10 }}>
               <div><div style={{ fontSize: 10, color: "#888", marginBottom: 4 }}>Capital emprunté (€)</div><input type="number" value={form.montantEmprunt} onChange={e => setF("montantEmprunt", e.target.value)} placeholder="160 000" style={inp} /></div>
               <div><div style={{ fontSize: 10, color: "#888", marginBottom: 4 }}>Taux nominal (%)</div><input type="number" value={form.tauxEmprunt} onChange={e => setF("tauxEmprunt", e.target.value)} placeholder="3.5" step="0.01" style={inp} /></div>
