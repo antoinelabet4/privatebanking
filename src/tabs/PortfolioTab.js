@@ -437,28 +437,28 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
 
   // ── Main render ──
   return (
-    <div style={{ padding: 20, background: "#0a0a0f", color: "#fff", fontFamily: "inherit" }}>
+    <div style={{ padding: 24, background: "transparent", color: "var(--sia-cool-black)", fontFamily: "inherit" }}>
       {/* Tabs */}
-      <div style={{ display: "flex", gap: 15, marginBottom: 20, borderBottom: "1px solid #333" }}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 24, borderBottom: "1px solid var(--sia-glass-border)", paddingBottom: 8 }}>
         {["dashboard", "chat", "realloc", "add"].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             style={{
               padding: "10px 15px",
-              background: activeTab === tab ? "rgba(106,142,201,0.2)" : "transparent",
-              border: activeTab === tab ? "1px solid rgba(106,142,201,0.5)" : "none",
-              color: activeTab === tab ? "#6a8ec9" : "#888",
-              borderRadius: "6px 6px 0 0",
+              background: activeTab === tab ? "var(--sia-brand-navy)" : "var(--sia-glass-strong)",
+              border: activeTab === tab ? "1px solid var(--sia-brand-navy)" : "1px solid var(--sia-glass-border)",
+              color: activeTab === tab ? "#fff" : "var(--sia-gray-600)",
+              borderRadius: "var(--sia-radius-lg)",
               cursor: "pointer",
               fontSize: 13,
               fontFamily: "inherit"
             }}
           >
-            {tab === "dashboard" && "📊 Dashboard"}
-            {tab === "chat" && "💬 Chat"}
-            {tab === "realloc" && "🔄 Rééquilibrage"}
-            {tab === "add" && "➕ Ajouter"}
+            {tab === "dashboard" && "Dashboard"}
+            {tab === "chat" && "Chat"}
+            {tab === "realloc" && "Rééquilibrage"}
+            {tab === "add" && "Ajouter"}
           </button>
         ))}
       </div>
@@ -789,8 +789,8 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
 
           <div style={{ marginBottom: 10 }}>
             {QUICK_PROMPTS_VAR.slice(0, 4).map((prompt, idx) => (
-              <button key={idx} onClick={() => sendMessage(prompt.text)} style={{ marginRight: 8, marginBottom: 8, background: "rgba(168,196,232,0.1)", border: "1px solid rgba(168,196,232,0.3)", borderRadius: 6, padding: "6px 10px", cursor: "pointer", color: "#a8c4e8", fontSize: 11, fontFamily: "inherit" }}>
-                {prompt.icon} {prompt.label}
+              <button key={idx} onClick={() => sendMessage(prompt.text)} style={{ marginRight: 8, marginBottom: 8, background: "var(--sia-glass-strong)", border: "1px solid var(--sia-glass-border)", borderRadius: "var(--sia-radius-lg)", padding: "6px 10px", cursor: "pointer", color: "var(--sia-teal-800)", fontSize: 11, fontFamily: "inherit" }}>
+                {prompt.label}
               </button>
             ))}
           </div>

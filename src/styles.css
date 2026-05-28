@@ -1,8 +1,264 @@
-/* Shared static styles and Sia branding for the standalone GitHub Pages app. */
+/* Sia Liquid Glass design tokens live here.
+   Keep visual constants centralized in this file so static GitHub Pages builds
+   can restyle the app without changing business logic or localStorage keys. */
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap");
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-:root { --sia-font: "SORA SIA", "Sora", "Inter", "Segoe UI", Arial, sans-serif; }
-body { background: #0a0a0f; font-family: var(--sia-font); }
-button, input, textarea, select, table { font-family: var(--sia-font) !important; }
-.sia-header-logo, .sia-logo, .logo, .logo-icon, img[alt="SIA"] { background: transparent !important; box-shadow: none !important; }
-body, button, input, textarea, select, table, div, span, p, h1, h2, h3, h4, h5, h6 { font-family: "SORA SIA", "Sora", Arial, Helvetica, sans-serif !important; }
+
+:root {
+  --sia-font: "SORA SIA", "Sora", Arial, system-ui, sans-serif;
+  --sia-brand-teal: #00DECC;
+  --sia-brand-navy: #173044;
+  --sia-cool-black: #0A151E;
+  --sia-teal-50: #D4F8FA;
+  --sia-teal-100: #9FF3F0;
+  --sia-teal-200: #6AECE4;
+  --sia-teal-400: #00DECC;
+  --sia-teal-500: #00C0B8;
+  --sia-teal-600: #00A2A3;
+  --sia-teal-700: #077C84;
+  --sia-teal-800: #0F5664;
+  --sia-gray-50: #F4F6FC;
+  --sia-gray-100: #CED5DF;
+  --sia-gray-200: #B3BCC8;
+  --sia-gray-300: #8796A9;
+  --sia-gray-400: #667689;
+  --sia-gray-500: #455669;
+  --sia-gray-600: #364656;
+  --sia-gray-700: #273643;
+  --sia-gray-800: #18252F;
+  --sia-gray-900: #0A151E;
+  --sia-pink-50: #FFFBFC;
+  --sia-pink-100: #FFF7F9;
+  --sia-pink-300: #FFEAF0;
+  --sia-pink-700: #ED2F6B;
+  --sia-surface-base: #F4FAFB;
+  --sia-glass: rgba(255, 255, 255, 0.52);
+  --sia-glass-strong: rgba(255, 255, 255, 0.70);
+  --sia-glass-border: rgba(255, 255, 255, 0.50);
+  --sia-radius-lg: 16px;
+  --sia-radius-xl: 24px;
+  --sia-radius-full: 9999px;
+  --sia-page-padding: 24px;
+  --sia-card-padding: 24px;
+  --sia-card-gap: 16px;
+  --sia-shadow-glass:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18),
+    0 2px 10px rgba(10, 21, 30, 0.07);
+  --sia-shadow-raised: 0 8px 24px rgba(10, 21, 30, 0.08);
+}
+
+html { min-height: 100%; }
+
+body {
+  min-height: 100%;
+  background-color: var(--sia-surface-base);
+  background-image:
+    radial-gradient(ellipse 70% 55% at 92% 8%, rgba(252, 218, 230, 0.32) 0%, rgba(252, 218, 230, 0) 65%),
+    radial-gradient(ellipse 55% 45% at 8% 95%, rgba(255, 224, 235, 0.18) 0%, rgba(255, 224, 235, 0) 60%),
+    linear-gradient(135deg, #F4FAFB 0%, #E6F4F3 30%, #F0F4F8 65%, #E2EEF8 100%);
+  background-attachment: fixed;
+  color: var(--sia-cool-black);
+  font-family: var(--sia-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+body, button, input, textarea, select, table, div, span, p, h1, h2, h3, h4, h5, h6 {
+  font-family: var(--sia-font) !important;
+  letter-spacing: 0 !important;
+}
+
+#root > div {
+  background: transparent !important;
+  color: var(--sia-cool-black) !important;
+  padding-bottom: var(--sia-page-padding);
+}
+
+.sia-header-logo, .sia-logo, .logo, .logo-icon, img[alt="SIA"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Liquid-glass primitives applied to the legacy inline-styled static app. */
+div[style*="rgba(0,0,0"],
+div[style*="rgba(0, 0, 0"],
+div[style*="rgba(15,15,25"],
+div[style*="rgba(15, 15, 25"],
+div[style*="rgba(255,255,255,0.02"],
+div[style*="rgba(255,255,255,0.03"],
+div[style*="rgba(255,255,255,0.04"],
+div[style*="rgba(255, 255, 255, 0.02"],
+div[style*="rgba(255, 255, 255, 0.03"],
+div[style*="rgba(255, 255, 255, 0.04"] {
+  background: var(--sia-glass) !important;
+  border-color: var(--sia-glass-border) !important;
+  border-radius: var(--sia-radius-lg) !important;
+  box-shadow: var(--sia-shadow-glass) !important;
+  backdrop-filter: blur(24px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+div[style*="position: sticky"],
+div[style*="border-bottom"] {
+  background: var(--sia-glass) !important;
+  border-color: var(--sia-glass-border) !important;
+  box-shadow: var(--sia-shadow-glass) !important;
+  backdrop-filter: blur(24px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+div[style*="padding: 20px 24px"],
+div[style*="padding:20px 24px"],
+div[style*="max-width:920"],
+div[style*="maxWidth:920"] {
+  padding: var(--sia-card-padding) !important;
+}
+
+button {
+  min-height: 40px;
+  border-radius: var(--sia-radius-lg) !important;
+  border: 1px solid var(--sia-glass-border) !important;
+  background: var(--sia-glass-strong) !important;
+  color: var(--sia-gray-600) !important;
+  box-shadow: none !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease !important;
+}
+
+button:hover {
+  border-color: var(--sia-gray-200) !important;
+  background: rgba(255, 255, 255, 0.84) !important;
+  color: var(--sia-cool-black) !important;
+}
+
+button[style*="--sia-brand-navy"] {
+  background: var(--sia-brand-navy) !important;
+  border-color: var(--sia-brand-navy) !important;
+  color: #FFFFFF !important;
+}
+
+button[disabled] {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+input, textarea, select {
+  min-height: 40px;
+  border-radius: var(--sia-radius-lg) !important;
+  border: 1px solid var(--sia-glass-border) !important;
+  background: var(--sia-glass-strong) !important;
+  color: var(--sia-cool-black) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+input:focus, textarea:focus, select:focus, button:focus {
+  border-color: var(--sia-brand-teal) !important;
+  box-shadow: 0 0 0 2px rgba(0, 222, 204, 0.25) !important;
+}
+
+input::placeholder, textarea::placeholder { color: var(--sia-gray-300) !important; }
+
+table {
+  width: 100%;
+  border-collapse: separate !important;
+  border-spacing: 0 6px !important;
+  color: var(--sia-cool-black) !important;
+}
+
+th {
+  color: var(--sia-teal-700) !important;
+  border-bottom: 1px solid var(--sia-gray-100) !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+}
+
+td {
+  color: var(--sia-gray-600) !important;
+  border-bottom: 1px solid rgba(206, 213, 223, 0.35) !important;
+  background: rgba(255, 255, 255, 0.34) !important;
+}
+
+tr:hover td { background: rgba(255, 255, 255, 0.62) !important; }
+
+strong, b { color: var(--sia-cool-black) !important; }
+
+p, span, div { color: inherit; }
+
+/* Legacy inline colour normalization: inherited POC styles used many raw dark
+   colours. These overrides map them back to the Liquid Glass token ramp. */
+[style*="color: #F5F7FA"],
+[style*="color:#F5F7FA"],
+[style*="color: #fff"],
+[style*="color:#fff"],
+[style*="color: rgb(245, 247, 250)"],
+[style*="color: white"] {
+  color: var(--sia-cool-black) !important;
+}
+
+[style*="color: #00E1DC"],
+[style*="color:#00E1DC"],
+[style*="color: rgb(0, 225, 220)"] {
+  color: var(--sia-teal-700) !important;
+}
+
+[style*="color: #888"],
+[style*="color:#888"],
+[style*="color: #777"],
+[style*="color:#777"],
+[style*="color: #666"],
+[style*="color:#666"],
+[style*="color: #555"],
+[style*="color:#555"],
+[style*="color: rgb(136, 136, 136)"],
+[style*="color: rgb(119, 119, 119)"],
+[style*="color: rgb(102, 102, 102)"],
+[style*="color: rgb(85, 85, 85)"] {
+  color: var(--sia-gray-500) !important;
+}
+
+[style*="color: #e05555"],
+[style*="color:#e05555"],
+[style*="color: rgb(224, 85, 85)"] {
+  color: var(--sia-pink-700) !important;
+}
+
+[style*="background: #0a0a0f"],
+[style*="background:#0a0a0f"],
+[style*="background: rgb(10, 10, 15)"],
+[style*="background: linear-gradient"] {
+  background: transparent !important;
+}
+
+[style*="border-radius: 6px"],
+[style*="border-radius:6px"],
+[style*="border-radius: 7px"],
+[style*="border-radius:7px"],
+[style*="border-radius: 8px"],
+[style*="border-radius:8px"],
+[style*="border-radius: 10px"],
+[style*="border-radius:10px"],
+[style*="border-radius: 12px"],
+[style*="border-radius:12px"] {
+  border-radius: var(--sia-radius-lg) !important;
+}
+
+svg, path, circle, line, polyline, polygon, rect { vector-effect: non-scaling-stroke; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sia-gray-100); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sia-gray-300); }
+
+@media print {
+  body {
+    background: #FFFFFF !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  button, textarea, input, select { display: none !important; }
+  .client-report { break-inside: avoid; page-break-inside: avoid; }
+}

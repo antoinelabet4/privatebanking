@@ -1,5 +1,13 @@
 # Changelog
 
+## Sia Liquid Glass redesign
+
+- Added central Liquid Glass design tokens in `src/styles.css`.
+- Replaced the dark app shell with the teal-majority pastel canvas and frosted glass surfaces.
+- Updated header, language/mode controls, top navigation, buttons, inputs, tables and common chrome through shared CSS overrides.
+- Removed the most visible emoji navigation/action labels in the global shell and portfolio quick prompts.
+- Kept calculations, localStorage keys, tab ids, reporting logic and static GitHub Pages loading unchanged.
+
 ## Refactor modular architecture
 
 - Replaced the monolithic `Privatebanking.html` runtime with a static shell that loads browser scripts from `src/`.

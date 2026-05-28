@@ -17,7 +17,9 @@ function SiaLogo({ size = "header" }) {
         justifyContent: "center",
         background: "transparent",
         borderRadius: 0,
-        padding: 0,
+        padding: isHeader ? 8 : 10,
+        borderRadius: 16,
+        background: "rgba(23, 48, 68, 0.08)",
         boxShadow: "none",
         overflow: "visible"
       } }
@@ -30,7 +32,8 @@ function SiaLogo({ size = "header" }) {
           height: "100%",
           objectFit: "contain",
           display: "block",
-          background: "transparent"
+          background: "transparent",
+          filter: "drop-shadow(0 1px 2px rgba(10, 21, 30, 0.22))"
         } }
       />
     </div>
