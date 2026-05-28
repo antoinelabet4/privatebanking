@@ -1,0 +1,8 @@
+/* Shared static styles and Sia branding for the standalone GitHub Pages app. */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap");
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --sia-font: "SORA SIA", "Sora", "Inter", "Segoe UI", Arial, sans-serif; }
+body { background: #0a0a0f; font-family: var(--sia-font); }
+button, input, textarea, select, table { font-family: var(--sia-font) !important; }
+.sia-header-logo, .sia-logo, .logo, .logo-icon, img[alt="SIA"] { background: transparent !important; box-shadow: none !important; }
+body, button, input, textarea, select, table, div, span, p, h1, h2, h3, h4, h5, h6 { font-family: "SORA SIA", "Sora", Arial, Helvetica, sans-serif !important; }
