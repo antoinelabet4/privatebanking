@@ -227,6 +227,10 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
   };
 
   // ── Stream Claude messages ──
+  const buildModelMessages = (items) => items
+    .slice(-8)
+    .map(m => ({ role: m.role, content: m.content }));
+
   const streamClaude = async (userMsg, systemMsg) => {
     setLoading(true);
     const allMessages = [...messages, { role: "user", content: userMsg, ts: new Date().toLocaleString('fr-FR') }];
@@ -246,9 +250,9 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-5-20250929",
-          max_tokens: 4096,
+          max_tokens: 2600,
           system: systemPromptFinal,
-          messages: allMessages.map(m => ({ role: m.role, content: m.content }))
+          messages: buildModelMessages(allMessages)
         })
       });
 

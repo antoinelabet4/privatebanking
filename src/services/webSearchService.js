@@ -8,6 +8,19 @@ const WEB_SEARCH_ENDPOINTS = [
   (q) => `https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`,
   (q) => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`)}`,
 ];
+const WEB_SEARCH_TIMEOUT_MS = 3500;
+const MARKET_CONTEXT_TTL_MS = 10 * 60 * 1000;
+let marketContextCache = null;
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = WEB_SEARCH_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 function normalizeTickerForSearch(ticker) {
   if (!ticker) return "";
@@ -37,7 +50,7 @@ async function fetchWebSearchResults(query, limit = 6) {
   let lastErr = null;
   for (const buildUrl of WEB_SEARCH_ENDPOINTS) {
     try {
-      const r = await fetch(buildUrl(query), { headers: { "Accept": "application/json,text/plain,*/*" } });
+      const r = await fetchWithTimeout(buildUrl(query), { headers: { "Accept": "application/json,text/plain,*/*" } });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const data = await r.json();
       const rows = [];
@@ -132,8 +145,12 @@ async function fetchBenchmarks(startDate) {
   return {};
 }
 
-async function fetchLiveMarketContext() {
+async function fetchLiveMarketContext(forceRefresh = false) {
   const now = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+  if (!forceRefresh && marketContextCache && Date.now() - marketContextCache.ts < MARKET_CONTEXT_TTL_MS) {
+    return marketContextCache.text;
+  }
+
   const watchList = [
     { label: "CW8 (MSCI World PEA)",    ticker: "CW8" },
     { label: "EWLD (MSCI World Lyxor)",  ticker: "EWLD" },
@@ -144,7 +161,7 @@ async function fetchLiveMarketContext() {
     { label: "EUR/USD",                  ticker: "EURUSD=X" },
   ];
 
-  const rows = await Promise.all(watchList.map(async ({ label, ticker }) => {
+  const rowsPromise = Promise.all(watchList.map(async ({ label, ticker }) => {
     try {
       const res = await fetchWebPrice(ticker, normalizeTickerForSearch(ticker));
       const snippets = (res.snippets || []).slice(0, 2).join(" | ");
@@ -154,13 +171,13 @@ async function fetchLiveMarketContext() {
     }
   }));
 
-  let macro = "N/D";
-  try {
-    const macroResults = await fetchWebSearchResults("BCE taux directeurs inflation zone euro marchés aujourd'hui", 4);
-    macro = macroResults.map(r => `  • ${r.title}: ${r.snippet}`).join("\n");
-  } catch(e) {
-    macro = `  • Web search macro indisponible: ${e.message}`;
-  }
+  const macroPromise = fetchWebSearchResults("BCE taux directeurs inflation zone euro marchés aujourd'hui", 4)
+    .then(results => results.map(r => `  • ${r.title}: ${r.snippet}`).join("\n"))
+    .catch(e => `  • Web search macro indisponible: ${e.message}`);
 
-  return `Contexte sourcé par web search classique (Paris, ${now}) :\n${rows.join('\n')}\n\nContexte macro récent :\n${macro}\n\nNote : les valeurs chiffrées sont extraites d'extraits web non structurés. Si une donnée est N/D ou ambiguë, l'agent doit le dire explicitement et éviter d'inventer.`;
+  const [rows, macro] = await Promise.all([rowsPromise, macroPromise]);
+
+  const text = `Contexte sourcé par web search classique (Paris, ${now}) :\n${rows.join('\n')}\n\nContexte macro récent :\n${macro}\n\nNote : les valeurs chiffrées sont extraites d'extraits web non structurés. Si une donnée est N/D ou ambiguë, l'agent doit le dire explicitement et éviter d'inventer.`;
+  marketContextCache = { ts: Date.now(), text };
+  return text;
 }
