@@ -1,5 +1,9 @@
 // Revenus tab constants and UI module.
 
+// ──────────────────────────────────────────────────
+// REVENUS MODULE
+// ──────────────────────────────────────────────────
+
 const REVENU_CATS = [
   { id: "salaire",    label: "💼 Revenus d'activité",       color: "#4a9e6b" },
   { id: "dividendes", label: "📈 Dividendes & Plus-values",  color: "#00E1DC" },
@@ -361,7 +365,3 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens, reportMode = "adv
     </div>
   );
 }
-
-
-// ══════════════════════════════════════════
-// FISCALITE MODULE

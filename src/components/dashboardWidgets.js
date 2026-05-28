@@ -1,5 +1,9 @@
 // Dashboard charts, lists, and advisor opportunity panels.
 
+// ══════════════════════════════════════════
+// DASHBOARD MODULE
+// ══════════════════════════════════════════
+
 function DonutChart({ data, size, hole }) {
   const total = data.reduce(function(s,d){ return s+d.value; }, 0);
   if (total === 0) return null;

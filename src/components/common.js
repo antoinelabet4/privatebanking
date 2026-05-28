@@ -381,3 +381,37 @@ function PerfChart({ history, benchmarks }) {
 }
 
 function ApiKeySetup({ onSave }) {
+  const [key, setKey] = useState("");
+  const valid = key.trim().startsWith("sk-");
+  return (
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#0a0a0f 0%,#0d1117 40%,#0a0f0a 100%)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SIA_FONT_STACK }}>
+      <div style={{ maxWidth: 480, width: "90%", background: "rgba(15,15,25,0.95)", border: "1px solid rgba(0,225,220,0.3)", borderRadius: 18, padding: "40px 36px", textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}><SiaLogo size="setup" /></div>
+        <div style={{ fontSize: 22, fontWeight: "bold", color: "#00E1DC", letterSpacing: "0.05em", marginBottom: 8 }}>SIA PRIVATE BANKING AGENT</div>
+        <div style={{ fontSize: 13, color: "#888", marginBottom: 8, lineHeight: 1.6 }}>Conseil patrimonial augmenté · données sourcées par web search</div>
+        <div style={{ fontSize: 13, color: "#666", marginBottom: 32, lineHeight: 1.6 }}>
+          Entrez votre clé API Anthropic pour démarrer la démo.<br />
+          Elle est stockée localement dans votre navigateur.
+        </div>
+        <input
+          type="password"
+          value={key}
+          onChange={e => setKey(e.target.value)}
+          onKeyDown={e => { if (e.key === "Enter" && valid) onSave(key.trim()); }}
+          placeholder="sk-ant-api03-..."
+          style={{ width: "100%", background: "rgba(0,0,0,0.5)", border: "1px solid rgba(0,225,220,0.4)", borderRadius: 10, padding: "12px 16px", color: "#F5F7FA", fontSize: 14, fontFamily: "monospace", marginBottom: 16, outline: "none" }}
+        />
+        <button
+          onClick={() => { if (valid) onSave(key.trim()); }}
+          disabled={!valid}
+          style={{ width: "100%", background: valid ? "linear-gradient(135deg,#00E1DC,#007A78)" : "rgba(0,225,220,0.15)", border: "none", borderRadius: 10, padding: "14px", cursor: valid ? "pointer" : "not-allowed", color: valid ? "#000" : "#555", fontWeight: "bold", fontSize: 15, fontFamily: "inherit", letterSpacing: "0.05em" }}>
+          Démarrer →
+        </button>
+        <div style={{ fontSize: 11, color: "#444", marginTop: 20, lineHeight: 1.6 }}>
+          Obtenez votre clé sur{" "}
+          <a href="https://console.anthropic.com" target="_blank" rel="noreferrer" style={{ color: "#00E1DC88" }}>console.anthropic.com</a>
+        </div>
+      </div>
+    </div>
+  );
+}

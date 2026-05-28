@@ -387,8 +387,3 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
     </div>
   );
 }
-
-
-// ──────────────────────────────────────────────────
-// REVENUS MODULE
-// ──────────────────────────────────────────────────

@@ -60,3 +60,4 @@ function getPrivateTypeColor(type) {
     "Private equity": "#9a8ec9", "Private debt": "#7a9ec9", "Club deal": "#e8a055",
     "Real estate deal": "#a0c4ff", "SCPI": "#4a9e6b", "Venture capital": "#e8a8c4"
   }[type] || "#00E1DC";
+}

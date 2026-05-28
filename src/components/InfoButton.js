@@ -21,3 +21,5 @@ function InfoTip({ text }) {
         </>
       )}
     </span>
+  );
+}

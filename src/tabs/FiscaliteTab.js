@@ -1,5 +1,8 @@
 // Fiscalite tab simulation and UI module.
 
+// ══════════════════════════════════════════
+// FISCALITE MODULE
+// ══════════════════════════════════════════
 function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = "advisor", lang = "fr" }) {
   const [config, setConfig] = React.useState(() => {
     try { const s = localStorage.getItem("mpb_fiscal_cfg"); if (s) return JSON.parse(s); } catch {}

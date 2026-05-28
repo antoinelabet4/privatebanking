@@ -870,8 +870,3 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
     </div>
   );
 }
-
-
-// ══════════════════════════════════════════
-// DASHBOARD MODULE
-// ══════════════════════════════════════════

@@ -1,5 +1,6 @@
 // Portfolio, real-estate, and formatting calculations shared by tabs.
 
+// ── Utilitaires performance ──
 function calcWeightedPRU(transactions) {
   const achats = (transactions||[]).filter(t => t.type !== "vente");
   const totalCost = achats.reduce((s,t) => s + t.qte * t.prix, 0);

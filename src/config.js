@@ -1,5 +1,6 @@
 // Portfolio-specific prompts, labels, and module configuration.
 
+// ── CTO : Démo, prompts et config ──
 const CTO_DEMO_LINES = [];
 
 const CTO_QUICK_PROMPTS = [
@@ -155,11 +156,3 @@ const PORTFOLIO_CONFIGS = {
     initialMessage: "Bienvenue dans votre Agent Assurance Vie Elite 🛡️\n\nL'assurance-vie est l'enveloppe fiscale la plus puissante de France — je vais vous aider à l'optimiser.\n\nPour construire votre allocation sur mesure, j'ai besoin de quelques informations :\n\n• 💰 Encours total — Quel est le montant actuel de votre contrat ?\n• 📅 Date d'ouverture — Depuis combien d'années le contrat est-il ouvert ? (crucial pour la fiscalité)\n• 🏦 Assureur — Quel est votre contrat (Linxea, Boursorama Vie, Suravenir, Spirica…) ?\n• ⚖️ Profil de risque — Quelle répartition cibles : % fonds euros (sécurité) vs % UC (performance) ?\n• 🎯 Objectif — Retraite, transmission, épargne long terme ?\n• 🕐 Horizon — Sur combien d'années ?\n\nNote clé : après 8 ans, vous bénéficiez d'un abattement de 4 600€/an (9 200€ en couple) sur les gains retirés, et les arbitrages internes ne sont pas taxés.",
   },
 };
-
-
-
-// ── Web search sourcing layer (remplace le recroisement Yahoo · Euronext · ECB) ──
-// Objectif : utiliser une recherche web classique, lisible et auditable, puis fournir
-// les extraits à l'agent. Les prix extraits automatiquement restent indicatifs :
-// l'agent doit citer les sources et signaler les valeurs non disponibles.
-const WEB_SEARCH_ENDPOINTS = [

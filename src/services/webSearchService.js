@@ -1,5 +1,14 @@
 // Market-data and web-search helpers used by portfolio modules.
 
+// ── Web search sourcing layer (remplace le recroisement Yahoo · Euronext · ECB) ──
+// Objectif : utiliser une recherche web classique, lisible et auditable, puis fournir
+// les extraits à l'agent. Les prix extraits automatiquement restent indicatifs :
+// l'agent doit citer les sources et signaler les valeurs non disponibles.
+const WEB_SEARCH_ENDPOINTS = [
+  (q) => `https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`,
+  (q) => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`)}`,
+];
+
 function normalizeTickerForSearch(ticker) {
   if (!ticker) return "";
   const t = String(ticker).replace(".PA", "").toUpperCase().trim();

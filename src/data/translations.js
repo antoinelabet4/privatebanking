@@ -125,3 +125,5 @@ const UI_TEXT = {
   }
 };
 function tr(lang, key) {
+  return (UI_TEXT[lang] && UI_TEXT[lang][key]) || UI_TEXT.fr[key] || key;
+}

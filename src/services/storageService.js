@@ -25,3 +25,5 @@ function readJson(key, fallback) {
   } catch { return fallback; }
 }
 function writeJson(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
