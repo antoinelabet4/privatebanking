@@ -87,6 +87,12 @@ run_nordvpn set notify off
 run_nordvpn set autoconnect on "$COUNTRY"
 run_nordvpn set dns 103.86.96.100 103.86.99.100
 
+# Whiteliste LAN et Tailscale pour garder l'accès SSH même si VPN déconnecté
+run_nordvpn whitelist add subnet 192.168.0.0/16
+run_nordvpn whitelist add subnet 10.0.0.0/8
+run_nordvpn whitelist add subnet 172.16.0.0/12
+run_nordvpn whitelist add port 22
+
 echo -e "${GREEN}OK${NC}"
 
 # --- Service auto-connexion boot ---
