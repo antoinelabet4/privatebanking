@@ -30,7 +30,13 @@ if command -v nordvpn &> /dev/null; then
     echo -e "${YELLOW}NordVPN déjà installé : $(nordvpn --version)${NC}"
 else
     echo "[1/5] Téléchargement et installation de NordVPN..."
-    curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | sh
+    # Ajout de la clé GPG et du dépôt NordVPN manuellement pour pouvoir passer -y
+    curl -sSf https://downloads.nordcdn.com/configs/linux/kde/packages/nordvpn-release_1.0.0_all.deb -o /tmp/nordvpn-release.deb 2>/dev/null \
+        || wget -qO /tmp/nordvpn-release.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb
+    DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/nordvpn-release.deb
+    apt-get update -qq
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nordvpn
+    rm -f /tmp/nordvpn-release.deb
     echo -e "${GREEN}OK${NC}"
 fi
 
