@@ -20,6 +20,12 @@ fi
 
 REAL_USER="${SUDO_USER:-$USER}"
 
+# Désactive needrestart (bloque apt de manière interactive sur Ubuntu)
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_SUSPEND=1
+export NEEDRESTART_MODE=a
+[ -d /etc/needrestart/conf.d ] && echo "\$nrconf{restart} = 'a';" > /etc/needrestart/conf.d/99-auto.conf
+
 echo -e "${CYAN}================================================${NC}"
 echo -e "${CYAN}   Installation NordVPN - Configuration auto    ${NC}"
 echo -e "${CYAN}================================================${NC}"
@@ -27,16 +33,22 @@ echo ""
 
 # --- Installation ---
 if command -v nordvpn &> /dev/null; then
-    echo -e "${YELLOW}NordVPN déjà installé : $(nordvpn --version)${NC}"
+    echo -e "${YELLOW}[1/5] NordVPN déjà installé : $(nordvpn --version)${NC}"
 else
     echo "[1/5] Téléchargement et installation de NordVPN..."
-    # Ajout manuel de la clé GPG et du dépôt — évite tout script interactif de NordVPN
+    # Ajout manuel GPG + dépôt pour éviter tout script interactif tiers
     curl -sSfL https://repo.nordvpn.com/gpg/nordvpn_public.asc \
         | gpg --dearmor > /usr/share/keyrings/nordvpn-archive-keyring.gpg
+    # Suppression d'un éventuel doublon de sources
+    rm -f /etc/apt/sources.list.d/nordvpn.list
     echo "deb [signed-by=/usr/share/keyrings/nordvpn-archive-keyring.gpg] https://repo.nordvpn.com/deb/nordvpn/debian stable main" \
-        > /etc/apt/sources.list.d/nordvpn.list
+        > /etc/apt/sources.list.d/nordvpn-app.list
     apt-get update -qq
-    DEBIAN_FRONTEND=noninteractive apt-get install -y nordvpn
+    apt-get install -y nordvpn
+    # Nettoyage doublon éventuel créé par le postinst nordvpn
+    if [ -f /etc/apt/sources.list.d/nordvpn.list ] && [ -f /etc/apt/sources.list.d/nordvpn-app.list ]; then
+        rm -f /etc/apt/sources.list.d/nordvpn.list
+    fi
     echo -e "${GREEN}OK${NC}"
 fi
 
@@ -51,7 +63,10 @@ echo -e "${GREEN}OK${NC}"
 echo "[3/5] Démarrage du service nordvpnd..."
 systemctl enable nordvpnd --quiet
 systemctl restart nordvpnd
-sleep 2
+# Attente que le daemon soit prêt
+for i in $(seq 1 10); do
+    nordvpn status &>/dev/null && break || sleep 1
+done
 echo -e "${GREEN}OK${NC}"
 
 # --- Paramètres de sécurité ---
@@ -65,13 +80,11 @@ run_nordvpn() {
     fi
 }
 
-run_nordvpn set killswitch on       # Coupe internet si VPN tombe
-run_nordvpn set cybersec on         # Bloque pubs et malwares
-run_nordvpn set obfuscate on        # Masque le trafic VPN
-run_nordvpn set notify off          # Pas de notifications
+run_nordvpn set killswitch on
+run_nordvpn set cybersec on
+run_nordvpn set obfuscate on
+run_nordvpn set notify off
 run_nordvpn set autoconnect on "$COUNTRY"
-
-# DNS NordVPN anti-fuite
 run_nordvpn set dns 103.86.96.100 103.86.99.100
 
 echo -e "${GREEN}OK${NC}"
