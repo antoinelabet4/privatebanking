@@ -113,6 +113,7 @@ Lorsque tu proposes une allocation de portefeuille (liste de lignes à acheter),
   {"ticker":"CASH","nom":"Liquidités","categorie":"Cash","montant":5000,"cible":5}
 ]
 </ALLOCATION_JSON>
+RÈGLE DE SORTIE JSON : le bloc doit être compact, valide, fermé par </ALLOCATION_JSON>, et contenir 6 à 10 lignes maximum. Ne jamais laisser une accolade, un crochet ou le tag de fermeture incomplet.
 Catégories OBLIGATOIRES — respecte strictement ces définitions :
 - "ETF World"     : ETF à diversification mondiale (MSCI World, MSCI ACWI…) → ex: CW8, EWLD, LCWD
 - "ETF Europe"    : ETF zone géographique Europe (Stoxx 600, Euro Stoxx 50, Europe Smalls…) → ex: PCEU, HLT, ESE, MSEU
@@ -164,13 +165,61 @@ const CAT_COLORS = {
 };
 
 function parseAllocation(content) {
-  const match = content.match(/<ALLOCATION_JSON>([\s\S]*?)<\/ALLOCATION_JSON>/);
-  if (!match) return null;
-  try { return JSON.parse(match[1].trim()); } catch { return null; }
+  const text = String(content || "");
+  const open = text.indexOf("<ALLOCATION_JSON>");
+  const afterOpen = open >= 0 ? text.slice(open + "<ALLOCATION_JSON>".length) : text;
+  const close = afterOpen.indexOf("</ALLOCATION_JSON>");
+  const rawBlock = (close >= 0 ? afterOpen.slice(0, close) : afterOpen).trim();
+  if (open === -1 && !/"ticker"\s*:/.test(rawBlock)) return null;
+  const attempts = [];
+  if (rawBlock) attempts.push(rawBlock);
+  const firstBracket = rawBlock.indexOf("[");
+  const lastBracket = rawBlock.lastIndexOf("]");
+  if (firstBracket >= 0 && lastBracket > firstBracket) attempts.push(rawBlock.slice(firstBracket, lastBracket + 1));
+
+  for (const candidate of attempts) {
+    try {
+      const parsed = JSON.parse(candidate.trim());
+      if (Array.isArray(parsed) && parsed.some(x => x && x.ticker)) return parsed;
+    } catch {}
+  }
+
+  // Fallback tolérant : si l'IA tronque la fermeture du tableau ou le tag final,
+  // on récupère les objets JSON complets déjà présents et on ignore la dernière ligne incomplète.
+  const objectMatches = rawBlock.match(/\{[^{}]*"ticker"[^{}]*\}/g) || [];
+  const recovered = [];
+  for (const obj of objectMatches) {
+    try {
+      const parsed = JSON.parse(obj);
+      if (parsed && parsed.ticker) recovered.push(parsed);
+    } catch {}
+  }
+  return recovered.length ? recovered : null;
 }
 
 function stripJson(content) {
-  return content.replace(/<ALLOCATION_JSON>[\s\S]*?<\/ALLOCATION_JSON>/, "").trim();
+  return String(content || "")
+    .replace(/<ALLOCATION_JSON>[\s\S]*?<\/ALLOCATION_JSON>/g, "")
+    .replace(/<ALLOCATION_JSON>[\s\S]*$/g, "")
+    .replace(/```(?:json)?[\s\S]*?```/gi, "")
+    .trim();
+}
+
+function cleanChatText(text) {
+  return String(text || "")
+    .replace(/\*\*/g, "")
+    .replace(/^[-*_]{3,}$/gm, "")
+    .replace(/^\s{0,3}#{1,6}\s*/gm, "")
+    .replace(/^\s*[-*]\s+/gm, "• ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function summarizeAllocationText(allocation) {
+  const rows = Array.isArray(allocation) ? allocation : [];
+  if (!rows.length) return "";
+  const top = rows.slice(0, 3).map(l => `${l.ticker || "Support"} ${parseFloat(l.cible || 0) ? parseFloat(l.cible || 0) + "%" : ""}`.trim()).join(" · ");
+  return `Proposition prête à importer : ${top}. Cliquez sur le bouton ci-dessous pour l'envoyer vers le portefeuille.`;
 }
 
 function TypingIndicator() {
@@ -183,11 +232,24 @@ function TypingIndicator() {
   );
 }
 
+const ALLOCATION_OUTPUT_RULES = `RÈGLE TECHNIQUE D'IMPORT PORTEFEUILLE:
+Si tu proposes une allocation complète à investir, termine obligatoirement par un bloc importable, compact et valide:
+<ALLOCATION_JSON>
+[{"ticker":"CW8","nom":"Amundi MSCI World PEA","categorie":"ETF World","montant":30000,"cible":30}]
+</ALLOCATION_JSON>
+Contraintes: JSON valide, tableau fermé, tag </ALLOCATION_JSON> présent, 6 à 10 lignes maximum, champs obligatoires ticker/nom/categorie/montant/cible. N'utilise pas de markdown dans ce bloc.`;
+const CHAT_STYLE_RULES = `STYLE DE RÉPONSE:
+- Réponds comme un conseiller privé clair et humain.
+- Pas de markdown lourd, pas de séparateurs "---", pas de blocs avec astérisques.
+- Pour une allocation: affiche seulement les lignes d'investissement et une explication courte de 10 à 20 mots par ligne.
+- Termine par le bloc ALLOCATION_JSON quand une allocation doit pouvoir être importée.`;
+
 function Message({ msg, onImport }) {
   const isUser = msg.role === "user";
   const allocation = !isUser ? parseAllocation(msg.content) : null;
-  const displayText = allocation ? stripJson(msg.content) : msg.content;
+  const displayText = allocation ? summarizeAllocationText(allocation) : cleanChatText(msg.content);
   const [imported, setImported] = useState(msg.imported || false);
+  const allocationTotal = allocation ? allocation.reduce((s, l) => s + (parseFloat(l.montant) || 0), 0) : 0;
   return (
     <div style={{ display: "flex", flexDirection: isUser ? "row-reverse" : "row", gap: 12, marginBottom: 20, alignItems: "flex-start" }}>
       <div style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: isUser ? "linear-gradient(135deg,#00E1DC,#007A78)" : "linear-gradient(135deg,#1a1a2e,#16213e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: "bold", color: "#fff", border: isUser ? "none" : "1px solid #00E1DC33" }}>
@@ -203,7 +265,7 @@ function Message({ msg, onImport }) {
         {allocation && (
           <div style={{ background: "rgba(0,225,220,0.06)", border: "1px solid rgba(0,225,220,0.3)", borderRadius: 12, padding: "14px 16px" }}>
             <div style={{ fontSize: 11, color: "#00E1DC", letterSpacing: "0.1em", fontWeight: "bold", marginBottom: 10 }}>
-              📋 ALLOCATION PROPOSÉE — {allocation.length} lignes · {allocation.reduce((s, l) => s + l.montant, 0).toLocaleString('fr-FR')} €
+              📋 ALLOCATION PROPOSÉE — {allocation.length} lignes{allocationTotal > 0 ? ` · ${allocationTotal.toLocaleString('fr-FR')} €` : ""}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
               {allocation.map((l, i) => (
@@ -214,8 +276,8 @@ function Message({ msg, onImport }) {
                   </span>
                   <span style={{ display: "flex", gap: 10, alignItems: "center" }}>
                     <span style={{ fontSize: 10, padding: "1px 7px", borderRadius: 20, background: (CAT_COLORS[l.categorie] || "#888") + "22", color: CAT_COLORS[l.categorie] || "#888" }}>{l.categorie}</span>
-                    <span style={{ color: "#F5F7FA", fontFamily: "monospace" }}>{l.montant.toLocaleString('fr-FR')} €</span>
-                    <span style={{ color: "#888", fontFamily: "monospace" }}>{l.cible}%</span>
+                    <span style={{ color: "#F5F7FA", fontFamily: "monospace" }}>{parseFloat(l.montant) > 0 ? `${parseFloat(l.montant).toLocaleString('fr-FR')} €` : "Montant à répartir"}</span>
+                    <span style={{ color: "#888", fontFamily: "monospace" }}>{parseFloat(l.cible || 0)}%</span>
                   </span>
                 </div>
               ))}
@@ -570,6 +632,95 @@ function safePct(part, total) {
 function fmtMoney(n, digits = 0) {
   return safeNum(n).toLocaleString("fr-FR", { maximumFractionDigits: digits }) + " €";
 }
+
+const TEST_PROFILE_STORAGE_KEYS = [
+  "pea_lines","pea_messages","pea_perfHistory",
+  "cto_lines","cto_messages","cto_perfHistory",
+  "av_lines","av_messages","av_perfHistory",
+  "mpb_biens","mpb_revenus","mpb_revenus_dismissed",
+  "mpb_snapshots","private_markets","mpb_fiscal_cfg"
+];
+
+function demoLine(id, ticker, nom, categorie, qte, pru, prixActuel, cible, extra = {}) {
+  return {
+    id, ticker, nom, categorie, qte, pru, prixActuel, cible,
+    transactions: [{ id: 1, date: "2022-03-15", type: "achat", qte, prix: pru, note: "Profil test cadre 50 ans" }],
+    ...extra
+  };
+}
+
+function buildExecutiveTestProfile() {
+  const now = new Date().toLocaleString("fr-FR");
+  const assistantMessage = "Profil test chargé : cadre dirigeant de 50 ans, patrimoine net proche de 1,5 M€, actifs répartis sur PEA, CTO, assurance-vie, immobilier, revenus et actifs privés.";
+  const peaLines = [
+    demoLine(1, "CW8", "Amundi MSCI World PEA", "ETF World", 1000, 92, 120, 46, { geography:"Monde", sector:"Diversified", currency:"EUR", riskLevel:"Medium", volatility:"16%", rating:"A", style:"Core growth" }),
+    demoLine(2, "PANX", "Amundi PEA Nasdaq-100", "ETF USA", 420, 112, 145, 24, { geography:"US", sector:"Technology", currency:"EUR", riskLevel:"High", volatility:"24%", rating:"A-", style:"Growth" }),
+    demoLine(3, "PCEU", "Lyxor Stoxx Europe 600", "ETF Europe", 1250, 30, 32, 15, { geography:"Europe", sector:"Diversified", currency:"EUR", riskLevel:"Medium", volatility:"17%", rating:"BBB+", style:"Blend" }),
+    demoLine(4, "PAEEM", "Amundi PEA Emergents MSCI EM", "ETF Emergents", 1300, 26, 30, 15, { geography:"Emerging Markets", sector:"Diversified", currency:"EUR", riskLevel:"High", volatility:"25%", rating:"BBB", style:"Growth" })
+  ];
+  const ctoLines = [
+    demoLine(1, "AAPL", "Apple", "Action USA", 200, 165, 210, 26, { geography:"US", sector:"Technology", currency:"USD", riskLevel:"Medium", volatility:"22%", rating:"A", style:"Quality growth" }),
+    demoLine(2, "MSFT", "Microsoft", "Action USA", 120, 330, 430, 32, { geography:"US", sector:"Technology", currency:"USD", riskLevel:"Medium", volatility:"20%", rating:"A", style:"Quality growth" }),
+    demoLine(3, "BRK.B", "Berkshire Hathaway", "Action USA", 80, 360, 410, 21, { geography:"US", sector:"Financials", currency:"USD", riskLevel:"Medium", volatility:"15%", rating:"A", style:"Value" }),
+    demoLine(4, "IDVY", "iShares Euro Dividend", "Dividendes", 1200, 25, 28, 21, { geography:"Europe", sector:"Dividend equities", currency:"EUR", riskLevel:"Medium", volatility:"18%", rating:"BBB+", style:"Dividend" })
+  ];
+  const avLines = [
+    demoLine(1, "FONDS-EURO", "Fonds euros Suravenir", "Fonds Euros", 1, 120000, 120000, 46, { geography:"France", sector:"Cash / rates", currency:"EUR", riskLevel:"Low", volatility:"1%", rating:"A", style:"Capital preservation" }),
+    demoLine(2, "UC-WORLD", "UC MSCI World", "UC Actions", 800, 82, 100, 31, { geography:"Monde", sector:"Diversified", currency:"EUR", riskLevel:"Medium", volatility:"16%", rating:"A-", style:"Core growth" }),
+    demoLine(3, "UC-OBLIG", "UC Obligations court terme", "UC Obligations", 600, 48, 50, 12, { geography:"Europe", sector:"Fixed income", currency:"EUR", riskLevel:"Low", volatility:"5%", rating:"A", style:"Income" }),
+    demoLine(4, "UC-SCPI", "UC SCPI diversifiée", "UC Immobilier", 300, 95, 100, 11, { geography:"France", sector:"Real estate", currency:"EUR", riskLevel:"Medium", volatility:"8%", rating:"BBB+", style:"Income" })
+  ];
+  const biens = [
+    {
+      id: 1, adresse: "18 avenue de Breteuil", ville: "Paris", codePostal: "75007", typeBien: "appartement", usage: "principal",
+      surface: 112, anneeAchat: 2016, prixAchat: 780000, valeurActuelle: 760000, fraisNotaireAuto: true, travaux: 45000,
+      typeDetention: "personnel", loyerMensuelHC: "", chargesLoc: "", regimeFiscal: "micro_foncier",
+      montantEmprunt: 420000, tauxEmprunt: 1.45, dureeEmprunt: 20, dateDebutPret: "2016-06"
+    },
+    {
+      id: 2, adresse: "42 rue Garibaldi", ville: "Lyon", codePostal: "69006", typeBien: "appartement", usage: "locatif",
+      surface: 58, anneeAchat: 2021, prixAchat: 360000, valeurActuelle: 410000, fraisNotaireAuto: true, travaux: 18000,
+      typeDetention: "sci", sciNom: "SCI Familiale Moreau", sciActionnaires: [{ nom:"Client", pct:70 }, { nom:"Conjoint", pct:30 }],
+      loyerMensuelHC: 1450, chargesLoc: 120, regimeFiscal: "lmnp",
+      montantEmprunt: 365000, tauxEmprunt: 2.05, dureeEmprunt: 25, dateDebutPret: "2021-09"
+    }
+  ];
+  const privateMarkets = [
+    { id:1, name:"Fonds Private Equity Europe IV", type:"Private equity", commitment:90000, calledCapital:65000, distributions:8000, nav:70000, irr:12.4, vintage:2020, status:"Invested", currency:"EUR", geography:"Europe", sector:"Mid-market buyout", nextCashflowDate:"2026-09-30", nextCashflowAmount:-12000 },
+    { id:2, name:"Dette privée senior PME", type:"Private debt", commitment:60000, calledCapital:50000, distributions:6000, nav:45000, irr:7.1, vintage:2022, status:"Yielding", currency:"EUR", geography:"France", sector:"Private debt", nextCashflowDate:"2026-12-15", nextCashflowAmount:3500 },
+    { id:3, name:"Club deal santé", type:"Club deals", commitment:50000, calledCapital:45000, distributions:0, nav:35000, irr:-3.5, vintage:2023, status:"Value creation", currency:"EUR", geography:"Europe", sector:"Healthcare", nextCashflowDate:"2027-03-31", nextCashflowAmount:0 },
+    { id:4, name:"Fonds VC Climate", type:"Venture capital", commitment:50000, calledCapital:30000, distributions:0, nav:30000, irr:9.2, vintage:2024, status:"Early stage", currency:"EUR", geography:"US", sector:"Climate tech", nextCashflowDate:"2026-10-31", nextCashflowAmount:-10000 }
+  ];
+  const revenus = [
+    { id:1, label:"Salaire cadre dirigeant", categorie:"salaire", sousType:"Salaire net", montant:11500, frequence:"mensuel", isNet:true, notes:"Profil test : 50 ans" },
+    { id:2, label:"Bonus annuel", categorie:"salaire", sousType:"Prime / Bonus", montant:35000, frequence:"annuel", isNet:true, notes:"Rémunération variable" },
+    { id:3, label:"Loyers Lyon", categorie:"immobilier", sousType:"Loyers meublés (LMNP)", montant:1450, frequence:"mensuel", isNet:false, notes:"Appartement locatif Lyon" },
+    { id:4, label:"Dividendes CTO", categorie:"dividendes", sousType:"Dividendes CTO", montant:6000, frequence:"annuel", isNet:false, notes:"Poche dividendes Europe" },
+    { id:5, label:"Fonds euros AV", categorie:"interets", sousType:"Fonds euros AV", montant:3000, frequence:"annuel", isNet:false, notes:"Rendement indicatif" },
+    { id:6, label:"Distributions private debt", categorie:"autres", sousType:"Revenu exceptionnel", montant:8000, frequence:"annuel", isNet:false, notes:"Coupons dette privée" }
+  ];
+  return {
+    pea_lines: peaLines,
+    pea_messages: [{ role:"assistant", content: assistantMessage, ts: now }],
+    pea_perfHistory: [{ date:"2025-12-31", totalVal:235000 }, { date:"2026-06-14", totalVal:259900 }],
+    cto_lines: ctoLines,
+    cto_messages: [{ role:"assistant", content: assistantMessage, ts: now }],
+    cto_perfHistory: [{ date:"2025-12-31", totalVal:145000 }, { date:"2026-06-14", totalVal:160000 }],
+    av_lines: avLines,
+    av_messages: [{ role:"assistant", content: assistantMessage, ts: now }],
+    av_perfHistory: [{ date:"2025-12-31", totalVal:247000 }, { date:"2026-06-14", totalVal:260000 }],
+    mpb_biens: biens,
+    private_markets: privateMarkets,
+    mpb_revenus: revenus,
+    mpb_revenus_dismissed: [],
+    mpb_snapshots: [
+      { date:"2025-12-31", pea:235000, cto:145000, av:247000, immo:610000, private:150000, total:1387000 },
+      { date:"2026-06-14", pea:259900, cto:160000, av:260000, immo:640000, private:180000, total:1499900 }
+    ],
+    mpb_fiscal_cfg: { situation:"marie", nbParts:2, tmi:41 }
+  };
+}
+
 const UI_TEXT = {
   fr: {
     headerSubtitle: "BANQUE PRIVÉE · CONSEIL AUGMENTÉ PAR IA",
@@ -1864,11 +2015,36 @@ function cleanSnippet(txt) {
     .trim();
 }
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 15000, label = "requête réseau") {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } catch (e) {
+    if (e && e.name === "AbortError") throw new Error(`${label} : délai dépassé`);
+    throw e;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function withTimeout(promise, timeoutMs, fallbackValue) {
+  return Promise.race([
+    promise,
+    new Promise(resolve => setTimeout(() => resolve(fallbackValue), timeoutMs))
+  ]);
+}
+
 async function fetchWebSearchResults(query, limit = 6) {
   let lastErr = null;
   for (const buildUrl of WEB_SEARCH_ENDPOINTS) {
     try {
-      const r = await fetch(buildUrl(query), { headers: { "Accept": "application/json,text/plain,*/*" } });
+      const r = await fetchWithTimeout(
+        buildUrl(query),
+        { headers: { "Accept": "application/json,text/plain,*/*" } },
+        6000,
+        "Web search"
+      );
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const data = await r.json();
       const rows = [];
@@ -2059,6 +2235,7 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
   const [testResults, setTestResults] = useState(null);
   const [testRunning, setTestRunning] = useState(false);
   const [cashInput, setCashInput] = useState("");
+  const [importNotice, setImportNotice] = useState(null);
   const messagesEndRef = useRef(null);
 
   // ── Storage sync ──
@@ -2224,15 +2401,20 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
 
   // ── Stream Claude messages ──
   const streamClaude = async (userMsg, systemMsg) => {
+    if (loading) return;
     setLoading(true);
     const allMessages = [...messages, { role: "user", content: userMsg, ts: new Date().toLocaleString('fr-FR') }];
     setMessages(allMessages);
 
     try {
-      const marketData = await fetchLiveMarketContext().catch(() => "Données de marché indisponibles");
-      const systemPromptFinal = systemMsg.replace("{{LIVE_MARKET_DATA}}", marketData);
+      const marketData = await withTimeout(
+        fetchLiveMarketContext().catch(() => "Données de marché indisponibles"),
+        12000,
+        "Données de marché indisponibles : délai dépassé. Continue l'analyse avec les données locales du portefeuille."
+      );
+      const systemPromptFinal = systemMsg.replace("{{LIVE_MARKET_DATA}}", marketData) + "\n\n" + CHAT_STYLE_RULES + "\n\n" + ALLOCATION_OUTPUT_RULES;
 
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetchWithTimeout("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -2246,7 +2428,7 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
           system: systemPromptFinal,
           messages: allMessages.map(m => ({ role: m.role, content: m.content }))
         })
-      });
+      }, 45000, "Appel IA Anthropic");
 
       if (!response.ok) {
         const errData = await response.json();
@@ -2256,54 +2438,21 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
       const data = await response.json();
       const assistantMsg = data.content?.[0]?.text || "Pas de réponse";
 
-      // Parse allocation JSON if present
-      const jsonMatch = assistantMsg.match(/<ALLOCATION_JSON>([\s\S]*?)<\/ALLOCATION_JSON>/);
-      let processedMsg = assistantMsg;
-      if (jsonMatch) {
-        try {
-          const alloc = JSON.parse(jsonMatch[1]);
-          setLines(prev => {
-            const updated = [...prev];
-            const newIds = new Set(alloc.map(a => a.ticker));
-            updated.forEach(l => {
-              const allocItem = alloc.find(a => a.ticker === l.ticker);
-              if (allocItem) l.cible = allocItem.cible;
-            });
-            const existing = new Set(updated.map(l => l.ticker));
-            for (const item of alloc) {
-              if (!existing.has(item.ticker)) {
-                const id = Math.max(...updated.map(l => l.id || 0), 0) + 1;
-                updated.push({
-                  id,
-                  ticker: item.ticker,
-                  nom: item.nom,
-                  categorie: item.categorie,
-                  qte: 0,
-                  pru: 0,
-                  prixActuel: 0,
-                  cible: item.cible,
-                  transactions: [],
-                  _pendingQte: false
-                });
-              }
-            }
-            return updated;
-          });
-          processedMsg = assistantMsg.replace(/<ALLOCATION_JSON>.*?<\/ALLOCATION_JSON>/s, "");
-        } catch {}
-      }
-
-      setMessages([...allMessages, { role: "assistant", content: processedMsg, ts: new Date().toLocaleString('fr-FR') }]);
+      // Garder le bloc ALLOCATION_JSON dans l'historique : le composant Message
+      // l'utilise pour afficher la carte d'allocation et le bouton d'import.
+      setMessages([...allMessages, { role: "assistant", content: assistantMsg, ts: new Date().toLocaleString('fr-FR') }]);
       setInput("");
     } catch (err) {
-      setMessages([...allMessages, { role: "assistant", content: `Erreur: ${err.message}`, ts: new Date().toLocaleString('fr-FR') }]);
+      setMessages([...allMessages, { role: "assistant", content: `Erreur d'envoi : ${err.message || err}. Le message est bien parti dans le chat, mais la réponse IA n'a pas pu être récupérée. Vérifiez la clé API, la connexion ou réessayez.`, ts: new Date().toLocaleString('fr-FR') }]);
     } finally {
       setLoading(false);
     }
   };
 
   const sendMessage = (overrideText) => {
-    const userMsg = (overrideText !== undefined ? overrideText : input).trim();
+    if (loading) return;
+    const rawText = typeof overrideText === "string" ? overrideText : input;
+    const userMsg = rawText.trim();
     if (!userMsg) return;
     if (!apiKey) {
       alert("Veuillez configurer votre clé API");
@@ -2399,12 +2548,29 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
   };
 
   const importAllocation = (allocationData) => {
+    const normalizedAllocation = (Array.isArray(allocationData) ? allocationData : [])
+      .filter(item => item && item.ticker)
+      .map(item => ({
+        ticker: String(item.ticker || "").trim().toUpperCase(),
+        nom: item.nom || item.name || item.ticker || "Support proposé",
+        categorie: item.categorie || item.category || "Autre",
+        cible: parseFloat(item.cible ?? item.target ?? 0) || 0,
+        montant: parseFloat(item.montant ?? item.amount ?? 0) || 0,
+      }));
+    if (!normalizedAllocation.length) {
+      alert("Aucune ligne d'allocation exploitable dans la réponse de l'agent.");
+      return;
+    }
     setLines(prev => {
       const updated = [...prev];
-      for (const item of allocationData) {
+      for (const item of normalizedAllocation) {
         const existing = updated.find(l => l.ticker === item.ticker);
         if (existing) {
           existing.cible = item.cible || existing.cible;
+          if (item.montant > 0 && (!existing.qte || parseFloat(existing.qte) === 0)) {
+            existing._pendingQte = true;
+            existing._montant = item.montant;
+          }
         } else {
           const id = Math.max(...updated.map(l => l.id || 0), 0) + 1;
           updated.push({
@@ -2417,11 +2583,15 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
             prixActuel: 0,
             cible: item.cible,
             transactions: [],
+            _pendingQte: item.montant > 0,
+            _montant: item.montant,
           });
         }
       }
       return updated;
     });
+    setImportNotice(`${normalizedAllocation.length} ligne${normalizedAllocation.length > 1 ? "s" : ""} importée${normalizedAllocation.length > 1 ? "s" : ""} depuis le chat vers le dashboard ${cfg.label}.`);
+    setActiveTab("dashboard");
   };
 
   // ── Update total when totalActuel changes ──
@@ -2462,6 +2632,15 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
       {/* Dashboard Tab */}
       {activeTab === "dashboard" && (
         <div>
+          {importNotice && (
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", gap:12, background:"linear-gradient(135deg,rgba(0,225,220,0.14),rgba(74,158,107,0.12))", border:"1px solid rgba(0,225,220,0.45)", borderRadius:10, padding:"12px 14px", marginBottom:18 }}>
+              <div>
+                <div style={{ color:"#00E1DC", fontWeight:"bold", fontSize:13 }}>Allocation migrée vers le dashboard</div>
+                <div style={{ color:"#aaa", fontSize:12, marginTop:3 }}>{importNotice} Les montants sans prix live restent en attente jusqu'à actualisation.</div>
+              </div>
+              <button onClick={() => setImportNotice(null)} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", color:"#aaa", borderRadius:7, padding:"6px 10px", cursor:"pointer", fontFamily:"inherit" }}>OK</button>
+            </div>
+          )}
 
           {/* ── Onboarding : portefeuille vide ── */}
           {lineRows.length === 0 && (
@@ -2774,12 +2953,9 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
         <div style={{ display: "flex", flexDirection: "column", height: "500px" }}>
           <div style={{ flex: 1, overflowY: "auto", marginBottom: 15, background: "rgba(0,0,0,0.2)", borderRadius: 6, padding: 10 }}>
             {messages.map((msg, idx) => (
-              <div key={idx} style={{ marginBottom: 10, padding: 8, background: msg.role === "user" ? "rgba(106,142,201,0.15)" : "rgba(74,158,107,0.1)", borderRadius: 6, fontSize: 12 }}>
-                <div style={{ color: msg.role === "user" ? "#6a8ec9" : "#4a9e6b", fontWeight: "bold", marginBottom: 4 }}>{msg.role === "user" ? "Vous" : "Agent"}</div>
-                <div style={{ whiteSpace: "pre-wrap" }}>{msg.content}</div>
-                <div style={{ color: "#666", fontSize: 10, marginTop: 4 }}>{msg.ts}</div>
-              </div>
+              <Message key={idx} msg={msg} onImport={importAllocation} />
             ))}
+            {loading && <TypingIndicator />}
             <div ref={messagesEndRef} />
           </div>
 
@@ -2799,7 +2975,7 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
               placeholder={cfg.placeholderChat}
               style={{ flex: 1, padding: 10, background: "#1a1a1f", border: "1px solid #333", borderRadius: 6, color: "#fff", resize: "vertical", fontFamily: "inherit", minHeight: 60 }}
             />
-            <button onClick={sendMessage} disabled={loading || !input.trim()} style={{ background: loading ? "rgba(106,142,201,0.1)" : "rgba(106,142,201,0.2)", border: "1px solid rgba(106,142,201,0.4)", borderRadius: 6, padding: "10px 20px", cursor: loading ? "not-allowed" : "pointer", color: loading ? "#555" : "#6a8ec9", fontSize: 12, fontFamily: "inherit", whiteSpace: "nowrap" }}>
+            <button onClick={() => sendMessage()} disabled={loading || !input.trim()} style={{ background: loading ? "rgba(106,142,201,0.1)" : "rgba(106,142,201,0.2)", border: "1px solid rgba(106,142,201,0.4)", borderRadius: 6, padding: "10px 20px", cursor: loading ? "not-allowed" : "pointer", color: loading ? "#555" : "#6a8ec9", fontSize: 12, fontFamily: "inherit", whiteSpace: "nowrap" }}>
               {loading ? "⏳" : "▶"}
             </button>
           </div>
@@ -4305,6 +4481,16 @@ function PEAAgent() {
     setApiKey(key);
   }
 
+  function loadTestProfile() {
+    const profile = buildExecutiveTestProfile();
+    TEST_PROFILE_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
+    Object.entries(profile).forEach(([key, value]) => localStorage.setItem(key, JSON.stringify(value)));
+    localStorage.setItem("mpb_module", "dashboard");
+    localStorage.setItem("mpb_lang", lang);
+    localStorage.setItem("mpb_report_mode", reportMode);
+    window.location.reload();
+  }
+
   if (!apiKey) return <ApiKeySetup onSave={saveApiKey} />;
 
   return (
@@ -4334,8 +4520,37 @@ function PEAAgent() {
 	        }
 	      `}</style>
 
-      {/* ── HEADER ── */}
-	      <div style={{ borderBottom: "1px solid rgba(0,225,220,0.2)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100 }}>
+      {/* ── BANDEAU TECHNIQUE POC : hors header produit, non sticky ── */}
+      <div style={{ padding: "8px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, background: "rgba(255,255,255,0.025)", borderBottom: "1px solid rgba(255,255,255,0.08)", color: "#888", fontSize: 11 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}>
+          <span style={{ color:"#555", letterSpacing:"0.08em", fontWeight:"bold" }}>POC · CONTRÔLES TECHNIQUES</span>
+          <div style={{ display:"flex", gap:5, alignItems:"center" }} title={lang === "en" ? "Change language" : "Changer de langue"}>
+            {[["fr","🇫🇷"],["en","🇬🇧"]].map(([code,flag]) => (
+              <button key={code} onClick={() => { setLang(code); localStorage.setItem("mpb_lang", code); }}
+                style={{ width:30, height:28, borderRadius:8, border: lang === code ? "1px solid rgba(0,225,220,0.65)" : "1px solid rgba(255,255,255,0.08)", background: lang === code ? "rgba(0,225,220,0.14)" : "rgba(255,255,255,0.03)", cursor:"pointer", fontSize:15, lineHeight:"25px" }}>
+                {flag}
+              </button>
+            ))}
+          </div>
+          {["advisor","client"].map(m => (
+            <button key={m} onClick={() => { setReportMode(m); localStorage.setItem("mpb_report_mode", m); }}
+              title={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")}
+              style={{ background: reportMode === m ? "rgba(0,225,220,0.16)" : "rgba(255,255,255,0.03)", border: reportMode === m ? "1px solid rgba(0,225,220,0.45)" : "1px solid rgba(255,255,255,0.08)", borderRadius:8, color: reportMode === m ? "#00E1DC" : "#777", padding:"7px 11px", fontSize:11, cursor:"pointer", fontFamily:"inherit", minWidth:94, lineHeight:1.15 }}>
+              {m === "advisor" ? tr(lang, "advisorMode") : tr(lang, "clientMode")}
+            </button>
+          ))}
+          <InfoTip text={reportMode === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")} />
+          <button onClick={loadTestProfile}
+            title="Charge un profil démo complet : cadre dirigeant 50 ans, environ 1,5 M€ d'actifs"
+            style={{ background:"rgba(154,142,201,0.18)", border:"1px solid rgba(154,142,201,0.45)", borderRadius:8, color:"#c9bfff", padding:"7px 12px", cursor:"pointer", fontFamily:"inherit", fontSize:11, fontWeight:"bold" }}>
+            Profil test 1,5 M€
+          </button>
+        </div>
+        <div style={{ color:"#555" }}>Masqué en version production</div>
+      </div>
+
+      {/* ── HEADER PRODUIT ── */}
+	      <div style={{ borderBottom: "1px solid rgba(0,225,220,0.2)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", position: "relative", zIndex: 2 }}>
 	        <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 360 }}>
 	          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "2px 0" }}><SiaLogo size="header" /></div>
 	          <div>
@@ -4343,27 +4558,7 @@ function PEAAgent() {
 	            <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.1em" }}>{tr(lang, "headerSubtitle")}</div>
 	          </div>
 	        </div>
-	        <div style={{ flex: 1, display:"flex", justifyContent:"center", minWidth: 260 }}>
-	          <div style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 12px", borderRadius:12, background:"rgba(255,255,255,0.025)", border:"1px solid rgba(0,225,220,0.16)", boxShadow:"0 0 24px rgba(0,225,220,0.04)" }}>
-	            <div style={{ display:"flex", gap:5, alignItems:"center" }} title={lang === "en" ? "Change language" : "Changer de langue"}>
-	              {[["fr","🇫🇷"],["en","🇬🇧"]].map(([code,flag]) => (
-	                <button key={code} onClick={() => { setLang(code); localStorage.setItem("mpb_lang", code); }}
-	                  style={{ width:30, height:30, borderRadius:8, border: lang === code ? "1px solid rgba(0,225,220,0.6)" : "1px solid rgba(255,255,255,0.08)", background: lang === code ? "rgba(0,225,220,0.14)" : "rgba(255,255,255,0.03)", cursor:"pointer", fontSize:16, lineHeight:"28px" }}>
-	                  {flag}
-	                </button>
-	              ))}
-	            </div>
-	            <div style={{ width:1, height:28, background:"rgba(255,255,255,0.08)" }} />
-	            {["advisor","client"].map(m => (
-	              <button key={m} onClick={() => { setReportMode(m); localStorage.setItem("mpb_report_mode", m); }}
-	                title={m === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")}
-	                style={{ background: reportMode === m ? "rgba(0,225,220,0.16)" : "rgba(255,255,255,0.03)", border: reportMode === m ? "1px solid rgba(0,225,220,0.45)" : "1px solid rgba(255,255,255,0.08)", borderRadius:8, color: reportMode === m ? "#00E1DC" : "#777", padding:"7px 11px", fontSize:11, cursor:"pointer", fontFamily:"inherit", minWidth:94, lineHeight:1.15 }}>
-	                {m === "advisor" ? tr(lang, "advisorMode") : tr(lang, "clientMode")}
-	              </button>
-	            ))}
-	            <InfoTip text={reportMode === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")} />
-	          </div>
-	        </div>
+	        <div style={{ flex: 1 }} />
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {totalPatrimoine > 0 && (
             <div style={{ textAlign: "right" }}>
