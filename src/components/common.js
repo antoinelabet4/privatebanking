@@ -18,7 +18,6 @@ function SiaLogo({ size = "header" }) {
         background: "#173044",
         borderRadius: 14,
         padding: isHeader ? "10px 14px" : "14px 18px",
-        boxShadow: "0 6px 18px rgba(10, 21, 30, 0.22)",
         overflow: "visible"
       } }
     >
