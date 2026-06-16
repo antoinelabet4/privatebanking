@@ -337,6 +337,163 @@ canvas {
   }
 }
 </style>
+<style id="sia-liquid-glass-polish">
+/* Liquid Glass polish: compact help icons, readable tables and softer data cards. */
+button[aria-label="Information"] {
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  padding: 0 !important;
+  margin-left: 7px !important;
+  border-radius: var(--sia-radius-full) !important;
+  border: 1px solid rgba(0, 222, 204, 0.36) !important;
+  background: rgba(255, 255, 255, 0.70) !important;
+  color: var(--sia-teal-700) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 4px 12px rgba(10, 21, 30, 0.08) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 18px !important;
+  transform: none !important;
+}
+
+button[aria-label="Information"]:hover,
+button[aria-label="Information"]:focus {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: var(--sia-brand-teal) !important;
+  color: var(--sia-brand-navy) !important;
+  transform: none !important;
+}
+
+span:has(> button[aria-label="Information"]) > span[style*="position: absolute"] {
+  width: min(300px, 74vw) !important;
+  padding: 12px 14px !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(0, 222, 204, 0.24) !important;
+  box-shadow: 0 18px 46px rgba(10, 21, 30, 0.16) !important;
+  color: var(--sia-gray-700) !important;
+  backdrop-filter: blur(22px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(135%) !important;
+}
+
+/* The legacy dark UI used pale text (#aaa/#ccc/#ddd). In Liquid Glass these
+   values become illegible on light glass, so map them to the Sia grey ramp. */
+[style*="color: #ccc"],
+[style*="color:#ccc"],
+[style*="color: #ddd"],
+[style*="color:#ddd"],
+[style*="color: #bbb"],
+[style*="color:#bbb"],
+[style*="color: #aaa"],
+[style*="color:#aaa"],
+[style*="color: rgb(204, 204, 204)"],
+[style*="color: rgb(221, 221, 221)"],
+[style*="color: rgb(187, 187, 187)"],
+[style*="color: rgb(170, 170, 170)"] {
+  color: var(--sia-gray-600) !important;
+}
+
+/* Avoid turning every row with a bottom border into a floating card. This was
+   the source of the white banding in contributor lists and data tables. */
+div[style*="display: flex"][style*="justify-content: space-between"][style*="border-bottom"],
+div[style*="display:flex"][style*="justify-content:space-between"][style*="border-bottom"],
+div[style*="display: flex"][style*="justifyContent"][style*="borderBottom"],
+div[style*="display:flex"][style*="justifyContent"][style*="borderBottom"] {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: rgba(206, 213, 223, 0.55) !important;
+}
+
+div[style*="display: flex"][style*="justify-content: space-between"][style*="border-bottom"] span,
+div[style*="display: flex"][style*="justify-content: space-between"][style*="border-bottom"] strong {
+  color: inherit;
+}
+
+/* Premium table treatment for portfolio and private-market grids. */
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  overflow: hidden;
+  border-radius: var(--sia-radius-lg) !important;
+  background: rgba(255, 255, 255, 0.34) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.52) !important;
+}
+
+thead {
+  background: rgba(255, 255, 255, 0.46) !important;
+}
+
+th {
+  padding: 10px 12px !important;
+  color: var(--sia-teal-700) !important;
+  border-bottom: 1px solid rgba(206, 213, 223, 0.70) !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  white-space: nowrap;
+}
+
+td {
+  padding: 10px 12px !important;
+  background: transparent !important;
+  color: var(--sia-gray-700) !important;
+  border-bottom: 1px solid rgba(206, 213, 223, 0.46) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.42) !important;
+}
+
+/* Narrative cards should feel like Liquid Glass panels, not disabled inputs. */
+div[style*="rgba(0,225,220,0.05)"],
+div[style*="rgba(0, 225, 220, 0.05)"] {
+  background: rgba(255, 255, 255, 0.48) !important;
+  border-color: rgba(0, 222, 204, 0.20) !important;
+}
+
+div[style*="rgba(0,225,220,0.05)"] *,
+div[style*="rgba(0, 225, 220, 0.05)"] * {
+  color: var(--sia-gray-700) !important;
+}
+
+div[style*="rgba(0,0,0,0.18)"],
+div[style*="rgba(0,0,0,0.2)"],
+div[style*="rgba(0,0,0,0.22)"],
+div[style*="rgba(0,0,0,0.3)"],
+div[style*="rgba(0, 0, 0, 0.18)"],
+div[style*="rgba(0, 0, 0, 0.2)"],
+div[style*="rgba(0, 0, 0, 0.22)"],
+div[style*="rgba(0, 0, 0, 0.3)"] {
+  background: rgba(255, 255, 255, 0.42) !important;
+  border-color: rgba(206, 213, 223, 0.55) !important;
+}
+
+@media (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+}
+</style>
 </head>
 <body>
 <div id="root"></div>
