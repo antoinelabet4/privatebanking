@@ -1891,7 +1891,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
               {/* Tableau récap */}
               <div style={{ background: "rgba(15,15,25,0.8)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 12, overflow: "auto" }}>
                 <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(0,225,220,0.15)", fontSize: 12, color: "#00E1DC", letterSpacing: "0.08em", fontWeight: "bold" }}>RÉCAPITULATIF DU PARC</div>
-                <table>
+                <table style={{ whiteSpace: "nowrap" }}>
                   <thead>
                     <tr>
                       <th style={{ textAlign: "left" }}>Bien</th>
@@ -1915,7 +1915,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
                           <td style={{ textAlign: "left" }}>
                             <div style={{ fontWeight: "bold", fontSize: 12, color: "#F5F7FA" }}>{b.adresse}</div>
                             <div style={{ fontSize: 11, color: "#666" }}>{b.ville} · {TYPE_BIEN_LABELS[b.typeBien]}</div>
-                            {b.typeDetention === "sci" && <div style={{ fontSize: 10, color: "#8e6ac9" }}>SCI {b.sciNom}</div>}
+                            {b.typeDetention === "sci" && <div style={{ fontSize: 10, color: "#8e6ac9" }}>{b.sciNom}</div>}
                           </td>
                           <td><span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 12, background: (USAGE_COLORS[b.usage]||"#888") + "22", color: USAGE_COLORS[b.usage]||"#888" }}>{USAGE_LABELS[b.usage]}</span></td>
                           <td style={{ fontFamily: "monospace" }}>{b.surface} m²</td>
@@ -1968,7 +1968,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
                     <div style={{ fontSize: 14, fontWeight: "bold", color: "#F5F7FA", marginBottom: 3, paddingRight: 90 }}>{b.adresse}</div>
                     <div style={{ fontSize: 12, color: "#888", marginBottom: 14 }}>
                       {b.ville} {b.codePostal} · {TYPE_BIEN_LABELS[b.typeBien]} · {b.surface} m²
-                      {b.typeDetention === "sci" && <span style={{ color: "#8e6ac9", marginLeft: 8 }}>SCI {b.sciNom}</span>}
+                      {b.typeDetention === "sci" && <span style={{ color: "#8e6ac9", marginLeft: 8 }}>{b.sciNom}</span>}
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
                       {[
@@ -3169,7 +3169,7 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
             </div>
             <div style={{ background: totalPnL >= 0 ? "rgba(74,158,107,0.1)" : "rgba(201,110,110,0.1)", border: `1px solid ${totalPnL >= 0 ? "rgba(74,158,107,0.3)" : "rgba(201,110,110,0.3)"}`, borderRadius: 8, padding: 15 }}>
               <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>P&L Brut</div>
-              <div style={{ fontSize: 24, fontWeight: "bold", color: totalPnL >= 0 ? "#4a9e6b" : "#c96e6e" }}>{totalPnL.toFixed(2)} € ({totalPnLPct.toFixed(1)}%)</div>
+              <div style={{ fontSize: 24, fontWeight: "bold", color: totalPnL >= 0 ? "#4a9e6b" : "#c96e6e" }}>{totalPnL.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} € ({totalPnLPct.toFixed(1)}%)</div>
             </div>
             <div style={{ background: "rgba(168,196,232,0.1)", border: "1px solid rgba(168,196,232,0.3)", borderRadius: 8, padding: 15 }}>
               <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>Lignes</div>
@@ -3215,12 +3215,12 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
                     <td style={{ padding: "10px 5px" }}>
                       {l._pendingQte
                         ? <span title={`${l._montant?.toLocaleString('fr-FR')}€ réservés — cliquez "Actualiser prix" pour calculer les parts`} style={{ color: "#00E1DC", fontSize: 11, fontStyle: "italic" }}>⏳ Montant réservé</span>
-                        : (parseFloat(l.qte || 0)).toFixed(2)}
+                        : (parseFloat(l.qte || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 2 })}
                     </td>
-                    <td style={{ padding: "10px 5px", color: "#00E1DC" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} €</span> : `${(parseFloat(l.pru || 0)).toFixed(2)} €`}</td>
-                    <td style={{ padding: "10px 5px", color: "#6a8ec9" }}>{l._pendingQte ? <span style={{ color: "#888", fontSize: 11 }}>prix live à charger</span> : `${(parseFloat(l.prixActuel || 0)).toFixed(2)} €`}</td>
-	                    <td style={{ padding: "10px 5px", fontWeight: "bold" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} €</span> : `${(parseFloat(l.val || 0)).toFixed(2)} €`}</td>
-	                    <td style={{ padding: "10px 5px", color: l.pnl >= 0 ? "#4a9e6b" : "#c96e6e" }}>{(parseFloat(l.pnl || 0)).toFixed(2)} € ({(parseFloat(l.pnl_pct || 0)).toFixed(1)}%)</td>
+                    <td style={{ padding: "10px 5px", color: "#00E1DC" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span> : `${(parseFloat(l.pru || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+                    <td style={{ padding: "10px 5px", color: "#6a8ec9" }}>{l._pendingQte ? <span style={{ color: "#888", fontSize: 11 }}>prix live à charger</span> : `${(parseFloat(l.prixActuel || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+	                    <td style={{ padding: "10px 5px", fontWeight: "bold" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span> : `${(parseFloat(l.val || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+	                    <td style={{ padding: "10px 5px", color: l.pnl >= 0 ? "#4a9e6b" : "#c96e6e" }}>{(parseFloat(l.pnl || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} € ({(parseFloat(l.pnl_pct || 0)).toFixed(1)}%)</td>
 	                    <td style={{ padding: "10px 5px", color: "#888", fontSize: 11 }}>
 	                      <div style={{ color:"#F5F7FA" }}>{l.intelligence.geography} · {l.intelligence.currency}</div>
 	                      <div>{l.intelligence.sector} · {l.intelligence.risk}</div>
@@ -3248,8 +3248,8 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginBottom: 15 }}>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Catégorie</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.categorie}</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Cible</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.cible}%</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Montant Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.val.toFixed(2)} €</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>PRU Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.pru_total.toFixed(2)} €</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>Montant Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.val.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>PRU Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.pru_total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Géographie</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.geography}</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Secteur</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.sector}</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Devise</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.currency}</div></div>

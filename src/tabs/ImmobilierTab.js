@@ -474,7 +474,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
               {/* Tableau récap */}
               <div style={{ background: "rgba(15,15,25,0.8)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 12, overflow: "auto" }}>
                 <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(0,225,220,0.15)", fontSize: 12, color: "#00E1DC", letterSpacing: "0.08em", fontWeight: "bold" }}>RÉCAPITULATIF DU PARC</div>
-                <table>
+                <table style={{ whiteSpace: "nowrap" }}>
                   <thead>
                     <tr>
                       <th style={{ textAlign: "left" }}>Bien</th>
@@ -498,7 +498,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
                           <td style={{ textAlign: "left" }}>
                             <div style={{ fontWeight: "bold", fontSize: 12, color: "#F5F7FA" }}>{b.adresse}</div>
                             <div style={{ fontSize: 11, color: "#666" }}>{b.ville} · {TYPE_BIEN_LABELS[b.typeBien]}</div>
-                            {b.typeDetention === "sci" && <div style={{ fontSize: 10, color: "#8e6ac9" }}>SCI {b.sciNom}</div>}
+                            {b.typeDetention === "sci" && <div style={{ fontSize: 10, color: "#8e6ac9" }}>{b.sciNom}</div>}
                           </td>
                           <td><span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 12, background: (USAGE_COLORS[b.usage]||"#888") + "22", color: USAGE_COLORS[b.usage]||"#888" }}>{USAGE_LABELS[b.usage]}</span></td>
                           <td style={{ fontFamily: "monospace" }}>{b.surface} m²</td>
@@ -551,7 +551,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
                     <div style={{ fontSize: 14, fontWeight: "bold", color: "#F5F7FA", marginBottom: 3, paddingRight: 90 }}>{b.adresse}</div>
                     <div style={{ fontSize: 12, color: "#888", marginBottom: 14 }}>
                       {b.ville} {b.codePostal} · {TYPE_BIEN_LABELS[b.typeBien]} · {b.surface} m²
-                      {b.typeDetention === "sci" && <span style={{ color: "#8e6ac9", marginLeft: 8 }}>SCI {b.sciNom}</span>}
+                      {b.typeDetention === "sci" && <span style={{ color: "#8e6ac9", marginLeft: 8 }}>{b.sciNom}</span>}
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
                       {[

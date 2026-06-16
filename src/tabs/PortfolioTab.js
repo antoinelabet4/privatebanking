@@ -525,7 +525,7 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
             </div>
             <div style={{ background: totalPnL >= 0 ? "rgba(74,158,107,0.1)" : "rgba(201,110,110,0.1)", border: `1px solid ${totalPnL >= 0 ? "rgba(74,158,107,0.3)" : "rgba(201,110,110,0.3)"}`, borderRadius: 8, padding: 15 }}>
               <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>P&L Brut</div>
-              <div style={{ fontSize: 24, fontWeight: "bold", color: totalPnL >= 0 ? "#4a9e6b" : "#c96e6e" }}>{totalPnL.toFixed(2)} € ({totalPnLPct.toFixed(1)}%)</div>
+              <div style={{ fontSize: 24, fontWeight: "bold", color: totalPnL >= 0 ? "#4a9e6b" : "#c96e6e" }}>{totalPnL.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} € ({totalPnLPct.toFixed(1)}%)</div>
             </div>
             <div style={{ background: "rgba(168,196,232,0.1)", border: "1px solid rgba(168,196,232,0.3)", borderRadius: 8, padding: 15 }}>
               <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>Lignes</div>
@@ -571,12 +571,12 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
                     <td style={{ padding: "10px 5px" }}>
                       {l._pendingQte
                         ? <span title={`${l._montant?.toLocaleString('fr-FR')}€ réservés — cliquez "Actualiser prix" pour calculer les parts`} style={{ color: "#00E1DC", fontSize: 11, fontStyle: "italic" }}>⏳ Montant réservé</span>
-                        : (parseFloat(l.qte || 0)).toFixed(2)}
+                        : (parseFloat(l.qte || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 2 })}
                     </td>
-                    <td style={{ padding: "10px 5px", color: "#00E1DC" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} €</span> : `${(parseFloat(l.pru || 0)).toFixed(2)} €`}</td>
-                    <td style={{ padding: "10px 5px", color: "#6a8ec9" }}>{l._pendingQte ? <span style={{ color: "#888", fontSize: 11 }}>prix live à charger</span> : `${(parseFloat(l.prixActuel || 0)).toFixed(2)} €`}</td>
-	                    <td style={{ padding: "10px 5px", fontWeight: "bold" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} €</span> : `${(parseFloat(l.val || 0)).toFixed(2)} €`}</td>
-	                    <td style={{ padding: "10px 5px", color: l.pnl >= 0 ? "#4a9e6b" : "#c96e6e" }}>{(parseFloat(l.pnl || 0)).toFixed(2)} € ({(parseFloat(l.pnl_pct || 0)).toFixed(1)}%)</td>
+                    <td style={{ padding: "10px 5px", color: "#00E1DC" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span> : `${(parseFloat(l.pru || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+                    <td style={{ padding: "10px 5px", color: "#6a8ec9" }}>{l._pendingQte ? <span style={{ color: "#888", fontSize: 11 }}>prix live à charger</span> : `${(parseFloat(l.prixActuel || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+	                    <td style={{ padding: "10px 5px", fontWeight: "bold" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span> : `${(parseFloat(l.val || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+	                    <td style={{ padding: "10px 5px", color: l.pnl >= 0 ? "#4a9e6b" : "#c96e6e" }}>{(parseFloat(l.pnl || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} € ({(parseFloat(l.pnl_pct || 0)).toFixed(1)}%)</td>
 	                    <td style={{ padding: "10px 5px", color: "#888", fontSize: 11 }}>
 	                      <div style={{ color:"#F5F7FA" }}>{l.intelligence.geography} · {l.intelligence.currency}</div>
 	                      <div>{l.intelligence.sector} · {l.intelligence.risk}</div>
@@ -604,8 +604,8 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginBottom: 15 }}>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Catégorie</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.categorie}</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Cible</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.cible}%</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Montant Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.val.toFixed(2)} €</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>PRU Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.pru_total.toFixed(2)} €</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>Montant Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.val.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>PRU Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.pru_total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Géographie</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.geography}</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Secteur</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.sector}</div></div>
 	                      <div><div style={{ fontSize: 11, color: "#888" }}>Devise</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.currency}</div></div>
