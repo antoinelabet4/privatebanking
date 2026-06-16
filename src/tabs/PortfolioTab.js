@@ -136,9 +136,15 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
   const hasPendingQte = lines.some(l => l._pendingQte);
   const hasPruEstimated = lines.some(l => l._pruEstimated);
   const portfolioStartDate = lines[0]?.transactions?.[0]?.date || new Date().toISOString().slice(0,10);
-  const globalAnnualReturn = perfHistory.length > 0
-    ? ((totalActuel - (perfHistory[0]?.totalVal || totalPRU)) / (perfHistory[0]?.totalVal || totalPRU || 1)) * 100 * (365 / (perfHistory.length || 1))
-    : 0;
+  const globalAnnualReturn = (() => {
+    if (perfHistory.length === 0) return 0;
+    const startVal = perfHistory[0]?.totalVal || totalPRU;
+    if (!startVal || startVal <= 0) return 0;
+    const days = (Date.now() - new Date(perfHistory[0].date).getTime()) / (24*3600*1000);
+    if (days < 30) return 0;
+    const r = (totalActuel - startVal) / startVal;
+    return (Math.pow(1 + r, 365 / days) - 1) * 100;
+  })();
 
   // ── Callbacks for portfolio operations ──
   const updateLine = (id, updates) => {
