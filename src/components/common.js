@@ -15,12 +15,10 @@ function SiaLogo({ size = "header" }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "transparent",
-        borderRadius: 0,
-        padding: isHeader ? 8 : 10,
-        borderRadius: 16,
-        background: "rgba(23, 48, 68, 0.08)",
-        boxShadow: "none",
+        background: "#173044",
+        borderRadius: 14,
+        padding: isHeader ? "10px 14px" : "14px 18px",
+        boxShadow: "0 6px 18px rgba(10, 21, 30, 0.22)",
         overflow: "visible"
       } }
     >
