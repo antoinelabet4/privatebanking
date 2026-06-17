@@ -1254,7 +1254,112 @@ const UI_TEXT = {
     net: "NET",
     total: "TOTAL",
     positiveColorHelp: "Vert : valeur positive, point fort ou contribution favorable.",
-    negativeColorHelp: "Rouge : perte latente, point faible ou risque à traiter."
+    negativeColorHelp: "Rouge : perte latente, point faible ou risque à traiter.",
+    navImmobilier: "🏠 Immobilier",
+    navAssuranceVie: "🛡️ Assurance Vie",
+    navCTO: "💼 CTO",
+    navRevenus: "💰 Revenus",
+    navFiscalite: "🧾 Fiscalité",
+    comingSoon: "bientôt",
+    patrimoineTotal: "PATRIMOINE TOTAL",
+    resetAllTitle: "Réinitialiser toutes les données",
+    resetAllConfirm: "Tout réinitialiser ?",
+    yes: "Oui",
+    no: "Non",
+    exportTitle: "Exporter toutes mes données (sauvegarde JSON)",
+    importTitle: "Importer une sauvegarde JSON",
+    changeApiKeyTitle: "Changer de clé API",
+    changeApiKeyConfirm: "Réinitialiser la clé API ?",
+    testProfileBtn: "Profil test 1,5 M€",
+    testProfileTitle: "Charge un profil démo complet : cadre dirigeant 50 ans, environ 1,5 M€ d'actifs",
+    hiddenInProd: "Masqué en version production",
+    pocBanner: "POC · CONTRÔLES TECHNIQUES",
+    colTicker: "Ticker",
+    colNom: "Nom",
+    colQte: "Qté",
+    colPru: "PRU",
+    colCours: "Cours",
+    colValeur: "Valeur",
+    colPnl: "P&L",
+    colExposition: "Exposition",
+    colAction: "Action",
+    details: "Détails",
+    valeurTotaleLabel: "Valeur Totale",
+    pruTotalLabel: "PRU Total",
+    pnlBrutLabel: "P&L Brut",
+    lignesLabel: "Lignes",
+    rendementAnnuelLabel: "Rendement annuel",
+    fiscaliteLabelPrefix: "⚖️ Fiscalité",
+    montantReserve: "⏳ Montant réservé",
+    montantReserveTooltip: "réservés — cliquez \"Actualiser prix\" pour calculer les parts",
+    prixLiveACharger: "prix live à charger",
+    montantTotalLabel: "Montant Total",
+    categorieLabel: "Catégorie",
+    cibleLabel: "Cible",
+    geographieLabel: "Géographie",
+    secteurLabel: "Secteur",
+    deviseLabel: "Devise",
+    risqueStyleLabel: "Risque / Style",
+    valeurBruteParc: "Valeur brute du parc",
+    bienLabel: "bien",
+    biensLabel: "biens",
+    dettesRestantes: "Dettes restantes",
+    tauxDetteLabel: "Taux dette",
+    capitalNetLabel: "Capital net",
+    investiLabel: "Investi",
+    revenusLocatifsBrutsAn: "Revenus locatifs bruts/an",
+    parMoisLabel: "/mois",
+    cashFlowNetAnnuel: "Cash-flow net annuel",
+    plusValueLatenteTotale: "Plus-value latente totale",
+    vsCoutAcquisition: "vs coût d'acquisition",
+    recapitulatifParc: "RÉCAPITULATIF DU PARC",
+    colBien: "Bien",
+    colUsage: "Usage",
+    colSurface: "Surface",
+    colM2Achat: "€/m² achat",
+    colM2Actuel: "€/m² actuel",
+    colValeurAct: "Valeur act.",
+    colCapitalRestantDu: "Capital restant dû",
+    colCapitalNet: "Capital net",
+    colLoyerHCMois: "Loyer HC/mois",
+    colCashFlowMois: "Cash-flow/mois",
+    colRendementBrut: "Rendement brut",
+    colPlusValue: "Plus-value",
+    clickRowToEdit: "💡 Cliquez sur une ligne pour modifier le bien.",
+    mesBiensLabel: "Mes biens",
+    ajouterUnBien: "＋ Ajouter un bien",
+    aucunBienEnregistre: "Aucun bien enregistré.",
+    modifierLabel: "✏️ Modifier",
+    ajouterPremierBien: "＋ Ajouter votre premier bien",
+    aucunBienImmoEnregistre: "Aucun bien immobilier enregistré",
+    trancheMarginale: "Tranche marginale d'imposition",
+    situationLabel: "Situation",
+    celibataireLabel: "Célibataire",
+    marieLabel: "Marié·e / Pacsé·e",
+    enfantsACharge: "Enfants à charge",
+    quotientFamilial: "Quotient familial",
+    optionBareme: "Option barème (CTO)",
+    desactiveeLabel: "Désactivée",
+    activeeLabel: "Activée",
+    pressionFiscaleEstimee: "Pression fiscale estimée",
+    surRevenusDeclares: "sur revenus déclarés",
+    impotsAnnuelsCourants: "Impôts annuels courants",
+    fiscaliteLatente: "Fiscalité latente",
+    siToutRealiseAujourdhui: "si tout réalisé aujourd'hui",
+    ifiEstime: "IFI estimé",
+    nonApplicable: "Non applicable",
+    totalPlusLatent: "Total + latent",
+    revenuAnnuelNet: "Revenu annuel net",
+    revenuMensuelNet: "Revenu mensuel net",
+    revenusPassifsAn: "Revenus passifs / an",
+    tauxDeRendement: "Taux de rendement",
+    repartitionRevenus: "RÉPARTITION DES REVENUS",
+    fiscaliteCouranteBanner: "📋 FISCALITÉ COURANTE — REVENUS DÉCLARÉS",
+    fiscaliteLatenteBanner: "📊 FISCALITÉ LATENTE — SI CESSION TOTALE AUJOURD'HUI",
+    perYear: "/ an",
+    suggestionsAutoLabel: "✨ SUGGESTIONS AUTOMATIQUES",
+    suggestionsAutoSub: "— pré-remplies depuis vos autres onglets",
+    ajouterBtn: "✓ Ajouter"
   },
   en: {
     headerSubtitle: "PRIVATE BANKING · AI-POWERED ADVISORY",
@@ -1315,7 +1420,112 @@ const UI_TEXT = {
     net: "NET",
     total: "TOTAL",
     positiveColorHelp: "Green: positive value, strength or favorable contribution.",
-    negativeColorHelp: "Red: unrealized loss, weakness or risk to address."
+    negativeColorHelp: "Red: unrealized loss, weakness or risk to address.",
+    navImmobilier: "🏠 Real Estate",
+    navAssuranceVie: "🛡️ Life Insurance",
+    navCTO: "💼 Brokerage",
+    navRevenus: "💰 Income",
+    navFiscalite: "🧾 Taxation",
+    comingSoon: "soon",
+    patrimoineTotal: "TOTAL WEALTH",
+    resetAllTitle: "Reset all data",
+    resetAllConfirm: "Reset everything?",
+    yes: "Yes",
+    no: "No",
+    exportTitle: "Export all my data (JSON backup)",
+    importTitle: "Import a JSON backup",
+    changeApiKeyTitle: "Change API key",
+    changeApiKeyConfirm: "Reset the API key?",
+    testProfileBtn: "Test profile €1.5M",
+    testProfileTitle: "Loads a full demo profile: 50-year-old executive, around €1.5M in assets",
+    hiddenInProd: "Hidden in production",
+    pocBanner: "POC · TECHNICAL CONTROLS",
+    colTicker: "Ticker",
+    colNom: "Name",
+    colQte: "Qty",
+    colPru: "Cost basis",
+    colCours: "Price",
+    colValeur: "Value",
+    colPnl: "P&L",
+    colExposition: "Exposure",
+    colAction: "Action",
+    details: "Details",
+    valeurTotaleLabel: "Total Value",
+    pruTotalLabel: "Total Cost Basis",
+    pnlBrutLabel: "Gross P&L",
+    lignesLabel: "Holdings",
+    rendementAnnuelLabel: "Annual return",
+    fiscaliteLabelPrefix: "⚖️ Taxation",
+    montantReserve: "⏳ Reserved amount",
+    montantReserveTooltip: "reserved — click \"Refresh prices\" to compute the shares",
+    prixLiveACharger: "live price to load",
+    montantTotalLabel: "Total Amount",
+    categorieLabel: "Category",
+    cibleLabel: "Target",
+    geographieLabel: "Geography",
+    secteurLabel: "Sector",
+    deviseLabel: "Currency",
+    risqueStyleLabel: "Risk / Style",
+    valeurBruteParc: "Gross portfolio value",
+    bienLabel: "property",
+    biensLabel: "properties",
+    dettesRestantes: "Outstanding debt",
+    tauxDetteLabel: "Debt ratio",
+    capitalNetLabel: "Net equity",
+    investiLabel: "Invested",
+    revenusLocatifsBrutsAn: "Gross rental income/yr",
+    parMoisLabel: "/mo",
+    cashFlowNetAnnuel: "Net annual cash flow",
+    plusValueLatenteTotale: "Total unrealized gain",
+    vsCoutAcquisition: "vs acquisition cost",
+    recapitulatifParc: "PORTFOLIO SUMMARY",
+    colBien: "Property",
+    colUsage: "Usage",
+    colSurface: "Surface",
+    colM2Achat: "€/sqm bought",
+    colM2Actuel: "€/sqm now",
+    colValeurAct: "Current value",
+    colCapitalRestantDu: "Remaining loan",
+    colCapitalNet: "Net equity",
+    colLoyerHCMois: "Rent excl. charges/mo",
+    colCashFlowMois: "Cash flow/mo",
+    colRendementBrut: "Gross yield",
+    colPlusValue: "Unrealized gain",
+    clickRowToEdit: "💡 Click a row to edit the property.",
+    mesBiensLabel: "My properties",
+    ajouterUnBien: "＋ Add a property",
+    aucunBienEnregistre: "No property recorded.",
+    modifierLabel: "✏️ Edit",
+    ajouterPremierBien: "＋ Add your first property",
+    aucunBienImmoEnregistre: "No real estate property recorded",
+    trancheMarginale: "Marginal tax bracket",
+    situationLabel: "Marital status",
+    celibataireLabel: "Single",
+    marieLabel: "Married / Civil partnership",
+    enfantsACharge: "Dependent children",
+    quotientFamilial: "Family quotient",
+    optionBareme: "Progressive scale option (brokerage)",
+    desactiveeLabel: "Off",
+    activeeLabel: "On",
+    pressionFiscaleEstimee: "Estimated tax burden",
+    surRevenusDeclares: "on declared income",
+    impotsAnnuelsCourants: "Current annual tax",
+    fiscaliteLatente: "Latent tax",
+    siToutRealiseAujourdhui: "if realized today",
+    ifiEstime: "Estimated wealth tax",
+    nonApplicable: "Not applicable",
+    totalPlusLatent: "Total + latent",
+    revenuAnnuelNet: "Net annual income",
+    revenuMensuelNet: "Net monthly income",
+    revenusPassifsAn: "Passive income / yr",
+    tauxDeRendement: "Yield rate",
+    repartitionRevenus: "INCOME BREAKDOWN",
+    fiscaliteCouranteBanner: "📋 CURRENT TAXATION — DECLARED INCOME",
+    fiscaliteLatenteBanner: "📊 LATENT TAXATION — IF FULLY REALIZED TODAY",
+    perYear: "/ yr",
+    suggestionsAutoLabel: "✨ AUTOMATIC SUGGESTIONS",
+    suggestionsAutoSub: "— pre-filled from your other tabs",
+    ajouterBtn: "✓ Add"
   }
 };
 function tr(lang, key) {
@@ -1831,9 +2041,9 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
       {/* ── Sous-onglets ── */}
       <div style={{ display: "flex", borderBottom: "1px solid rgba(0,225,220,0.15)", padding: "0 24px", background: "rgba(0,0,0,0.2)" }}>
         {[
-          { id: "dashboard", label: "📊 Dashboard" },
-          { id: "biens",     label: `🏠 Mes biens (${biens.length})` },
-          { id: "ajouter",   label: form.id ? "✏️ Modifier" : "＋ Ajouter un bien" },
+          { id: "dashboard", label: "📊 " + tr(lang, "dashboard") },
+          { id: "biens",     label: `🏠 ${tr(lang, "mesBiensLabel")} (${biens.length})` },
+          { id: "ajouter",   label: form.id ? tr(lang, "modifierLabel") : tr(lang, "ajouterUnBien") },
         ].map(tab => (
           <button key={tab.id}
             onClick={() => { setActiveTab(tab.id); if (tab.id !== "ajouter") setForm(BLANK_BIEN); }}
@@ -1852,10 +2062,10 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
           {biens.length === 0 ? (
             <div style={{ textAlign: "center", padding: "80px 20px" }}>
               <div style={{ fontSize: 52, marginBottom: 16 }}>🏠</div>
-              <div style={{ fontSize: 16, color: "#888", marginBottom: 16 }}>Aucun bien immobilier enregistré</div>
+              <div style={{ fontSize: 16, color: "#888", marginBottom: 16 }}>{tr(lang, "aucunBienImmoEnregistre")}</div>
               <button onClick={() => setActiveTab("ajouter")}
                 style={{ background: "linear-gradient(135deg,#00E1DC,#007A78)", border: "none", borderRadius: 10, padding: "12px 28px", cursor: "pointer", color: "#000", fontWeight: "bold", fontSize: 14, fontFamily: "inherit" }}>
-                ＋ Ajouter votre premier bien
+                {tr(lang, "ajouterPremierBien")}
               </button>
             </div>
           ) : (
@@ -1863,9 +2073,9 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
               {/* KPI Row 1 */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 12 }}>
                 {[
-                  { label: "Valeur brute du parc",  value: Math.round(totalValeur).toLocaleString('fr-FR') + " €", color: "#00E1DC",  sub: `${biens.length} bien${biens.length > 1 ? "s" : ""}` },
-                  { label: "Dettes restantes",       value: Math.round(totalDettes).toLocaleString('fr-FR') + " €", color: "#e09955",  sub: `Taux dette ${totalValeur > 0 ? (totalDettes/totalValeur*100).toFixed(1) : 0}%` },
-                  { label: "Capital net",            value: Math.round(totalCapNet).toLocaleString('fr-FR') + " €", color: totalCapNet >= 0 ? "#4a9e6b" : "#e05555", sub: `Investi: ${Math.round(totalCapInvesti).toLocaleString('fr-FR')} €` },
+                  { label: tr(lang, "valeurBruteParc"),  value: Math.round(totalValeur).toLocaleString('fr-FR') + " €", color: "#00E1DC",  sub: `${biens.length} ${biens.length > 1 ? tr(lang, "biensLabel") : tr(lang, "bienLabel")}` },
+                  { label: tr(lang, "dettesRestantes"),       value: Math.round(totalDettes).toLocaleString('fr-FR') + " €", color: "#e09955",  sub: `${tr(lang, "tauxDetteLabel")} ${totalValeur > 0 ? (totalDettes/totalValeur*100).toFixed(1) : 0}%` },
+                  { label: tr(lang, "capitalNetLabel"),            value: Math.round(totalCapNet).toLocaleString('fr-FR') + " €", color: totalCapNet >= 0 ? "#4a9e6b" : "#e05555", sub: `${tr(lang, "investiLabel")}: ${Math.round(totalCapInvesti).toLocaleString('fr-FR')} €` },
                 ].map((k, i) => (
                   <div key={i} style={{ background: "rgba(15,15,25,0.8)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 10, padding: "16px 18px" }}>
                     <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.08em", marginBottom: 6 }}>{k.label}</div>
@@ -1877,9 +2087,9 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
               {/* KPI Row 2 */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 20 }}>
                 {[
-                  { label: "Revenus locatifs bruts/an", value: Math.round(totalRevLocatif).toLocaleString('fr-FR') + " €", color: "#00E1DC", sub: `${Math.round(totalRevLocatif/12).toLocaleString('fr-FR')} €/mois` },
-                  { label: "Cash-flow net annuel",      value: (totalCFAnn >= 0 ? "+" : "") + Math.round(totalCFAnn).toLocaleString('fr-FR') + " €", color: totalCFAnn >= 0 ? "#4a9e6b" : "#e05555", sub: `${Math.round(totalCFAnn/12).toLocaleString('fr-FR')} €/mois` },
-                  { label: "Plus-value latente totale", value: (totalValeur - biens.reduce((s,b)=>s+getCout(b),0) >= 0 ? "+" : "") + Math.round(totalValeur - biens.reduce((s,b)=>s+getCout(b),0)).toLocaleString('fr-FR') + " €", color: totalValeur - biens.reduce((s,b)=>s+getCout(b),0) >= 0 ? "#4a9e6b" : "#e05555", sub: "vs coût d'acquisition" },
+                  { label: tr(lang, "revenusLocatifsBrutsAn"), value: Math.round(totalRevLocatif).toLocaleString('fr-FR') + " €", color: "#00E1DC", sub: `${Math.round(totalRevLocatif/12).toLocaleString('fr-FR')} €${tr(lang, "parMoisLabel")}` },
+                  { label: tr(lang, "cashFlowNetAnnuel"),      value: (totalCFAnn >= 0 ? "+" : "") + Math.round(totalCFAnn).toLocaleString('fr-FR') + " €", color: totalCFAnn >= 0 ? "#4a9e6b" : "#e05555", sub: `${Math.round(totalCFAnn/12).toLocaleString('fr-FR')} €${tr(lang, "parMoisLabel")}` },
+                  { label: tr(lang, "plusValueLatenteTotale"), value: (totalValeur - biens.reduce((s,b)=>s+getCout(b),0) >= 0 ? "+" : "") + Math.round(totalValeur - biens.reduce((s,b)=>s+getCout(b),0)).toLocaleString('fr-FR') + " €", color: totalValeur - biens.reduce((s,b)=>s+getCout(b),0) >= 0 ? "#4a9e6b" : "#e05555", sub: tr(lang, "vsCoutAcquisition") },
                 ].map((k, i) => (
                   <div key={i} style={{ background: "rgba(15,15,25,0.8)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 10, padding: "16px 18px" }}>
                     <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.08em", marginBottom: 6 }}>{k.label}</div>
@@ -1890,17 +2100,17 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
               </div>
               {/* Tableau récap */}
               <div style={{ background: "rgba(15,15,25,0.8)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 12, overflow: "auto" }}>
-                <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(0,225,220,0.15)", fontSize: 12, color: "#00E1DC", letterSpacing: "0.08em", fontWeight: "bold" }}>RÉCAPITULATIF DU PARC</div>
+                <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(0,225,220,0.15)", fontSize: 12, color: "#00E1DC", letterSpacing: "0.08em", fontWeight: "bold" }}>{tr(lang, "recapitulatifParc")}</div>
                 <table style={{ whiteSpace: "nowrap" }}>
                   <thead>
                     <tr>
-                      <th style={{ textAlign: "left" }}>Bien</th>
-                      <th>Usage</th><th>Surface</th>
-                      <th>€/m² achat</th><th>€/m² actuel</th>
-                      <th>Valeur act.</th>
-                      <th>Capital restant dû</th><th>Capital net</th>
-                      <th>Loyer HC/mois</th><th>Cash-flow/mois</th>
-                      <th>Rendement brut</th><th>Plus-value</th>
+                      <th style={{ textAlign: "left" }}>{tr(lang, "colBien")}</th>
+                      <th>{tr(lang, "colUsage")}</th><th>{tr(lang, "colSurface")}</th>
+                      <th>{tr(lang, "colM2Achat")}</th><th>{tr(lang, "colM2Actuel")}</th>
+                      <th>{tr(lang, "colValeurAct")}</th>
+                      <th>{tr(lang, "colCapitalRestantDu")}</th><th>{tr(lang, "colCapitalNet")}</th>
+                      <th>{tr(lang, "colLoyerHCMois")}</th><th>{tr(lang, "colCashFlowMois")}</th>
+                      <th>{tr(lang, "colRendementBrut")}</th><th>{tr(lang, "colPlusValue")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1936,7 +2146,7 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
                     })}
                   </tbody>
                 </table>
-                <div style={{ padding: "10px 20px", fontSize: 11, color: "#555" }}>💡 Cliquez sur une ligne pour modifier le bien.</div>
+                <div style={{ padding: "10px 20px", fontSize: 11, color: "#555" }}>{tr(lang, "clickRowToEdit")}</div>
               </div>
             </>
           )}
@@ -1949,11 +2159,11 @@ function ImmoModule({ biens, setBiens, reportMode = "advisor", lang = "fr" }) {
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
             <button onClick={() => { setForm(BLANK_BIEN); setActiveTab("ajouter"); }}
               style={{ background: "linear-gradient(135deg,#00E1DC,#007A78)", border: "none", borderRadius: 8, padding: "9px 20px", cursor: "pointer", color: "#000", fontWeight: "bold", fontSize: 13, fontFamily: "inherit" }}>
-              ＋ Ajouter un bien
+              {tr(lang, "ajouterUnBien")}
             </button>
           </div>
           {biens.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "60px 20px", color: "#888" }}>Aucun bien enregistré.</div>
+            <div style={{ textAlign: "center", padding: "60px 20px", color: "#888" }}>{tr(lang, "aucunBienEnregistre")}</div>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 16 }}>
               {biens.map(b => {
@@ -2430,6 +2640,7 @@ const PORTFOLIO_CONFIGS = {
     quickPrompts: "QUICK_PROMPTS",
     placeholderChat: "Posez votre question sur votre PEA… (Entrée pour envoyer)",
     fiscalLabel: "17.2% PS · Exonéré IR après 5 ans",
+    fiscalLabelEn: "17.2% social levies · Income-tax exempt after 5 years",
     fiscalColor: "#4a9e6b",
     initialMessage: "Bienvenue dans votre Agent PEA Elite 🏦\n\nJe combine les méthodologies de 10 grandes institutions financières mondiales pour construire et piloter votre PEA sur mesure.\n\nPour vous proposer une allocation personnalisée et optimale, j'ai besoin de quelques informations :\n\n• 💰 Capital disponible — Quel est le montant total que vous souhaitez investir ?\n• 🎯 Objectif de rendement — Visez-vous la croissance du capital, des dividendes, ou les deux ?\n• ⚖️ Tolérance au risque — Êtes-vous plutôt prudent, modéré ou dynamique ?\n• 🕐 Horizon d'investissement — Sur combien d'années investissez-vous (3 ans, 5 ans, 10 ans+) ?\n• 📅 Fréquence de versement — Investissement unique ou versements réguliers ? Si réguliers, quel montant mensuel ?\n• 🚫 Exclusions éventuelles — Des secteurs ou pays que vous souhaitez éviter ?\n\nPlus vos réponses sont précises, plus l'allocation sera adaptée à votre profil. Partagez ces informations et je construis votre portefeuille.",
   },
@@ -2440,6 +2651,7 @@ const PORTFOLIO_CONFIGS = {
     quickPrompts: "CTO_QUICK_PROMPTS",
     placeholderChat: "Posez votre question sur votre CTO… (Entrée pour envoyer)",
     fiscalLabel: "PFU 30% · 12.8% IR + 17.2% PS",
+    fiscalLabelEn: "Flat tax 30% · 12.8% income tax + 17.2% social levies",
     fiscalColor: "#e09955",
     initialMessage: "Bienvenue dans votre Agent CTO Elite 💼\n\nJe combine les méthodologies de Goldman Sachs, BlackRock et Morgan Stanley pour optimiser votre Compte-Titres Ordinaire.\n\nPour vous proposer une allocation sur mesure, j'ai besoin de quelques informations :\n\n• 💰 Capital disponible — Quel montant total souhaitez-vous investir ?\n• 🎯 Objectif — Croissance, dividendes, ou les deux ?\n• ⚖️ Tolérance au risque — Prudent, modéré ou dynamique ?\n• 🕐 Horizon — Sur combien d'années ?\n• 🌍 Marchés — Préférence US, Europe, ou mondial ?\n• 🚫 Exclusions — Secteurs ou pays à éviter ?\n\nNote : contrairement au PEA, le CTO permet les actions US directes et n'a pas de plafond. La fiscalité est de 30% (PFU) sur les plus-values et dividendes.",
   },
@@ -2448,6 +2660,7 @@ const PORTFOLIO_CONFIGS = {
     label: "AV",
     placeholderChat: "Posez votre question sur votre Assurance Vie… (Entrée pour envoyer)",
     fiscalLabel: "7.5% IR + 17.2% PS après 8 ans · Abattement 4 600€/an",
+    fiscalLabelEn: "7.5% income tax + 17.2% social levies after 8 years · €4,600/yr allowance",
     fiscalColor: "#7a9ec9",
     initialMessage: "Bienvenue dans votre Agent Assurance Vie Elite 🛡️\n\nL'assurance-vie est l'enveloppe fiscale la plus puissante de France — je vais vous aider à l'optimiser.\n\nPour construire votre allocation sur mesure, j'ai besoin de quelques informations :\n\n• 💰 Encours total — Quel est le montant actuel de votre contrat ?\n• 📅 Date d'ouverture — Depuis combien d'années le contrat est-il ouvert ? (crucial pour la fiscalité)\n• 🏦 Assureur — Quel est votre contrat (Linxea, Boursorama Vie, Suravenir, Spirica…) ?\n• ⚖️ Profil de risque — Quelle répartition cibles : % fonds euros (sécurité) vs % UC (performance) ?\n• 🎯 Objectif — Retraite, transmission, épargne long terme ?\n• 🕐 Horizon — Sur combien d'années ?\n\nNote clé : après 8 ans, vous bénéficiez d'un abattement de 4 600€/an (9 200€ en couple) sur les gains retirés, et les arbitrages internes ne sont pas taxés.",
   },
@@ -3160,31 +3373,31 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
           {/* KPI Cards */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 15, marginBottom: 20 }}>
             <div style={{ background: "rgba(106,142,201,0.1)", border: "1px solid rgba(106,142,201,0.3)", borderRadius: 8, padding: 15 }}>
-              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>Valeur Totale</div>
+              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{tr(lang, "valeurTotaleLabel")}</div>
               <div style={{ fontSize: 24, fontWeight: "bold", color: "#6a8ec9" }}>{totalActuel.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div>
             </div>
             <div style={{ background: "rgba(0,225,220,0.1)", border: "1px solid rgba(0,225,220,0.3)", borderRadius: 8, padding: 15 }}>
-              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>PRU Total</div>
+              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{tr(lang, "pruTotalLabel")}</div>
               <div style={{ fontSize: 24, fontWeight: "bold", color: "#00E1DC" }}>{totalPRU.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div>
             </div>
             <div style={{ background: totalPnL >= 0 ? "rgba(74,158,107,0.1)" : "rgba(201,110,110,0.1)", border: `1px solid ${totalPnL >= 0 ? "rgba(74,158,107,0.3)" : "rgba(201,110,110,0.3)"}`, borderRadius: 8, padding: 15 }}>
-              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>P&L Brut</div>
+              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{tr(lang, "pnlBrutLabel")}</div>
               <div style={{ fontSize: 24, fontWeight: "bold", color: totalPnL >= 0 ? "#4a9e6b" : "#c96e6e" }}>{totalPnL.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} € ({totalPnLPct.toFixed(1)}%)</div>
             </div>
             <div style={{ background: "rgba(168,196,232,0.1)", border: "1px solid rgba(168,196,232,0.3)", borderRadius: 8, padding: 15 }}>
-              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>Lignes</div>
+              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{tr(lang, "lignesLabel")}</div>
               <div style={{ fontSize: 24, fontWeight: "bold", color: "#a8c4e8" }}>{lineRows.length}</div>
             </div>
             <div style={{ background: "rgba(232,168,196,0.1)", border: "1px solid rgba(232,168,196,0.3)", borderRadius: 8, padding: 15 }}>
-              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>Rendement annuel</div>
+              <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{tr(lang, "rendementAnnuelLabel")}</div>
               <div style={{ fontSize: 24, fontWeight: "bold", color: "#e8a8c4" }}>{globalAnnualReturn.toFixed(1)}%</div>
             </div>
           </div>
 
           {/* Fiscal Badge */}
           <div style={{ marginBottom: 16, padding: "8px 14px", background: "rgba(0,225,220,0.05)", border: `1px solid ${cfg.fiscalColor}33`, borderRadius: 8, display: "flex", alignItems: "center", gap: 8, fontSize: 12 }}>
-            <span style={{ color: cfg.fiscalColor }}>⚖️ Fiscalité {cfg.label} :</span>
-            <span style={{ color: "#888" }}>{cfg.fiscalLabel}</span>
+            <span style={{ color: cfg.fiscalColor }}>{tr(lang, "fiscaliteLabelPrefix")} {cfg.label} :</span>
+            <span style={{ color: "#888" }}>{lang === "en" ? cfg.fiscalLabelEn : cfg.fiscalLabel}</span>
           </div>
 
           {reportMode === "advisor" && (
@@ -3196,15 +3409,15 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid #333", textAlign: "left" }}>
-                  <th style={{ padding: "10px 5px", color: "#888" }}>Ticker</th>
-                  <th style={{ padding: "10px 5px", color: "#888" }}>Nom</th>
-                  <th style={{ padding: "10px 5px", color: "#888" }}>Qté</th>
-                  <th style={{ padding: "10px 5px", color: "#888" }}>PRU</th>
-	                  <th style={{ padding: "10px 5px", color: "#888" }}>Cours</th>
-	                  <th style={{ padding: "10px 5px", color: "#888" }}>Valeur</th>
-	                  <th style={{ padding: "10px 5px", color: "#888" }}>P&L</th>
-	                  <th style={{ padding: "10px 5px", color: "#888" }}>Exposition</th>
-	                  <th style={{ padding: "10px 5px", color: "#888" }}>Action</th>
+                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colTicker")}</th>
+                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colNom")}</th>
+                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colQte")}</th>
+                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colPru")}</th>
+	                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colCours")}</th>
+	                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colValeur")}</th>
+	                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colPnl")}</th>
+	                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colExposition")}</th>
+	                  <th style={{ padding: "10px 5px", color: "#888" }}>{tr(lang, "colAction")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -3214,11 +3427,11 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
                     <td style={{ padding: "10px 5px", color: "#ccc" }}>{l.nom}</td>
                     <td style={{ padding: "10px 5px" }}>
                       {l._pendingQte
-                        ? <span title={`${l._montant?.toLocaleString('fr-FR')}€ réservés — cliquez "Actualiser prix" pour calculer les parts`} style={{ color: "#00E1DC", fontSize: 11, fontStyle: "italic" }}>⏳ Montant réservé</span>
+                        ? <span title={`${l._montant?.toLocaleString('fr-FR')}€ ${tr(lang, "montantReserveTooltip")}`} style={{ color: "#00E1DC", fontSize: 11, fontStyle: "italic" }}>{tr(lang, "montantReserve")}</span>
                         : (parseFloat(l.qte || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 2 })}
                     </td>
                     <td style={{ padding: "10px 5px", color: "#00E1DC" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span> : `${(parseFloat(l.pru || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
-                    <td style={{ padding: "10px 5px", color: "#6a8ec9" }}>{l._pendingQte ? <span style={{ color: "#888", fontSize: 11 }}>prix live à charger</span> : `${(parseFloat(l.prixActuel || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
+                    <td style={{ padding: "10px 5px", color: "#6a8ec9" }}>{l._pendingQte ? <span style={{ color: "#888", fontSize: 11 }}>{tr(lang, "prixLiveACharger")}</span> : `${(parseFloat(l.prixActuel || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
 	                    <td style={{ padding: "10px 5px", fontWeight: "bold" }}>{l._pendingQte ? <span style={{ color: "#00E1DC" }}>{(l._montant || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span> : `${(parseFloat(l.val || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €`}</td>
 	                    <td style={{ padding: "10px 5px", color: l.pnl >= 0 ? "#4a9e6b" : "#c96e6e" }}>{(parseFloat(l.pnl || 0)).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} € ({(parseFloat(l.pnl_pct || 0)).toFixed(1)}%)</td>
 	                    <td style={{ padding: "10px 5px", color: "#888", fontSize: 11 }}>
@@ -3227,7 +3440,7 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
 	                    </td>
 	                    <td style={{ padding: "10px 5px" }}>
                       <button onClick={() => setExpandedTx(expandedTx === l.id ? null : l.id)} style={{ background: "none", border: "none", color: "#6a8ec9", cursor: "pointer", fontSize: 12 }}>
-                        {expandedTx === l.id ? "▼" : "▶"} Détails
+                        {expandedTx === l.id ? "▼" : "▶"} {tr(lang, "details")}
                       </button>
                     </td>
                   </tr>
@@ -3246,14 +3459,14 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
                   <div>
                     <h4 style={{ marginBottom: 10 }}>{line.ticker} - {line.nom}</h4>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginBottom: 15 }}>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Catégorie</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.categorie}</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Cible</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.cible}%</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Montant Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.val.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>PRU Total</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.pru_total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Géographie</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.geography}</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Secteur</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.sector}</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Devise</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.currency}</div></div>
-	                      <div><div style={{ fontSize: 11, color: "#888" }}>Risque / Style</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.risk} · {line.intelligence.style}</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "categorieLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.categorie}</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "cibleLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.cible}%</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "montantTotalLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.val.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "pruTotalLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.pru_total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "geographieLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.geography}</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "secteurLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.sector}</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "deviseLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.currency}</div></div>
+	                      <div><div style={{ fontSize: 11, color: "#888" }}>{tr(lang, "risqueStyleLabel")}</div><div style={{ fontSize: 13, fontWeight: "bold" }}>{line.intelligence.risk} · {line.intelligence.style}</div></div>
                     </div>
 
                     <div style={{ marginBottom: 15 }}>
@@ -4076,8 +4289,8 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
   if (totalPatrimoine <= 0) return (
     <div style={{ textAlign:"center", padding:"80px 20px", color:"#555" }}>
       <div style={{ fontSize:48, marginBottom:16 }}>📊</div>
-      <div style={{ fontSize:14, color:"#777", marginBottom:8 }}>Aucune donnée à afficher</div>
-      <div style={{ fontSize:12, color:"#444" }}>Renseignez vos portefeuilles et votre immobilier pour voir le dashboard</div>
+      <div style={{ fontSize:14, color:"#777", marginBottom:8 }}>{lang === "en" ? "No data to display" : "Aucune donnée à afficher"}</div>
+      <div style={{ fontSize:12, color:"#444" }}>{lang === "en" ? "Fill in your portfolios and real estate to see the dashboard" : "Renseignez vos portefeuilles et votre immobilier pour voir le dashboard"}</div>
     </div>
   );
 
@@ -4207,11 +4420,11 @@ function DashboardModule({ peaTotal, ctoTotal, avTotal, immoCapNet, privateTotal
 	          </div>
 	          <div>
 		            <div style={{ fontSize:10, color:"#4a9e6b", fontWeight:"bold", marginBottom:8 }}>{tr(lang, "topContributors")}<InfoTip text={tr(lang, "positiveColorHelp")} /></div>
-	            {story.top.length ? story.top.map(l => <div key={l.wrapper+l.id+"top"} style={{ display:"flex", justifyContent:"space-between", fontSize:11, padding:"6px 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}><span>{l.ticker || l.nom}<span style={{ color:"#555" }}> · {l.wrapper}</span></span><strong style={{ color:"#4a9e6b" }}>{fmtMoney(l.pnl)}</strong></div>) : <div style={{ color:"#555", fontSize:11 }}>Aucun contributeur calculable</div>}
+	            {story.top.length ? story.top.map(l => <div key={l.wrapper+l.id+"top"} style={{ display:"flex", justifyContent:"space-between", fontSize:11, padding:"6px 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}><span>{l.ticker || l.nom}<span style={{ color:"#555" }}> · {l.wrapper}</span></span><strong style={{ color:"#4a9e6b" }}>{fmtMoney(l.pnl)}</strong></div>) : <div style={{ color:"#555", fontSize:11 }}>{lang === "en" ? "No calculable contributor" : "Aucun contributeur calculable"}</div>}
 	          </div>
 	          <div>
 		            <div style={{ fontSize:10, color:"#e05555", fontWeight:"bold", marginBottom:8 }}>{tr(lang, "worstContributors")}<InfoTip text={tr(lang, "negativeColorHelp")} /></div>
-	            {story.worst.length ? story.worst.map(l => <div key={l.wrapper+l.id+"worst"} style={{ display:"flex", justifyContent:"space-between", fontSize:11, padding:"6px 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}><span>{l.ticker || l.nom}<span style={{ color:"#555" }}> · {l.wrapper}</span></span><strong style={{ color:l.pnl >= 0 ? "#4a9e6b" : "#e05555" }}>{fmtMoney(l.pnl)}</strong></div>) : <div style={{ color:"#555", fontSize:11 }}>Aucun contributeur négatif calculable</div>}
+	            {story.worst.length ? story.worst.map(l => <div key={l.wrapper+l.id+"worst"} style={{ display:"flex", justifyContent:"space-between", fontSize:11, padding:"6px 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}><span>{l.ticker || l.nom}<span style={{ color:"#555" }}> · {l.wrapper}</span></span><strong style={{ color:l.pnl >= 0 ? "#4a9e6b" : "#e05555" }}>{fmtMoney(l.pnl)}</strong></div>) : <div style={{ color:"#555", fontSize:11 }}>{lang === "en" ? "No calculable detractor" : "Aucun contributeur négatif calculable"}</div>}
 	          </div>
 		        </div>
 		      </div>
@@ -4494,10 +4707,10 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens, reportMode = "adv
       {/* ── Stats ── */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 24 }}>
         {[
-          { label: "REVENU ANNUEL NET",    value: Math.round(totalAnnuel).toLocaleString("fr-FR") + " €",  color: "#00E1DC" },
-          { label: "REVENU MENSUEL NET",   value: Math.round(totalMensuel).toLocaleString("fr-FR") + " €", color: "#4a9e6b" },
-          { label: "REVENUS PASSIFS / AN", value: Math.round(revenusPassifs).toLocaleString("fr-FR") + " €", color: "#7a9ec9" },
-          { label: "TAUX DE RENDEMENT",    value: tauxRendement.toFixed(2) + " %",                          color: "#a0c4ff" },
+          { label: tr(lang, "revenuAnnuelNet").toUpperCase(),    value: Math.round(totalAnnuel).toLocaleString("fr-FR") + " €",  color: "#00E1DC" },
+          { label: tr(lang, "revenuMensuelNet").toUpperCase(),   value: Math.round(totalMensuel).toLocaleString("fr-FR") + " €", color: "#4a9e6b" },
+          { label: tr(lang, "revenusPassifsAn").toUpperCase(), value: Math.round(revenusPassifs).toLocaleString("fr-FR") + " €", color: "#7a9ec9" },
+          { label: tr(lang, "tauxDeRendement").toUpperCase(),    value: tauxRendement.toFixed(2) + " %",                          color: "#a0c4ff" },
         ].map(s => (
           <div key={s.label} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(0,225,220,0.12)", borderRadius: 10, padding: "14px 16px" }}>
             <div style={{ fontSize: 9, color: "#666", letterSpacing: "0.08em", marginBottom: 6 }}>{s.label}</div>
@@ -4513,7 +4726,7 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens, reportMode = "adv
       {/* ── Breakdown bar ── */}
       {totalAnnuel > 0 && allGrouped.length > 0 && (
         <div style={{ marginBottom: 20, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "14px 16px" }}>
-          <div style={{ fontSize: 10, color: "#888", letterSpacing: "0.06em", marginBottom: 10 }}>RÉPARTITION DES REVENUS</div>
+          <div style={{ fontSize: 10, color: "#888", letterSpacing: "0.06em", marginBottom: 10 }}>{tr(lang, "repartitionRevenus")}</div>
           <div style={{ height: 8, borderRadius: 4, overflow: "hidden", display: "flex", marginBottom: 10 }}>
             {allGrouped.map(g => (
               <div key={g.id} style={{ width: ((g.total / totalAnnuel) * 100) + "%", background: g.color, transition: "width 0.4s" }}
@@ -4537,8 +4750,8 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens, reportMode = "adv
         <div style={{ background: "rgba(0,225,220,0.05)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 10, padding: "14px 16px", marginBottom: 18 }}>
           <div style={{ fontSize: 10, color: "#00E1DC", letterSpacing: "0.08em", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}>
             <span>✨</span>
-            <span>SUGGESTIONS AUTOMATIQUES</span>
-            <span style={{ color: "#555", fontWeight: "normal" }}>— pré-remplies depuis vos autres onglets</span>
+            <span>{tr(lang, "suggestionsAutoLabel").replace("✨ ", "")}</span>
+            <span style={{ color: "#555", fontWeight: "normal" }}>{tr(lang, "suggestionsAutoSub")}</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             {suggestions.map(sug => (
@@ -4555,7 +4768,7 @@ function RevenusModule({ patrimoine, onTotalChange, immoBiens, reportMode = "adv
                 )}
                 <button onClick={() => acceptSuggestion(sug)}
                   style={{ background: "rgba(74,158,107,0.15)", border: "1px solid rgba(74,158,107,0.4)", borderRadius: 6, padding: "5px 12px", cursor: "pointer", color: "#4a9e6b", fontSize: 11, fontFamily: "inherit", flexShrink: 0 }}>
-                  ✓ Ajouter
+                  {tr(lang, "ajouterBtn")}
                 </button>
                 <button onClick={() => dismissSuggestion(sug.key)}
                   style={{ background: "none", border: "none", cursor: "pointer", color: "#444", fontSize: 14, padding: "2px 4px", lineHeight: 1 }}>
@@ -4799,7 +5012,7 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
       {/* ── Config ── */}
       <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(0,225,220,0.2)", borderRadius:10, padding:"16px 20px", marginBottom:20, display:"flex", gap:24, flexWrap:"wrap", alignItems:"flex-end" }}>
         <div>
-          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>TRANCHE MARGINALE D'IMPOSITION</div>
+          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>{tr(lang, "trancheMarginale").toUpperCase()}</div>
           <div style={{ display:"flex", gap:6 }}>
             {[0,11,30,41,45].map(v => (
               <button key={v} onClick={() => setConf("tmi", v)}
@@ -4810,9 +5023,9 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
           </div>
         </div>
         <div>
-          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>SITUATION</div>
+          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>{tr(lang, "situationLabel").toUpperCase()}</div>
           <div style={{ display:"flex", gap:6 }}>
-            {[["celibataire","Célibataire"],["marie","Marié·e / Pacsé·e"]].map(([v,l]) => (
+            {[["celibataire",tr(lang, "celibataireLabel")],["marie",tr(lang, "marieLabel")]].map(([v,l]) => (
               <button key={v} onClick={() => setConf("situation", v)}
                 style={{ padding:"5px 12px", borderRadius:6, border: config.situation===v ? "1px solid #00E1DC" : "1px solid rgba(255,255,255,0.1)", background: config.situation===v ? "rgba(0,225,220,0.15)" : "none", color: config.situation===v ? "#00E1DC" : "#666", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>
                 {l}
@@ -4821,7 +5034,7 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
           </div>
         </div>
         <div>
-          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>ENFANTS À CHARGE</div>
+          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>{tr(lang, "enfantsACharge").toUpperCase()}</div>
           <div style={{ display:"flex", gap:6 }}>
             {[0,1,2,3,4,5].map(v => (
               <button key={v} onClick={() => setConf("enfants", v)}
@@ -4830,19 +5043,19 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
               </button>
             ))}
           </div>
-          <div style={{ fontSize:10, color:"#555", marginTop:5 }}>Quotient familial : <strong style={{ color:"#888" }}>{totalParts} parts</strong></div>
+          <div style={{ fontSize:10, color:"#555", marginTop:5 }}>{tr(lang, "quotientFamilial")} : <strong style={{ color:"#888" }}>{totalParts} {lang === "en" ? "shares" : "parts"}</strong></div>
         </div>
         <div>
-          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>OPTION BARÈME (CTO)</div>
+          <div style={{ fontSize:10, color:"#888", marginBottom:5, letterSpacing:"0.06em" }}>{tr(lang, "optionBareme").toUpperCase()}</div>
           <button onClick={() => setConf("optionBareme", !config.optionBareme)}
             style={{ padding:"5px 12px", borderRadius:6, border: config.optionBareme ? "1px solid #4a9e6b" : "1px solid rgba(255,255,255,0.1)", background: config.optionBareme ? "rgba(74,158,107,0.15)" : "none", color: config.optionBareme ? "#4a9e6b" : "#666", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>
-            {config.optionBareme ? "✓ Activée" : "Désactivée"}
+            {config.optionBareme ? "✓ " + tr(lang, "activeeLabel") : tr(lang, "desactiveeLabel")}
           </button>
         </div>
         <div style={{ marginLeft:"auto", textAlign:"right" }}>
-          <div style={{ fontSize:9, color:"#555", letterSpacing:"0.06em" }}>PRESSION FISCALE ESTIMÉE</div>
+          <div style={{ fontSize:9, color:"#555", letterSpacing:"0.06em" }}>{tr(lang, "pressionFiscaleEstimee").toUpperCase()}</div>
           <div style={{ fontSize:22, fontWeight:"bold", color: tauxPression > 35 ? "#e05555" : tauxPression > 20 ? "#00E1DC" : "#4a9e6b" }}>{pct(tauxPression)}</div>
-          <div style={{ fontSize:10, color:"#555" }}>sur revenus déclarés</div>
+          <div style={{ fontSize:10, color:"#555" }}>{tr(lang, "surRevenusDeclares")}</div>
         </div>
       </div>
 
@@ -4853,10 +5066,10 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
       {/* ── Stats résumé ── */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:20 }}>
         {[
-          { label:"IMPÔTS ANNUELS COURANTS",  value: fmt(taxCourante)+" €",  color:"#e05555" },
-          { label:"FISCALITÉ LATENTE",         value: fmt(taxLatente)+" €",   color:"#00E1DC", sub:"si tout réalisé aujourd'hui" },
-          { label:"IFI ESTIMÉ",                value: fmt(ifi)+" €",          color: ifi>0 ? "#e8a055" : "#444", sub: ifi>0 ? "patrimoine immo > 1,3 M€" : "Non applicable" },
-          { label:"TOTAL + LATENT",            value: fmt(taxCourante+taxLatente)+" €", color:"#9a8ec9" },
+          { label:tr(lang, "impotsAnnuelsCourants").toUpperCase(),  value: fmt(taxCourante)+" €",  color:"#e05555" },
+          { label:tr(lang, "fiscaliteLatente").toUpperCase(),         value: fmt(taxLatente)+" €",   color:"#00E1DC", sub:tr(lang, "siToutRealiseAujourdhui") },
+          { label:tr(lang, "ifiEstime").toUpperCase(),                value: fmt(ifi)+" €",          color: ifi>0 ? "#e8a055" : "#444", sub: ifi>0 ? (lang === "en" ? "real estate wealth > €1.3M" : "patrimoine immo > 1,3 M€") : tr(lang, "nonApplicable") },
+          { label:tr(lang, "totalPlusLatent").toUpperCase(),            value: fmt(taxCourante+taxLatente)+" €", color:"#9a8ec9" },
         ].map(s => (
           <div key={s.label} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(0,225,220,0.1)", borderRadius:10, padding:"14px 16px" }}>
             <div style={{ fontSize:9, color:"#666", letterSpacing:"0.08em", marginBottom:6 }}>{s.label}</div>
@@ -4870,8 +5083,8 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
       {taxCourante > 0 && (
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, marginBottom:16, overflow:"hidden" }}>
           <div style={{ padding:"12px 14px", borderBottom:"1px solid rgba(255,255,255,0.07)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <div style={{ fontSize:11, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em" }}>📋 FISCALITÉ COURANTE — REVENUS DÉCLARÉS</div>
-            <div style={{ fontSize:13, color:"#e05555", fontWeight:"bold" }}>{fmt(taxCourante)} € / an</div>
+            <div style={{ fontSize:11, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em" }}>{tr(lang, "fiscaliteCouranteBanner")}</div>
+            <div style={{ fontSize:13, color:"#e05555", fontWeight:"bold" }}>{fmt(taxCourante)} € {tr(lang, "perYear")}</div>
           </div>
           <ROW label="Revenus d'activité (salaires, freelance…)" base={Math.max(0,revAct-abPro)} taux={"TMI "+config.tmi+"%"} tax={taxAct} color="#4a9e6b" note={"Abattement forfaitaire 10% appliqué · Base imposable "+fmt(Math.max(0,revAct-abPro))+" €"} />
           <ROW label="Retraites & pensions" base={Math.max(0,revRet-Math.min(4321,Math.max(422,revRet*0.10)))} taux={"TMI "+config.tmi+"%"} tax={taxRet} color="#8b9e4a" note="Abattement 10% (422€ min · 4 321€ max)" />
@@ -4888,7 +5101,7 @@ function FiscaliteModule({ immoBiens, peaTotal, ctoTotal, avTotal, reportMode = 
       {taxLatente > 0 && (
         <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:10, marginBottom:16, overflow:"hidden" }}>
           <div style={{ padding:"12px 14px", borderBottom:"1px solid rgba(255,255,255,0.07)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <div style={{ fontSize:11, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em" }}>📊 FISCALITÉ LATENTE — SI CESSION TOTALE AUJOURD'HUI</div>
+            <div style={{ fontSize:11, color:"#00E1DC", fontWeight:"bold", letterSpacing:"0.06em" }}>{tr(lang, "fiscaliteLatenteBanner")}</div>
             <div style={{ fontSize:13, color:"#00E1DC", fontWeight:"bold" }}>{fmt(taxLatente)} €</div>
           </div>
           <ROW label="Plus-values PEA (latentes)" base={pvPEA} taux="PS 17,2% seulement" tax={taxPVPEA} color="#4a9e6b" note={"Plus-value non réalisée : "+fmt(pvPEA)+" € · Exonération IR après 5 ans PEA"} />
@@ -5002,7 +5215,7 @@ function PEAAgent() {
       {/* ── BANDEAU TECHNIQUE POC : hors header produit, non sticky ── */}
       <div style={{ padding: "8px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, background: "rgba(255,255,255,0.025)", borderBottom: "1px solid rgba(255,255,255,0.08)", color: "#888", fontSize: 11 }}>
         <div style={{ display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}>
-          <span style={{ color:"#555", letterSpacing:"0.08em", fontWeight:"bold" }}>POC · CONTRÔLES TECHNIQUES</span>
+          <span style={{ color:"#555", letterSpacing:"0.08em", fontWeight:"bold" }}>{tr(lang, "pocBanner")}</span>
           <div style={{ display:"flex", gap:5, alignItems:"center" }} title={lang === "en" ? "Change language" : "Changer de langue"}>
             {[["fr","🇫🇷"],["en","🇬🇧"]].map(([code,flag]) => (
               <button key={code} onClick={() => { setLang(code); localStorage.setItem("mpb_lang", code); }}
@@ -5020,12 +5233,12 @@ function PEAAgent() {
           ))}
           <InfoTip text={reportMode === "advisor" ? tr(lang, "advisorModeHelp") : tr(lang, "clientModeHelp")} />
           <button onClick={loadTestProfile}
-            title="Charge un profil démo complet : cadre dirigeant 50 ans, environ 1,5 M€ d'actifs"
+            title={tr(lang, "testProfileTitle")}
             style={{ background:"rgba(154,142,201,0.18)", border:"1px solid rgba(154,142,201,0.45)", borderRadius:8, color:"#c9bfff", padding:"7px 12px", cursor:"pointer", fontFamily:"inherit", fontSize:11, fontWeight:"bold" }}>
-            Profil test 1,5 M€
+            {tr(lang, "testProfileBtn")}
           </button>
         </div>
-        <div style={{ color:"#555" }}>Masqué en version production</div>
+        <div style={{ color:"#555" }}>{tr(lang, "hiddenInProd")}</div>
       </div>
 
       {/* ── HEADER PRODUIT ── */}
@@ -5041,7 +5254,7 @@ function PEAAgent() {
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {totalPatrimoine > 0 && (
             <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.08em", marginBottom: 2 }}>PATRIMOINE TOTAL</div>
+              <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.08em", marginBottom: 2 }}>{tr(lang, "patrimoineTotal")}</div>
               <div style={{ fontSize: 18, fontWeight: "bold", color: "#00E1DC" }}>{Math.round(totalPatrimoine).toLocaleString('fr-FR')} €</div>
               <div style={{ fontSize: 11, color: "#666", display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 2 }}>
                 {peaTotal > 0 && <span style={{ color: "#4a9e6b" }}>📈 PEA {Math.round(peaTotal).toLocaleString('fr-FR')} €</span>}
@@ -5055,23 +5268,23 @@ function PEAAgent() {
           )}
           {confirmReset ? (
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 12, color: "#00E1DC" }}>Tout réinitialiser ?</span>
+              <span style={{ fontSize: 12, color: "#00E1DC" }}>{tr(lang, "resetAllConfirm")}</span>
               <button onClick={() => { localStorage.clear(); window.location.reload(); }}
                 style={{ background: "#e05555", border: "none", borderRadius: 6, padding: "4px 10px", cursor: "pointer", color: "#fff", fontSize: 12, fontFamily: "inherit" }}>
-                Oui
+                {tr(lang, "yes")}
               </button>
               <button onClick={() => setConfirmReset(false)} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 6, padding: "4px 10px", cursor: "pointer", color: "#aaa", fontSize: 12, fontFamily: "inherit" }}>
-                Non
+                {tr(lang, "no")}
               </button>
             </div>
           ) : (
-            <button onClick={() => setConfirmReset(true)} title="Réinitialiser toutes les données"
+            <button onClick={() => setConfirmReset(true)} title={tr(lang, "resetAllTitle")}
               style={{ background: "rgba(0,225,220,0.1)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", color: "#888", fontSize: 14, fontFamily: "inherit" }}>
               🗑️
             </button>
           )}
           {/* Export données */}
-          <button title="Exporter toutes mes données (sauvegarde JSON)"
+          <button title={tr(lang, "exportTitle")}
             onClick={() => {
               const KEYS = ["pea_lines","pea_messages","pea_perfHistory","cto_lines","cto_messages","cto_perfHistory","av_lines","av_messages","av_perfHistory","mpb_biens","mpb_revenus","mpb_revenus_dismissed","mpb_snapshots","private_markets","mpb_report_mode","mpb_lang"];
               const data = { _version: "1.0", _date: new Date().toISOString() };
@@ -5086,7 +5299,7 @@ function PEAAgent() {
             💾
           </button>
           {/* Import données */}
-          <button title="Importer une sauvegarde JSON"
+          <button title={tr(lang, "importTitle")}
             onClick={() => {
               const input = document.createElement("input"); input.type = "file"; input.accept = ".json";
               input.onchange = (e) => {
@@ -5109,8 +5322,8 @@ function PEAAgent() {
             📂
           </button>
           <button
-            onClick={() => { if (window.confirm("Réinitialiser la clé API ?")) { localStorage.removeItem("pea_apikey"); setApiKey(""); } }}
-            title="Changer de clé API"
+            onClick={() => { if (window.confirm(tr(lang, "changeApiKeyConfirm"))) { localStorage.removeItem("pea_apikey"); setApiKey(""); } }}
+            title={tr(lang, "changeApiKeyTitle")}
             style={{ background: "rgba(0,225,220,0.1)", border: "1px solid rgba(0,225,220,0.2)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", color: "#888", fontSize: 14, fontFamily: "inherit" }}>
             🔑
           </button>
@@ -5122,17 +5335,17 @@ function PEAAgent() {
         {[
           { id: "dashboard", label: "📊 " + tr(lang, "dashboard"),      soon: false },
           { id: "pea",       label: "📈 PEA",            soon: false },
-          { id: "immo", label: "🏠 Immobilier",       soon: false },
-          { id: "av",   label: "🛡️ Assurance Vie",    soon: false },
-	          { id: "cto",  label: "💼 CTO",              soon: false },
+          { id: "immo", label: tr(lang, "navImmobilier"),       soon: false },
+          { id: "av",   label: tr(lang, "navAssuranceVie"),    soon: false },
+	          { id: "cto",  label: tr(lang, "navCTO"),              soon: false },
 	          { id: "private", label: "◆ " + tr(lang, "privateMarkets"),  soon: false },
-	          { id: "revenus", label: "💰 Revenus",           soon: false },
-          { id: "fiscal",  label: "🧾 Fiscalité",         soon: false },
+	          { id: "revenus", label: tr(lang, "navRevenus"),           soon: false },
+          { id: "fiscal",  label: tr(lang, "navFiscalite"),         soon: false },
         ].map(m => (
           <button key={m.id} onClick={() => { if (!m.soon) { setActiveModule(m.id); localStorage.setItem("mpb_module", m.id); } }}
             style={{ background: "none", border: "none", cursor: m.soon ? "default" : "pointer", padding: "9px 16px", fontSize: 12, color: activeModule === m.id ? "#00E1DC" : m.soon ? "#3a3a4a" : "#666", borderBottom: activeModule === m.id ? "2px solid #00E1DC" : "2px solid transparent", fontFamily: "inherit", letterSpacing: "0.04em", display: "flex", alignItems: "center", gap: 5, transition: "color 0.2s" }}>
             {m.label}
-            {m.soon && <span style={{ fontSize: 8, color: "#444", background: "rgba(255,255,255,0.04)", padding: "1px 4px", borderRadius: 3, letterSpacing: "0.05em" }}>bientôt</span>}
+            {m.soon && <span style={{ fontSize: 8, color: "#444", background: "rgba(255,255,255,0.04)", padding: "1px 4px", borderRadius: 3, letterSpacing: "0.05em" }}>{tr(lang, "comingSoon")}</span>}
           </button>
         ))}
       </div>
