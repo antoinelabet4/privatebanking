@@ -493,6 +493,33 @@ div[style*="rgba(0, 0, 0, 0.3)"] {
     white-space: nowrap;
   }
 }
+
+/* ── Chat bubbles — override Liquid Glass catch-alls ── */
+.chat-msg .chat-avatar {
+  background: var(--sia-brand-teal) !important;
+  color: var(--sia-brand-navy) !important;
+  font-size: 12px !important;
+}
+.chat-msg-ai .chat-avatar {
+  background: var(--sia-brand-navy) !important;
+  color: #fff !important;
+}
+.chat-msg-user .chat-bubble {
+  background: rgba(0, 222, 204, 0.12) !important;
+  border: 1px solid rgba(0, 222, 204, 0.38) !important;
+  border-radius: 18px 4px 18px 18px !important;
+}
+.chat-msg-ai .chat-bubble {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(206, 213, 223, 0.6) !important;
+  border-radius: 4px 18px 18px 18px !important;
+}
+.chat-bubble .chat-text {
+  color: var(--sia-cool-black) !important;
+}
+.chat-bubble .chat-ts {
+  color: #888 !important;
+}
 </style>
 </head>
 <body>
@@ -724,16 +751,16 @@ function Message({ msg, onImport }) {
   const [imported, setImported] = useState(msg.imported || false);
   const allocationTotal = allocation ? allocation.reduce((s, l) => s + (parseFloat(l.montant) || 0), 0) : 0;
   return (
-    <div style={{ display: "flex", flexDirection: isUser ? "row-reverse" : "row", gap: 12, marginBottom: 20, alignItems: "flex-start" }}>
-      <div style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: isUser ? "linear-gradient(135deg,#00E1DC,#007A78)" : "linear-gradient(135deg,#1a1a2e,#16213e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: "bold", color: "#fff", border: isUser ? "none" : "1px solid #00E1DC33" }}>
+    <div className={`chat-msg ${isUser ? "chat-msg-user" : "chat-msg-ai"}`} style={{ display: "flex", flexDirection: isUser ? "row-reverse" : "row", gap: 12, marginBottom: 20, alignItems: "flex-start" }}>
+      <div className="chat-avatar" style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: "bold" }}>
         {isUser ? "A" : "SIA"}
       </div>
       <div style={{ maxWidth: "78%", display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ background: isUser ? "linear-gradient(135deg,#1e3a2f,#162b22)" : "rgba(15,15,25,0.9)", border: isUser ? "1px solid #2d5a3d" : "1px solid rgba(0,225,220,0.2)", borderRadius: isUser ? "18px 4px 18px 18px" : "4px 18px 18px 18px", padding: "14px 18px" }}>
-          <div style={{ fontSize: 14, lineHeight: 1.7, color: isUser ? "#B8FFF8" : "#F5F7FA", whiteSpace: "pre-wrap", fontFamily: SIA_FONT_STACK }}>
+        <div className="chat-bubble" style={{ padding: "14px 18px" }}>
+          <div className="chat-text" style={{ fontSize: 14, lineHeight: 1.7, whiteSpace: "pre-wrap", fontFamily: SIA_FONT_STACK }}>
             {displayText}{msg.streaming && <span className="cursor" />}
           </div>
-          {msg.ts && <div style={{ fontSize: 10, color: "#555", marginTop: 6, textAlign: isUser ? "right" : "left" }}>{msg.ts}</div>}
+          {msg.ts && <div className="chat-ts" style={{ fontSize: 10, marginTop: 6, textAlign: isUser ? "right" : "left" }}>{msg.ts}</div>}
         </div>
         {allocation && (
           <div style={{ background: "rgba(0,225,220,0.06)", border: "1px solid rgba(0,225,220,0.3)", borderRadius: 12, padding: "14px 16px" }}>
@@ -2921,6 +2948,8 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
   const [testResults, setTestResults] = useState(null);
   const [testRunning, setTestRunning] = useState(false);
   const [cashInput, setCashInput] = useState("");
+  const [liquidityInput, setLiquidityInput] = useState("");
+  const [liquidityAdded, setLiquidityAdded] = useState(null);
   const [importNotice, setImportNotice] = useState(null);
   const messagesEndRef = useRef(null);
 
@@ -3053,6 +3082,23 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
     setLines([...lines, newId]);
     setNewLine({ ticker: "", nom: "", categorie: "", qte: "", pru: "", prixActuel: "", cible: 0, geography: "", sector: "", currency: "EUR", riskLevel: "Medium", volatility: "", rating: "", style: "" });
     setShowAddForm(false);
+  };
+
+  const addLiquidity = () => {
+    const amt = parseFloat(liquidityInput);
+    if (!amt || amt <= 0) { alert("Entrez un montant valide."); return; }
+    setLines(prev => {
+      const cashIdx = prev.findIndex(l => l.ticker === "CASH" || l.categorie === "Cash");
+      if (cashIdx >= 0) {
+        const existing = prev[cashIdx];
+        const newAmt = (existing.pru * existing.qte) + amt;
+        return prev.map((l, i) => i === cashIdx ? { ...l, pru: newAmt, prixActuel: newAmt, qte: 1 } : l);
+      }
+      return [...prev, { id: Date.now(), ticker: "CASH", nom: lang === "en" ? "Available cash" : "Liquidités disponibles", categorie: "Cash", qte: 1, pru: amt, prixActuel: amt, cible: 0, transactions: [] }];
+    });
+    setLiquidityAdded(amt);
+    setLiquidityInput("");
+    setTimeout(() => setLiquidityAdded(null), 4000);
   };
 
   const addTransaction = (lineId) => {
@@ -3694,6 +3740,38 @@ function PortfolioModule({ type, apiKey, onTotalChange, reportMode = "advisor", 
       {/* Add Tab */}
       {activeTab === "add" && (
         <div>
+          {/* ── Ajouter liquidité ── */}
+          <div style={{ background: "rgba(0,222,204,0.07)", border: "1px solid rgba(0,222,204,0.3)", borderRadius: 10, padding: "16px 20px", marginBottom: 18 }}>
+            <div style={{ fontSize: 13, fontWeight: "bold", marginBottom: 10 }}>
+              💧 {lang === "en" ? "Add liquidity (new deposit)" : "Ajouter liquidité (nouveau versement)"}
+            </div>
+            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              <div style={{ position: "relative" }}>
+                <input
+                  type="number" min="0" placeholder={lang === "en" ? "Amount" : "Montant"}
+                  value={liquidityInput}
+                  onChange={e => setLiquidityInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === "Enter") addLiquidity(); }}
+                  style={{ padding: "8px 40px 8px 12px", fontSize: 14, width: 160 }}
+                />
+                <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", fontSize: 13, pointerEvents: "none" }}>€</span>
+              </div>
+              <button onClick={addLiquidity} style={{ background: "rgba(0,222,204,0.15)", border: "1px solid rgba(0,222,204,0.5)", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
+                + {lang === "en" ? "Add cash" : "Ajouter"}
+              </button>
+              {liquidityAdded && (
+                <span style={{ fontSize: 12, color: "#4a9e6b", fontWeight: "bold" }}>
+                  ✓ {liquidityAdded.toLocaleString('fr-FR')} € {lang === "en" ? "added as cash" : "ajoutés en liquidités"}
+                </span>
+              )}
+            </div>
+            <div style={{ fontSize: 11, marginTop: 8, opacity: 0.6 }}>
+              {lang === "en"
+                ? "Creates or updates a CASH position — invest it via Chat when ready."
+                : "Crée ou met à jour la ligne CASH — investissez-la via Chat quand vous êtes prêt."}
+            </div>
+          </div>
+
           {showAddForm ? (
             <div style={{ background: "rgba(106,142,201,0.1)", border: "1px solid rgba(106,142,201,0.3)", borderRadius: 8, padding: 15, marginBottom: 20 }}>
               <h4 style={{ marginBottom: 15 }}>Ajouter une ligne</h4>
